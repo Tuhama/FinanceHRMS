@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <context-param>
+        <description>حمص</description>
+        <param-name>mainBranch</param-name>
+        <param-value>2</param-value>
+    </context-param>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+    <jsp-config>
+        <jsp-property-group>
+            <description>managment header and footer settings</description>
+            <display-name>mangment jspf</display-name>
+            <url-pattern>/WEB-INF/managment/view/*</url-pattern>
+            <url-pattern>/WEB-INF/managment/index.html</url-pattern>
+            <page-encoding>UTF-8</page-encoding>
+            <include-prelude>/WEB-INF/managment/jspf/header.jspf</include-prelude>
+            <include-coda>/WEB-INF/managment/jspf/footer.jspf</include-coda>
+        </jsp-property-group>
+        <jsp-property-group>
+            <description>staffing header and footer</description>
+            <display-name>staffing jspf</display-name>
+            <url-pattern>/WEB-INF/staffing/index.html</url-pattern>
+            <url-pattern>/WEB-INF/staffing/view/*</url-pattern>
+            <page-encoding>UTF-8</page-encoding>
+            <include-prelude>/WEB-INF/staffing/jspf/header.jspf</include-prelude>
+            <include-coda>/WEB-INF/staffing/jspf/footer.jspf</include-coda>
+        </jsp-property-group>
+        <jsp-property-group>
+            <display-name>reporting jspf</display-name>
+            <url-pattern>/WEB-INF/reporting/view/*</url-pattern>
+            <url-pattern>/WEB-INF/reporting/index.html</url-pattern>
+            <page-encoding>UTF-8</page-encoding>
+            <include-prelude>/WEB-INF/reporting/jspf/header.jspf</include-prelude>
+            <include-coda>/WEB-INF/reporting/jspf/footer.jspf</include-coda>
+        </jsp-property-group>
+        <jsp-property-group>
+            <description>main jspf</description>
+            <display-name>main jspf</display-name>
+            <url-pattern>/index.html</url-pattern>
+            <page-encoding>UTF-8</page-encoding>
+            <include-prelude>/WEB-INF/jspf/header.jspf</include-prelude>
+            <include-coda>/WEB-INF/jspf/footer.jspf</include-coda>
+        </jsp-property-group>
+        <jsp-property-group>
+            <display-name>search jspf</display-name>
+            <url-pattern>/WEB-INF/search/employeeSearch.jsp</url-pattern>
+            <page-encoding>UTF-8</page-encoding>
+            <include-prelude>/WEB-INF/search/jspf/header.jspf</include-prelude>
+            <include-coda>/WEB-INF/search/jspf/footer.jspf</include-coda>
+        </jsp-property-group>
+        <jsp-property-group>
+            <display-name>search_staffing</display-name>
+            <url-pattern>/WEB-INF/search_staffing</url-pattern>
+            <url-pattern>/WEB-INF/search_staffing/employeeSearch.jsp</url-pattern>
+            <page-encoding>UTF-8</page-encoding>
+            <include-prelude>/WEB-INF/search_staffing/jspf/header.jspf</include-prelude>
+            <include-coda>/WEB-INF/search_staffing/jspf/footer.jspf</include-coda>
+        </jsp-property-group>
+        <jsp-property-group>
+            <display-name>search_reporting</display-name>
+            <url-pattern>/WEB-INF/search_reporting/employeeSearch.jsp</url-pattern>
+            <include-prelude>/WEB-INF/search_reporting/jspf/header.jspf</include-prelude>
+            <include-coda>/WEB-INF/search_reporting/jspf/footer.jspf</include-coda>
+        </jsp-property-group>
+    </jsp-config>
+    <resource-ref>
+        <res-ref-name>jdbc/hrms</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+        <res-sharing-scope>Shareable</res-sharing-scope>
+    </resource-ref>
+</web-app>

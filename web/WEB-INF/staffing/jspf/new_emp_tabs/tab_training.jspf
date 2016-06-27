@@ -1,0 +1,51 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+           <c:if test="${!empty emp_trainingcourses}">
+                <table id="emp_unpaidv_table">
+                    <tr class="header">
+                        <th colspan="8">  الدورات التدريبية</th>
+                    </tr>
+                    <tr class="tableHeading">
+                        <td>نوع الدورة</td><td>مكان الدورة</td><td>تاريخ البدء</td><td>تاريخ النهاية</td>
+                        <td>مدة الدورة</td>                
+                    </tr>
+                    <c:forEach var="emp_trainingcourse" items="${emp_trainingcourses}" varStatus="iter">
+                        <tr class="${((iter.index % 2) == 1) ? 'lightBlue' : 'white'} tableRow">  
+                            <td>${emp_trainingcourse.kind}</td>
+                            <td>${emp_trainingcourse.place}</td>
+                            <td><script type="text/javascript">
+                                document.write(formatDate('${emp_trainingcourse.startdate}'));
+                                </script></td> 
+                            <td><script type="text/javascript">
+                                document.write(formatDate('${emp_trainingcourse.enddate}'));
+                                </script></td> 
+                            <td>${emp_trainingcourse.duration}</td>
+                        </tr>
+                    </c:forEach>
+                </table>  
+            </c:if>
+
+
+            <form id="trainingForm" method="post"  accept-charset="UTF-8"  action="<c:url value='addEmpTrainingCourse'/>">
+
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>نوع الدورة:</td>
+                            <td><input type="text" name="kind"></td>
+                            <td>مكان الدورة:</td>
+                            <td><input type="text" name="place"></td>                          
+                        </tr>
+                        <tr>
+                            <td>تاريخ البدء:</td>
+                            <td><input type="date" name="startdate"></td>
+                            <td>تاريخ النهاية:</td>
+                            <td><input type="date" name="enddate"></td>
+                            <td>مدة الدورة :</td>
+                            <td><input type="text" name="duration"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="submit" form="trainingForm" value="Submit">إضافة</button>
+            </form>
+ 

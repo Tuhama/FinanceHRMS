@@ -1,0 +1,85 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<c:if test="${!empty emp_unpaid_vs}">
+                <table id="emp_unpaidv_table">
+                    <tr class="header">
+                        <th colspan="8">الإجازات بلا أجر</th>
+                    </tr>
+                    <tr class="tableHeading">
+                        <td>نوع الإجازة</td><td>تاريخ البدء</td><td>تاريخ النهاية</td><td>السبب</td><td>مؤشر طي</td>
+                        <td>نوع المستند</td><td>رقم المستند</td><td>تاريخ المستند</td>
+                    </tr>
+                    <c:forEach var="emp_unpaid_v" items="${emp_unpaid_vs}" varStatus="iter">
+                        <tr class="${((iter.index % 2) == 1) ? 'lightBlue' : 'white'} tableRow">         
+
+                            <c:forEach var="unpaid_vacation_type" items="${unpaid_vacation_types}" varStatus="iter">
+                                <c:if test="${emp_unpaid_v.typeunpaidvacationId eq unpaid_vacation_type}">
+                                    <td>${unpaid_vacation_type.name}</td>
+                                </c:if>
+                            </c:forEach>
+
+                            <td><script type="text/javascript">
+                                document.write(formatDate('${emp_unpaid_v.startdate}'));
+                                </script></td>
+
+                            <td><script type="text/javascript">
+                                document.write(formatDate('${emp_unpaid_v.enddate}'));
+                                </script></td>
+
+                            <td>${emp_unpaid_v.reason}</td>
+                            <td> <input type="checkbox" name="folding" editable="false" ${emp_unpaid_v.folding == "true"?"checked":""}></td>
+                            <td>${emp_unpaid_v.doctype}</td>
+
+                            <td>${emp_unpaid_v.docnumber}</td>
+
+                            <td><script type="text/javascript">
+                                document.write(formatDate('${emp_unpaid_v.docdate}'));
+                                </script></td>    
+                        </tr>
+                    </c:forEach>
+                </table>
+            </c:if>
+
+            <form id="unpaidVForm" method="post"  accept-charset="UTF-8"  action="<c:url value='addEmpUnpaidV'/>">
+
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>نوع الإجازة:</td>
+                            <td><select name="typeunpaidvacation_id">
+                                    <c:if test="${!empty unpaid_vacation_types}">
+                                        <c:forEach var="unpaid_vacation_type" items="${unpaid_vacation_types}" varStatus="iter">
+
+                                            <option value="${unpaid_vacation_type.id}">
+                                                ${unpaid_vacation_type.name}
+                                            </option>
+
+                                        </c:forEach>
+                                    </c:if>
+                                </select></td>
+                            <td>تاريخ البدء:</td>
+                            <td><input type="date" name="startdate"></td>
+
+
+                            <td>تاريخ النهاية:</td>
+                            <td><input type="date" name="enddate"></td>
+                        </tr>
+                        <tr>
+                            <td>السبب:</td>
+                            <td><input type="text" name="reason"></td>
+                            <td>
+                                مؤشر طي:</td>
+                            <td> <input type="checkbox" name="folding" value="true"></td>
+                        </tr>
+                        <tr>
+                            <td>نوع المستند:</td>
+                            <td><input type="text" name="doctype"></td>
+                            <td>رقم المستند:</td>
+                            <td><input type="text" name="docnumber"></td>
+                            <td>تاريخ المستند:</td>
+                            <td><input type="date" name="docdate"></td>      
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="submit" form="unpaidVForm" value="Submit">إضافة</button>
+            </form>

@@ -1,0 +1,112 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+
+<div class="table_container">
+<c:if test="${!empty emp_events}">
+    <table id="addEvent_table"  class="display" cellspacing="0" width="400">
+        <thead>
+
+            <tr class="tableHeading">
+                <th>مركز الوظيفة</th>
+                <th>اسم الوظيفة</th>
+                <th>تاريخ المباشرة</th>
+                <th>الاجر</th>
+                <th>الفئة</th>
+                <th>نوع المستند</th>
+                <th>رقم المستند</th>
+                <th>تاريخ المستند</th>
+            </tr>
+        </thead>
+        <tbody>
+        <c:forEach var="emp_event" items="${emp_events}" varStatus="iter">
+            <tr class="${((iter.index % 2) == 1) ? 'lightBlue' : 'white'} tableRow">         
+            <c:forEach var="position" items="${positions}" varStatus="iter">
+                <c:if test="${emp_event.positionId eq position}">
+                    <td>${position.name}</td>
+                </c:if>
+            </c:forEach>
+            <td>${emp_event.name}</td>
+            <td><script type="text/javascript">
+                                document.write(formatDate('${emp_event.startdate}'));
+                </script></td>
+            <td>${emp_event.salary}</td>
+            <td>${emp_event.category}</td>
+            <td>${emp_event.doctype}</td>
+            <td>${emp_event.docnumber}</td>
+            <td><script type="text/javascript">
+                                document.write(formatDate('${emp_event.docdate}'));
+                </script></td>  
+            <td><input type="button" value="تعديل" name="edit_b" onclick="show_edit_dialog1('${emp_event.id}', '${emp_event.positionId}', '${emp_event.name}', '${emp_event.startdate}', '${emp_event.category}', '${emp_event.salary}', '${emp_event.doctype}', '${emp_event.docnumber}')"/></td>        
+            <td><input type="button" value="حذف" name="delete_b" onclick="show_delete_dialog('${emp_event.id}')"/></td> 
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+</c:if>
+</div>
+            
+            
+<form id="empEventForm" method="post"  accept-charset="UTF-8">
+    <table>
+        <tbody>
+            <tr>
+                <td>مركز الوظيفة:</td>
+                <td><select name="position_id" autofocus>
+                        <c:if test="${!empty positions}">
+                            <c:forEach var="position" items="${positions}" varStatus="iter">
+
+                                <option value="${position.id}">
+                                    ${position.name}
+                                </option>
+
+                            </c:forEach>
+                        </c:if>
+
+                    </select></td>
+                <td>اسم الوظيفة:</td>
+                <td><input type="text" name="name"></td>
+                <td>تاريخ المباشرة:</td>
+                <td><input type="date" name="startdate"></td>
+            </tr>
+            <tr>
+                <td>الاجر:</td>
+                <td><input type="text" name="salary"></td>
+                <td>الفئة:</td>
+                <td><select name="category">
+                        <option value="اولى">اولى</option>
+                        <option value="ثانية">ثانية</option>
+                    </select></td>
+            </tr>
+            <tr>
+                <td>نوع المستند:</td>
+                <td><input type="text" name="doctype"></td>
+                <td>رقم المستند:</td>
+                <td><input type="text" name="docnumber"></td>
+                <td>تاريخ المستند:</td>
+                <td><input type="date" name="docdate"></td>    
+            </tr>
+        </tbody>
+    </table>
+<button type="submit" form="empEventForm" value="Submit">إضافة</button>
+</form>
+
+
+<script>
+    function show_edit_dialog_event(id, name, startdate, category, salary, doctype, docnumber, docdate)
+    {
+        document.getElementById("e_d_id").value = id;
+        document.getElementById("e_d_name").value = branchname;
+        ///todo  set selected value for combo
+        document.getElementById("e_d_mainbranch").value = mainbranch;
+        $("#edit_dialog").dialog("open");
+    }
+    function show_delete_dialog_event(id)
+    {
+        document.getElementById("d_d_id").value = id;
+        $("#delete_dialog").dialog("open");
+    }
+    function show_add_dialog_event()
+    {
+        $("#add_dialog").dialog("open");
+    }
+</script>

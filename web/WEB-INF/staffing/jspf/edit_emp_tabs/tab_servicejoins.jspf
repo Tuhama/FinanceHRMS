@@ -1,0 +1,54 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+           <c:if test="${!empty emp_service_js}">
+                <table id="emp_rewards_table">
+                    <tr class="header">
+                        <th colspan="8">معلومات ضم الخدمة:</th>
+                    </tr>
+                    <tr class="tableHeading">
+                        <td>مكان الخدمة</td><td>مدة الخدمة بالايام</td><td>مدة الخدمة بالاشهر</td>
+                        <td>نوع المستند</td><td>رقم المستند</td><td>تاريخ المستند</td>
+                    </tr>
+                    <c:forEach var="emp_service_j" items="${emp_service_js}" varStatus="iter">
+                        <tr class="${((iter.index % 2) == 1) ? 'lightBlue' : 'white'} tableRow">  
+
+                            <td>${emp_service_j.placeofservice}</td>
+                            <td>${emp_service_j.daysduration}</td>
+                            <td>${emp_service_j.monthsduration}</td>
+                            <td>${emp_service_j.doctype}</td>
+                            <td>${emp_service_j.docnumber}</td>
+                            <td><script type="text/javascript">
+                                document.write(formatDate('${emp_service_j.docdate}'));
+                                </script></td>    
+                        </tr>
+                    </c:forEach>
+                </table>
+            </c:if>
+
+
+            <form id="serviceJoinForm" method="post"  accept-charset="UTF-8"  action="<c:url value='addEmpServiceJoin'/>">
+
+                <table>
+                    <tbody>
+                        <tr>
+
+                            <td>مكان الخدمة:</td>
+                            <td><input type="text" name="placeofservice"></td>
+                            <td>مدة الخدمة بالايام:</td>
+                            <td><input type="text" name="daysduration"></td>
+                            <td>مدة الخدمة بالاشهر:</td>
+                            <td><input type="text" name="monthsduration"></td>
+                        </tr>
+                        <tr>
+                            <td>نوع المستند:</td>
+                            <td><input type="text" name="doctype"></td>
+                            <td>رقم المستند:</td>
+                            <td><input type="text" name="docnumber"></td>
+                            <td>تاريخ المستند:</td>
+                            <td><input type="date" name="docdate"></td>      
+                        </tr>    
+                    </tbody>
+                </table>
+                <button type="submit" form="serviceJoinForm" value="Submit">إضافة</button>
+            </form>
+ 

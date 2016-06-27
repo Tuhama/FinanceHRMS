@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="765c6ce7-77d0-4f5d-8f4a-17245b20d076">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="fathername" class="java.lang.String">
+		<fieldDescription><![CDATA[fathername]]></fieldDescription>
+	</field>
+	<field name="firstname" class="java.lang.String">
+		<fieldDescription><![CDATA[firstname]]></fieldDescription>
+	</field>
+	<field name="mothername" class="java.lang.String">
+		<fieldDescription><![CDATA[mothername]]></fieldDescription>
+	</field>
+	<field name="lastname" class="java.lang.String">
+		<fieldDescription><![CDATA[lastname]]></fieldDescription>
+	</field>
+	<sortField name="firstname"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="258" y="0" width="297" height="64" uuid="2b770195-1c12-4141-9ce7-158113464013"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans" size="22" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[أسماء الموظفين في مديرية مالية حمص]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="5" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="455" y="0" width="100" height="20" uuid="a75b606b-b1d8-4962-9d4a-11db18167ebe"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans" size="14" isBold="true" isItalic="false" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[الاسم]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="223" y="0" width="100" height="20" uuid="cc3bac89-52c1-4636-a3b7-a42a94b2efb2"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[اسم الأب]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<textField>
+				<reportElement x="352" y="0" width="203" height="20" uuid="5635fe5d-bdff-4fb7-a7dd-16f7d80778fd"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{firstname}.concat( "" ).concat($F{lastname})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="223" y="0" width="100" height="20" uuid="fb06f925-afe5-4316-897b-7946fd654fd9"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{fathername}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="10" y="34" width="100" height="20" uuid="c5099602-959c-482d-82a8-72d06f50a133"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="203" y="34" width="80" height="20" uuid="169e4625-86bc-40ab-9611-02aeeb21b55c"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="283" y="34" width="40" height="20" uuid="b12ad640-7806-4f6e-bc2a-b9c7ac98f3bf"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
