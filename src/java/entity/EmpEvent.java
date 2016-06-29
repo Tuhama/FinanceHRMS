@@ -72,7 +72,7 @@ public class EmpEvent implements Serializable {
     private Date docdate;
     @JoinColumn(name = "employee_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Employee employeeId;
+    private transient  Employee employeeId;
     @JoinColumn(name = "position_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Position positionId;
