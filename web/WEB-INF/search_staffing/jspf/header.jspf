@@ -21,7 +21,7 @@
             <div class="sidebar1">
                 <ul class="nav">
 
-                    <li><a href="<c:url value='newEmployeeView'/>">موظف جديد</a></li>
+                    <li><a href="<c:url value='employeeView'/>">موظف جديد</a></li>
                     <li><a href="<c:url value='searchEmployeeView'/>">تعديل بيانات موظف </a></li>
                 </ul>
                 <p>&nbsp;</p>

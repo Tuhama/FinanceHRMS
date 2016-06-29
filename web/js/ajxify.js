@@ -78,7 +78,8 @@ function callbackEmp() {
 
 function createEmpDetail(uri, form_data) {
     if (empId != "") {
-        var url = uri + "?" + form_data;
+        alert("hi");
+        var url = uri + "?" + form_data +"&currentEmp="+empId;
         req = initRequest();
         req.open("POST", url, true);
         req.onreadystatechange = callbackDetail(uri);

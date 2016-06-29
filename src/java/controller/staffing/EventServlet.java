@@ -20,6 +20,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import session.EmployeeFacade;
 import session.EmpEventFacade;
 import session.PositionFacade;
 
@@ -43,7 +44,8 @@ public class EventServlet extends HttpServlet {
     private EmpEventFacade empEventFacade;
     @EJB
     private PositionFacade positionFacade;
-
+    @EJB
+    private EmployeeFacade employeeFacade;
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -56,7 +58,7 @@ public class EventServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        employee = (Employee) getServletContext().getAttribute("current_employee");
+        
         String userPath = request.getServletPath();
 
         try {
@@ -105,13 +107,15 @@ public class EventServlet extends HttpServlet {
         empEvent.setDocnumber(request.getParameter("docnumber"));
         empEvent.setDoctype(request.getParameter("doctype"));
         empEvent.setPositionId(position);
+        
+        employee = employeeFacade.find(Integer.parseInt(request.getParameter("currentEmp").trim()));
         empEvent.setEmployeeId(employee);
+        
+        empEventFacade.create(empEvent);
 
         //employee.getEmpEventCollection().add(empEvent);
         //getServletContext().setAttribute("emp_events", employee.getEmpEventCollection());
         try {
-            empEventFacade.create(empEvent);
-
             Gson gson = new Gson();
             String json = gson.toJson(empEvent);
 
