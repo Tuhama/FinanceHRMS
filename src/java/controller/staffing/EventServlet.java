@@ -6,14 +6,18 @@
 package controller.staffing;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import entity.EmpEvent;
 import entity.Employee;
 import entity.Position;
+import helper.JsonExcludeStrategy;
 import java.io.IOException;
+import java.lang.reflect.Field;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import javax.ejb.EJB;
+import javax.json.JsonObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -116,13 +120,16 @@ public class EventServlet extends HttpServlet {
         //employee.getEmpEventCollection().add(empEvent);
         //getServletContext().setAttribute("emp_events", employee.getEmpEventCollection());
         try {
-            Gson gson = new Gson();
-            String json = gson.toJson(empEvent);
-
+            //Gson gson = new  GsonBuilder().setExclusionStrategies(new JsonExcludeStrategy()).create();
+            
+           // gson.toJsonTree(empEvent).getAsJsonObject().remove("employeeId");
+            
+            //String json = gson.toJson(empEvent);
+String json = "{\"id\"\"}";
             response.setContentType("text/plain");
             response.setHeader("Cache-Control", "no-cache");
 
-            response.getWriter().write(json);
+            response.getWriter().write(" "+json+" ");
 
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_NO_CONTENT);
@@ -142,5 +149,13 @@ public class EventServlet extends HttpServlet {
     public static void setOp_mode(int mode) {
         op_mode = mode;
     }
-
+private String evet2json(EmpEvent event)
+{
+    String s = "{"+"\""+"att"+"\""+":"+"\""+"val"+"\""+","+"}";
+    for (Field field : EmpEvent.class.getDeclaredFields())
+    {
+    
+    }
+return "";
+}
 }

@@ -93,6 +93,7 @@ function createEmpDetail(uri, form_data) {
     }
 }
 function callbackDetail(uri) {
+    alert(req.responseText);
     if (req.readyState == 4) {
         if (req.status == 200) {
             processCallback(uri,req.responseText);
