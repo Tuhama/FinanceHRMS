@@ -49,7 +49,19 @@ function prepareDataTables()
                 "sLast": "الأخير"
             }
         }
+        ,
+        "columns": [
+            {"data": "position"},
+            {"data": "name"},
+            {"data": "startdate"},
+            {"data": "salary"},
+            {"data": "category"},
+            {"data": "doctype"},
+            {"data": "docnumber"},
+            {"data": "docdate"}
+        ]
     });
+    
 }
 function tab_enter_key() {
     var input_types;
@@ -123,17 +135,17 @@ function formatDate(ds)
 }
 
 function show_edit_dialog(id, name)
-    {
-        document.getElementById("e_d_id").value = id;
-        document.getElementById("e_d_name").value = name;
-        $("#edit_dialog").dialog("open");
-    }
-    function show_delete_dialog(id)
-    {
-        document.getElementById("d_d_id").value = id;
-        $("#delete_dialog").dialog("open");
-    }
-    function show_add_dialog()
-    {
-        $("#add_dialog").dialog("open");
-    }
+{
+    document.getElementById("e_d_id").value = id;
+    document.getElementById("e_d_name").value = name;
+    $("#edit_dialog").dialog("open");
+}
+function show_delete_dialog(id)
+{
+    document.getElementById("d_d_id").value = id;
+    $("#delete_dialog").dialog("open");
+}
+function show_add_dialog()
+{
+    $("#add_dialog").dialog("open");
+}

@@ -2,7 +2,7 @@
 <%@ page pageEncoding="UTF-8" %>
 
 <div class="table_container">
-<c:if test="${!empty emp_events}">
+<%-- <c:if test="${!empty emp_events}"> --%>
     <table id="addEvent_table"  class="display" cellspacing="0" width="400">
         <thead>
 
@@ -17,7 +17,10 @@
                 <th>تاريخ المستند</th>
             </tr>
         </thead>
+
         <tbody>
+
+        <c:if test="${!empty emp_events}">
         <c:forEach var="emp_event" items="${emp_events}" varStatus="iter">
             <tr class="${((iter.index % 2) == 1) ? 'lightBlue' : 'white'} tableRow">         
             <c:forEach var="position" items="${positions}" varStatus="iter">
@@ -40,9 +43,10 @@
             <td><input type="button" value="حذف" name="delete_b" onclick="show_delete_dialog('${emp_event.id}')"/></td> 
             </tr>
         </c:forEach>
+            </c:if>
         </tbody>
     </table>
-</c:if>
+            <%--</c:if> --%>
 </div>
             
             
