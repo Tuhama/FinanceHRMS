@@ -105,9 +105,7 @@ function callbackDetail() {
 }
 
 function processCallback(responseJson){
-    //var datatable = $('#addEvent_table').DataTable();
-    alert("%%"+responseJson+"***");
-  //datatable.row.add( responseJson ).draw(false);
+
     $('#addEvent_table').DataTable().row.add($.parseJSON(  responseJson) ).draw(false);
     ///this didn't work  var is not obj it seems!!      >>>  $('#addEvent_table').DataTable().row.add( responseJson ).draw(false);
 
