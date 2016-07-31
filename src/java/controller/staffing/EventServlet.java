@@ -5,16 +5,19 @@
  */
 package controller.staffing;
 
-
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import entity.EmpEvent;
 import entity.Employee;
 import entity.Position;
+import helper.JsonExcludeStrategy;
 import java.io.IOException;
-
+import java.lang.reflect.Field;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import javax.ejb.EJB;
+import javax.json.JsonObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -40,10 +43,7 @@ public class EventServlet extends HttpServlet {
     private static int op_mode = INSERT_MODE;
 
     private Employee employee = new Employee();
-    
     private final SimpleDateFormat vSDF = new SimpleDateFormat("yyyy-MM-dd");
-    private final SimpleDateFormat vSDF2 = new SimpleDateFormat("dd/MM/yyyy");
-    
     @EJB
     private EmpEventFacade empEventFacade;
     @EJB
@@ -78,7 +78,7 @@ public class EventServlet extends HttpServlet {
                     break;
                 }
                 case "/deleteEvent": {
-                    deleteEvent(request);
+                    // insertEvent(request);
                     break;
                 }
             }
@@ -136,11 +136,6 @@ public class EventServlet extends HttpServlet {
         }
     }
 
-    private void deleteEvent(HttpServletRequest request) {
-        EmpEvent empEvent = empEventFacade.find(Integer.parseInt(request.getParameter("id")));
-        empEventFacade.remove(empEvent);
-    }
-
     /**
      * @return the op_mode
      */
@@ -171,44 +166,46 @@ public class EventServlet extends HttpServlet {
          }
          }*/
         String s = "{";
-        //   s += "\"" + "id" + "\"" + ":" + "\"" + event.getId() + "\"";
-        //  s += ","; 
-        /*        s += "\"" + "position" + "\"" + ":" + "\"" + event.getPositionId().getName() + "\"";
-         s += ",";
-         s += "\"" + "name" + "\"" + ":" + "\"" + event.getName() + "\"";
-         s += ",";
-         s += "\"" + "startdate" + "\"" + ":" + "\"" + event.getStartdate() + "\"";
-         s += ",";
-         s += "\"" + "salary" + "\"" + ":" + "\"" + event.getSalary() + "\"";
-         s += ",";
-         s += "\"" + "category" + "\"" + ":" + "\"" + event.getCategory() + "\"";
-         s += ",";
-         s += "\"" + "doctype" + "\"" + ":" + "\"" + event.getDoctype() + "\"";
-         s += ",";
-         s += "\"" + "docnumber" + "\"" + ":" + "\"" + event.getDocnumber() + "\"";
-         s += ",";
-         s += "\"" + "docdate" + "\"" + ":" + "\"" + event.getDocdate() + "\"";*/
-        s += "\"" + "col1" + "\"" + ":" + "\"" + event.getPositionId().getName() + "\"";
+        s += "\"" + "id" + "\"" + ":" + "\"" + event.getId() + "\"";
+        s += ","; 
+        s += "\"" + "position" + "\"" + ":" + "\"" + event.getPositionId().getName() + "\"";
         s += ",";
-        s += "\"" + "col2" + "\"" + ":" + "\"" + event.getName() + "\"";
+        s += "\"" + "name" + "\"" + ":" + "\"" + event.getName() + "\"";
         s += ",";
-        s += "\"" + "col3" + "\"" + ":" + "\"" + vSDF2.format(event.getStartdate() )+ "\"";
+        s += "\"" + "startdate" + "\"" + ":" + "\"" + event.getStartdate() + "\"";
         s += ",";
-        s += "\"" + "col4" + "\"" + ":" + "\"" + event.getSalary() + "\"";
+        s += "\"" + "salary" + "\"" + ":" + "\"" + event.getSalary() + "\"";
         s += ",";
-        s += "\"" + "col5" + "\"" + ":" + "\"" + event.getCategory() + "\"";
+        s += "\"" + "category" + "\"" + ":" + "\"" + event.getCategory() + "\"";
         s += ",";
-        s += "\"" + "col6" + "\"" + ":" + "\"" + event.getDoctype() + "\"";
+        s += "\"" + "doctype" + "\"" + ":" + "\"" + event.getDoctype() + "\"";
         s += ",";
-        s += "\"" + "col7" + "\"" + ":" + "\"" + event.getDocnumber() + "\"";
+        s += "\"" + "docnumber" + "\"" + ":" + "\"" + event.getDocnumber() + "\"";
         s += ",";
-        s += "\"" + "col8" + "\"" + ":" + "\"" + vSDF2.format(event.getDocdate()) + "\"";
-        s += ",";
-        s += "\"" + "row_d" + "\"" + ":" + "\"" + "<input type='button' value='حذف' name='delete_b' onclick='show_delete_dialog_event(" + event.getId() + ")'/>" + "\"";
-        s += "}";
+        s += "\"" + "docdate" + "\"" + ":" + "\"" + event.getDocdate() + "\"";
 
+        s += "}";
+       // String s = "[";
+        //s += "'" + event.getId() + "'";
+        //s += ",";
+        /*        s +=  event.getPositionId().getId() ;
+         s += ",";
+         s += "'" + event.getName() + "'";
+         s += ",";
+         s += "'" + "fff" + "'";
+         s += ",";
+         s += event.getSalary() ;
+         s += ",";
+         s += "'" + event.getStartdate() + "'";
+         s += ",";
+         s += "'" + event.getDoctype() + "'";
+         s += ",";
+         s += "'" + event.getDocnumber() + "'";
+         s += ",";
+         s += "'" + event.getDocdate() + "'";
+        
+         s += "]";*/
         System.out.println(s);
         return s;
     }
-
 }

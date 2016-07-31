@@ -1,58 +1,47 @@
 <%-- any content can be specified here e.g.: --%>
 <%@ page pageEncoding="UTF-8" %>
+          <c:if test="${!empty emp_rewards}">
+                <table id="emp_unpaidv_table">
+                    <tr class="header">
+                        <th colspan="8">  المكافئات</th>
+                    </tr>
+                    <tr class="tableHeading">
+                        <td>نوع المكافأة</td><td>مقدار المكافأة</td><td>نوع المستند</td><td>رقم المستند</td><td>تاريخ المستند</td>                
+                    </tr>
+                    <c:forEach var="emp_reward" items="${emp_rewards}" varStatus="iter">
+                        <tr class="${((iter.index % 2) == 1) ? 'lightBlue' : 'white'} tableRow">  
+                            <td>${emp_reward.kind}</td>
+                            <td>${emp_reward.amount}</td>
+                            <td>${emp_reward.doctype}</td>
+                            <td>${emp_reward.docnumber}</td>
+                            <td><script type="text/javascript">
+                                document.write(formatDate('${emp_reward.docdate}'));
+                                </script></td> 
+                        </tr>
+                    </c:forEach>
+                </table> 
+            </c:if>
 
-<div class="table_container">
-    <table id="addReward_table"  class="display" cellspacing="0" width="400">
-        <thead>
-            <tr class="tableHeading">
-                <th>نوع المكافأة</th>
-                <th>مقدار المكافأة</th>
-                <th>نوع المستند</th>
-                <th>رقم المستند</th>
-                <th>تاريخ المستند</th>                
-                <th> </th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table> 
-</div>
+            <form id="rewardForm" method="post"  accept-charset="UTF-8"  action="<c:url value='addEmpReward'/>">
 
-<form id="rewardForm" method="post"  accept-charset="UTF-8">
-
-    <table>
-        <tbody>
-            <tr>
-                <td>نوع المكافأة:</td>
-                <td><input type="text" name="kind"></td>
-                <td>مقدار المكافأة:</td>
-                <td><input type="text" name="amount"></td>
-            </tr>
-            <tr>
-                <td>نوع المستند:</td>
-                <td><input type="text" name="doctype"></td>
-                <td>رقم المستند:</td>
-                <td><input type="text" name="docnumber"></td>
-                <td>تاريخ المستند:</td>
-                <td><input type="date" name="docdate"></td>      
-            </tr>    
-        </tbody>
-    </table>
-    <button type="submit" form="rewardForm" value="Submit">إضافة</button>
-</form>
-
-<div id="deleteReward_dialog" title="حذف">
-    <form method="post" id="deleteReward_form">
-        <p>هل أنت متأكد من القيام بعملية الحذف؟</p>
-        <input type="text" name="id" id="reward_id" hidden="hidden" />
-        <input type="submit" value="حذف" onclick='$("#deleteReward_dialog").dialog("close")' />
-        <input type="button" value="إلغاء" onclick='$("#deleteReward_dialog").dialog("close")' />
-    </form>
-</div>
-
-<script>
-    function show_delete_dialog_reward(id)
-    {
-        document.getElementById("reward_id").value = id;
-        $("#deleteReward_dialog").dialog("open");
-    }
-</script>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>نوع المكافأة:</td>
+                            <td><input type="text" name="kind"></td>
+                            <td>مقدار المكافأة:</td>
+                            <td><input type="text" name="amount"></td>
+                        </tr>
+                        <tr>
+                            <td>نوع المستند:</td>
+                            <td><input type="text" name="doctype"></td>
+                            <td>رقم المستند:</td>
+                            <td><input type="text" name="docnumber"></td>
+                            <td>تاريخ المستند:</td>
+                            <td><input type="date" name="docdate"></td>      
+                        </tr>    
+                    </tbody>
+                </table>
+                <button type="submit" form="rewardForm" value="Submit">إضافة</button>
+            </form>
+ 

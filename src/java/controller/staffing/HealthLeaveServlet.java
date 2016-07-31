@@ -18,35 +18,32 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import session.EmpHealthleavFacade;
-import session.EmployeeFacade;
 import session.TypehealthleaveFacade;
 
 /**
  *
  * @author TUHAMA
  */
-@WebServlet(name = "HealthLeaveServlet", urlPatterns = {"/addHealthLeave", "/editHealthLeave", "/deleteHealthLeave"})
+@WebServlet(name = "HealthLeaveServlet", urlPatterns = {"/addHealthLeave","/editHealthLeave","/deleteHealthLeave"})
 public class HealthLeaveServlet extends HttpServlet {
 
     public static final int INSERT_MODE = 0;
     public static final int UPDATE_MODE = 1;
     public static final int REPORT_MODE = 2;
 
+    
+
     //to know if the operation is update or insert to the database
     private static int op_mode = INSERT_MODE;
-
+    
     private Employee employee = new Employee();
-
     private final SimpleDateFormat vSDF = new SimpleDateFormat("yyyy-MM-dd");
-    private final SimpleDateFormat vSDF2 = new SimpleDateFormat("dd/MM/yyyy");
-
-    @EJB
+    
+       @EJB
     private EmpHealthleavFacade empHealthleavFacade;
     @EJB
     private TypehealthleaveFacade typeHelthleaveFacade;
-    @EJB
-    private EmployeeFacade employeeFacade;
-
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -58,7 +55,7 @@ public class HealthLeaveServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+       
     }
 
     /**
@@ -73,22 +70,22 @@ public class HealthLeaveServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        employee = (Employee) getServletContext().getAttribute("current_employee");
-        String userPath = request.getServletPath();
+        employee=(Employee)getServletContext().getAttribute("current_employee");
+    String userPath = request.getServletPath();
 
         try {
             switch (userPath) {
 
                 case "/addHealthLeave": {
-                    insertHealthLeave(request,response);
+                    insertHealthLeave(request);
                     break;
                 }
                 case "/editHealthLeave": {
                     //insertHealthLeave(request);
                     break;
                 }
-                case "/deleteHealthLeave": {
-                    deleteHealthLeave(request, response);
+                                case "/deleteHealthLeave": {
+                   // insertHealthLeave(request);
                     break;
                 }
             }
@@ -97,10 +94,9 @@ public class HealthLeaveServlet extends HttpServlet {
             //} catch (NumberFormatException | ParseException | IOException ex) {
         } catch (NumberFormatException | ParseException ex) {
             ex.printStackTrace();
-        }
+        }  
     }
-
-    /**
+/**
      * Returns a short description of the servlet.
      *
      * @return a String containing servlet description
@@ -109,8 +105,7 @@ public class HealthLeaveServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-    private void insertHealthLeave(HttpServletRequest request, HttpServletResponse response) throws ParseException, NumberFormatException {
+ private void insertHealthLeave(HttpServletRequest request) throws ParseException, NumberFormatException {
 
         EmpHealthleav empHealthleave = new EmpHealthleav();
         Typehealthleave type_healthleave = typeHelthleaveFacade.find(Short.parseShort(request.getParameter("typehealthleave_id")));
@@ -118,19 +113,11 @@ public class HealthLeaveServlet extends HttpServlet {
         empHealthleave.setStartdate(vSDF.parse(request.getParameter("startdate")));
         empHealthleave.setEnddate(vSDF.parse(request.getParameter("enddate")));
         empHealthleave.setTypehealthleaveId(type_healthleave);
-        employee = employeeFacade.find(Integer.parseInt(request.getParameter("currentEmp").trim()));
         empHealthleave.setEmployeeId(employee);
         empHealthleavFacade.create(empHealthleave);
-        try {
+        employee.getEmpHealthleavCollection().add(empHealthleave);
+        getServletContext().setAttribute("emp_helthleaves", employee.getEmpHealthleavCollection());
 
-            String json = leave2json(empHealthleave);
-            response.setContentType("text/plain;charset=UTF-8");
-            response.setHeader("Cache-Control", "no-cache");
-            response.getWriter().write(json);
-
-        } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
-        }
     }
 
     /**
@@ -147,35 +134,4 @@ public class HealthLeaveServlet extends HttpServlet {
         op_mode = mode;
     }
 
-    private void deleteHealthLeave(HttpServletRequest request, HttpServletResponse response) {
-        EmpHealthleav empLeave = empHealthleavFacade.find(Integer.parseInt(request.getParameter("id")));
-        empHealthleavFacade.remove(empLeave);
-    }
-
-    //  {"att":"val",...}
-    private String leave2json(EmpHealthleav leave) {
-
-        String s = "{";
-
-        s += "\"" + "col1" + "\"" + ":" + "\"" + leave.getTypehealthleaveId().getName() + "\"";
-        s += ",";
-        s += "\"" + "col2" + "\"" + ":" + "\"" + vSDF2.format(leave.getStartdate()) + "\"";
-        s += ",";
-        s += "\"" + "col3" + "\"" + ":" + "\"" + vSDF2.format(leave.getEnddate()) + "\"";
-        s += ",";
-        s += "\"" + "col4" + "\"" + ":" + "\"" + leave.getYear() + "\"";
-        s += ",";
-        s += "\"" + "col5" + "\"" + ":" + "\"" + leave.getDayscount() + "\"";
-        s += ",";
-        s += "\"" + "col6" + "\"" + ":" + "\"" + " " + "\"";
-        s += ",";
-        s += "\"" + "col7" + "\"" + ":" + "\"" + " " + "\"";
-        s += ",";
-        s += "\"" + "col8" + "\"" + ":" + "\"" + " " + "\"";
-        s += ",";
-        s += "\"" + "row_d" + "\"" + ":" + "\"" + "<input type='button' value='حذف' name='delete_b' onclick='show_delete_dialog_leave(" + leave.getId() + ")'/>" + "\"";
-        s += "}";
-
-        return s;
-    }
 }
