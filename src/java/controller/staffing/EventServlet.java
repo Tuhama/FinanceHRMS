@@ -50,7 +50,6 @@ public class EventServlet extends HttpServlet {
     private PositionFacade positionFacade;
     @EJB
     private EmployeeFacade employeeFacade;
-
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -63,7 +62,7 @@ public class EventServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-
+        
         String userPath = request.getServletPath();
 
         try {
@@ -112,24 +111,25 @@ public class EventServlet extends HttpServlet {
         empEvent.setDocnumber(request.getParameter("docnumber"));
         empEvent.setDoctype(request.getParameter("doctype"));
         empEvent.setPositionId(position);
-
+        
         employee = employeeFacade.find(Integer.parseInt(request.getParameter("currentEmp").trim()));
         empEvent.setEmployeeId(employee);
-
+        
         empEventFacade.create(empEvent);
 
         //employee.getEmpEventCollection().add(empEvent);
         //getServletContext().setAttribute("emp_events", employee.getEmpEventCollection());
         try {
             //Gson gson = new  GsonBuilder().setExclusionStrategies(new JsonExcludeStrategy()).create();
-
-            // gson.toJsonTree(empEvent).getAsJsonObject().remove("employeeId");
+            
+           // gson.toJsonTree(empEvent).getAsJsonObject().remove("employeeId");
+            
             //String json = gson.toJson(empEvent);
-            String json = evet2json(empEvent);
-            response.setContentType("text/plain;charset=UTF-8");
+String json = "{\"id\"\"}";
+            response.setContentType("text/plain");
             response.setHeader("Cache-Control", "no-cache");
-/////no space befor or after..it causes problems with json parsing
-            response.getWriter().write(json);
+
+            response.getWriter().write(" "+json+" ");
 
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_NO_CONTENT);
@@ -149,63 +149,13 @@ public class EventServlet extends HttpServlet {
     public static void setOp_mode(int mode) {
         op_mode = mode;
     }
-
-    //  {"att":"val",...}
-    private String evet2json(EmpEvent event) {
-
-        /*        Class<?> c = event.getClass();
-         Field[] fields = c.getDeclaredFields();
-         for (Field field : fields) {
-         try {
-         if (!field.getName().equals("employeeId") && !field.getName().equals("serialVersionUID")) {
-         s += "\"" + field.getName() + "\"" + ":" + "\"" + field.get(event) + "\"";
-         s += ",";
-         }
-        
-         } catch (IllegalArgumentException | IllegalAccessException e1) {
-         }
-         }*/
-        String s = "{";
-        s += "\"" + "id" + "\"" + ":" + "\"" + event.getId() + "\"";
-        s += ","; 
-        s += "\"" + "position" + "\"" + ":" + "\"" + event.getPositionId().getName() + "\"";
-        s += ",";
-        s += "\"" + "name" + "\"" + ":" + "\"" + event.getName() + "\"";
-        s += ",";
-        s += "\"" + "startdate" + "\"" + ":" + "\"" + event.getStartdate() + "\"";
-        s += ",";
-        s += "\"" + "salary" + "\"" + ":" + "\"" + event.getSalary() + "\"";
-        s += ",";
-        s += "\"" + "category" + "\"" + ":" + "\"" + event.getCategory() + "\"";
-        s += ",";
-        s += "\"" + "doctype" + "\"" + ":" + "\"" + event.getDoctype() + "\"";
-        s += ",";
-        s += "\"" + "docnumber" + "\"" + ":" + "\"" + event.getDocnumber() + "\"";
-        s += ",";
-        s += "\"" + "docdate" + "\"" + ":" + "\"" + event.getDocdate() + "\"";
-
-        s += "}";
-       // String s = "[";
-        //s += "'" + event.getId() + "'";
-        //s += ",";
-        /*        s +=  event.getPositionId().getId() ;
-         s += ",";
-         s += "'" + event.getName() + "'";
-         s += ",";
-         s += "'" + "fff" + "'";
-         s += ",";
-         s += event.getSalary() ;
-         s += ",";
-         s += "'" + event.getStartdate() + "'";
-         s += ",";
-         s += "'" + event.getDoctype() + "'";
-         s += ",";
-         s += "'" + event.getDocnumber() + "'";
-         s += ",";
-         s += "'" + event.getDocdate() + "'";
-        
-         s += "]";*/
-        System.out.println(s);
-        return s;
+private String evet2json(EmpEvent event)
+{
+    String s = "{"+"\""+"att"+"\""+":"+"\""+"val"+"\""+","+"}";
+    for (Field field : EmpEvent.class.getDeclaredFields())
+    {
+    
     }
+return "";
+}
 }
