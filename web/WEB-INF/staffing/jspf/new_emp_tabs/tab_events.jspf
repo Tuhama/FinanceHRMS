@@ -19,9 +19,10 @@
         </thead>
         <tbody></tbody>
     </table>
+
 </div>
-            
-            
+
+
 <form id="empEventForm" method="post"  accept-charset="UTF-8">
     <table>
         <tbody>
@@ -63,7 +64,7 @@
             </tr>
         </tbody>
     </table>
-<button type="submit" form="empEventForm" value="Submit">إضافة</button>
+    <button type="submit" form="empEventForm" value="Submit">إضافة</button>
 </form>
                                 
                                 
