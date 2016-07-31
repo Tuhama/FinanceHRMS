@@ -6,12 +6,27 @@ $(function () {
 });
 
 jQuery(document).ready(function () {
+
     prepareTabs();
 
     tab_enter_key();
 
     prepareDataTables();
+
+    //اذا تم النقر على زر الحذف في جدول سيتم تحديد السطرالموافق للزر
+    $("[id$='_table'] tbody").on('click', 'td', function () {
+        var row = $(this).parent("tr");
+        if ($(this).find('input[name=delete_b]').length > 0)
+        {
+            var table = $(this).parent("table").DataTable();
+            table.$('tr.selected').removeClass('selected');
+            $(row).addClass('selected');
+        }
+
+    });
+
 });
+
 
 
 function prepareTabs()
@@ -28,41 +43,7 @@ function prepareTabs()
         e.preventDefault();
     });
 }
-function prepareDataTables()
-{
-    $("[id$='_table']").DataTable({
-        "language": {
-            "search": "بحث",
-            "info": " _START_ إلى _END_ / _TOTAL_ ",
-            "sProcessing": "جاري التحميل...",
-            "sLengthMenu": "إظهار _MENU_",
-            "sZeroRecords": "لم يُعثر على أية سجلات",
-            "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجلّ",
-            "sInfoFiltered": "(منتقاة من مجموع _MAX_ سجل)",
-            "sInfoPostFix": "",
-            "sSearch": "ابحث:",
-            "sUrl": "",
-            "oPaginate": {
-                "sFirst": "الأول",
-                "sPrevious": "السابق",
-                "sNext": "التالي",
-                "sLast": "الأخير"
-            }
-        }
-        ,
-        "columns": [
-            {"data": "position"},
-            {"data": "name"},
-            {"data": "startdate"},
-            {"data": "salary"},
-            {"data": "category"},
-            {"data": "doctype"},
-            {"data": "docnumber"},
-            {"data": "docdate"}
-        ]
-    });
-    
-}
+
 function tab_enter_key() {
     var input_types;
     input_types = "input, select, button, textarea";

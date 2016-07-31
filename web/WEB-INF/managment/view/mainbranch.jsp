@@ -47,7 +47,7 @@
 </div>
 
 <div id="delete_dialog" title="حذف">
-    <form action="deleteMainbranch" method="post" id="d_d_form">
+    <form action="<c:url value='deleteMainBranch'/>" method="post" id="d_d_form">
         <p>هل أنت متأكد من القيام بعملية الحذف؟</p>
         <input type="text" name="id" id="d_d_id" hidden="hidden" />
         <input type="submit" value="حذف" />
@@ -55,7 +55,7 @@
     </form>
 </div>
 <div id="add_dialog" title="إضافة">
-    <form id="form1" name="form1" method="post" action="<c:url value='addMainBranch'/>" accept-charset="UTF-8">
+    <form id="add_form" name="add_form" method="post" action="<c:url value='addMainBranch'/>" accept-charset="UTF-8">
 
         <table>
             <tr>

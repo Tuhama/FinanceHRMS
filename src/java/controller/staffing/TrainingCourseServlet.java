@@ -17,30 +17,32 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import session.EmpTrainingcourseFacade;
+import session.EmployeeFacade;
 
 /**
  *
  * @author TUHAMA
  */
-@WebServlet(name = "TrainingCourseServlet", urlPatterns = {"/addTrainingCourse","/editTrainingCourse","/deleteTrainingCourse"})
+@WebServlet(name = "TrainingCourseServlet", urlPatterns = {"/addTrainingCourse", "/editTrainingCourse", "/deleteTrainingCourse"})
 public class TrainingCourseServlet extends HttpServlet {
 
     public static final int INSERT_MODE = 0;
     public static final int UPDATE_MODE = 1;
     public static final int REPORT_MODE = 2;
 
-    
-
     //to know if the operation is update or insert to the database
     private static int op_mode = INSERT_MODE;
-    
+
     private Employee employee = new Employee();
+
+    private final SimpleDateFormat vSDF2 = new SimpleDateFormat("dd/MM/yyyy");
     private final SimpleDateFormat vSDF = new SimpleDateFormat("yyyy-MM-dd");
-    
-    
-       @EJB
+
+    @EJB
     private EmpTrainingcourseFacade empTrainingcourseFacade;
-       
+    @EJB
+    private EmployeeFacade employeeFacade;
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -53,7 +55,7 @@ public class TrainingCourseServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       
+
     }
 
     /**
@@ -68,22 +70,22 @@ public class TrainingCourseServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        employee=(Employee)getServletContext().getAttribute("current_employee");
-      String userPath = request.getServletPath();
+        employee = (Employee) getServletContext().getAttribute("current_employee");
+        String userPath = request.getServletPath();
 
         try {
             switch (userPath) {
 
                 case "/addTrainingCourse": {
-                    insertTrainingCourse(request);
+                    insertTrainingCourse(request, response);
                     break;
                 }
                 case "/editTrainingCourse": {
                     //insertTrainingCourse(request);
                     break;
                 }
-                                case "/deleteTrainingCourse": {
-                   // insertTrainingCourse(request);
+                case "/deleteTrainingCourse": {
+                    deleteTrainingCourse(request, response);
                     break;
                 }
             }
@@ -94,7 +96,8 @@ public class TrainingCourseServlet extends HttpServlet {
             ex.printStackTrace();
         }
     }
-/**
+
+    /**
      * Returns a short description of the servlet.
      *
      * @return a String containing servlet description
@@ -103,7 +106,8 @@ public class TrainingCourseServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    private void insertTrainingCourse(HttpServletRequest request) throws NumberFormatException, ParseException {
+
+    private void insertTrainingCourse(HttpServletRequest request, HttpServletResponse response) throws NumberFormatException, ParseException {
 
         EmpTrainingcourse empTrainingcourse = new EmpTrainingcourse();
         empTrainingcourse.setPlace(request.getParameter("place"));
@@ -111,12 +115,22 @@ public class TrainingCourseServlet extends HttpServlet {
         empTrainingcourse.setDuration(Integer.parseInt(request.getParameter("duration")));
         empTrainingcourse.setStartdate(vSDF.parse(request.getParameter("startdate")));
         empTrainingcourse.setEnddate(vSDF.parse(request.getParameter("enddate")));
+        employee = employeeFacade.find(Integer.parseInt(request.getParameter("currentEmp").trim()));
         empTrainingcourse.setEmployeeId(employee);
         empTrainingcourseFacade.create(empTrainingcourse);
-        employee.getEmpTrainingcourseCollection().add(empTrainingcourse);
-        getServletContext().setAttribute("emp_trainingcourses", employee.getEmpTrainingcourseCollection());
+        try {
+
+            String json = training2json(empTrainingcourse);
+            response.setContentType("text/plain;charset=UTF-8");
+            response.setHeader("Cache-Control", "no-cache");
+            response.getWriter().write(json);
+
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+        }
 
     }
+
     /**
      * @return the op_mode
      */
@@ -129,6 +143,38 @@ public class TrainingCourseServlet extends HttpServlet {
      */
     public static void setOp_mode(int mode) {
         op_mode = mode;
+    }
+
+    private void deleteTrainingCourse(HttpServletRequest request, HttpServletResponse response) {
+
+        EmpTrainingcourse empTrainingcourse = empTrainingcourseFacade.find(Integer.parseInt(request.getParameter("id")));
+        empTrainingcourseFacade.remove(empTrainingcourse);
+    }
+
+    private String training2json(EmpTrainingcourse empTrainingcourse) {
+        String s = "{";
+
+        s += "\"" + "col1" + "\"" + ":" + "\"" + empTrainingcourse.getKind() + "\"";
+        s += ",";
+        s += "\"" + "col4" + "\"" + ":" + "\"" + empTrainingcourse.getPlace() + "\"";
+        s += ",";
+        s += "\"" + "col2" + "\"" + ":" + "\"" + vSDF2.format(empTrainingcourse.getStartdate()) + "\"";
+        s += ",";
+        s += "\"" + "col3" + "\"" + ":" + "\"" + vSDF2.format(empTrainingcourse.getEnddate()) + "\"";
+
+        s += ",";
+        s += "\"" + "col5" + "\"" + ":" + "\"" + empTrainingcourse.getDuration() + "\"";
+        s += ",";
+        s += "\"" + "col6" + "\"" + ":" + "\"" + " " + "\"";
+        s += ",";
+        s += "\"" + "col7" + "\"" + ":" + "\"" + " " + "\"";
+        s += ",";
+        s += "\"" + "col8" + "\"" + ":" + "\"" + " " + "\"";
+        s += ",";
+        s += "\"" + "row_d" + "\"" + ":" + "\"" + "<input type='button' value='حذف' name='delete_b' onclick='show_delete_dialog_training(" + empTrainingcourse.getId() + ")'/>" + "\"";
+        s += "}";
+
+        return s;
     }
 
 }

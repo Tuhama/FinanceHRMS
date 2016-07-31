@@ -1,54 +1,63 @@
 <%-- any content can be specified here e.g.: --%>
 <%@ page pageEncoding="UTF-8" %>
-           <c:if test="${!empty emp_service_js}">
-                <table id="emp_unpaidv_table">
-                    <tr class="header">
-                        <th colspan="8">معلومات ضم الخدمة:</th>
-                    </tr>
-                    <tr class="tableHeading">
-                        <td>مكان الخدمة</td><td>مدة الخدمة بالايام</td><td>مدة الخدمة بالاشهر</td>
-                        <td>نوع المستند</td><td>رقم المستند</td><td>تاريخ المستند</td>
-                    </tr>
-                    <c:forEach var="emp_service_j" items="${emp_service_js}" varStatus="iter">
-                        <tr class="${((iter.index % 2) == 1) ? 'lightBlue' : 'white'} tableRow">  
 
-                            <td>${emp_service_j.placeofservice}</td>
-                            <td>${emp_service_j.daysduration}</td>
-                            <td>${emp_service_j.monthsduration}</td>
-                            <td>${emp_service_j.doctype}</td>
-                            <td>${emp_service_j.docnumber}</td>
-                            <td><script type="text/javascript">
-                                document.write(formatDate('${emp_service_j.docdate}'));
-                                </script></td>    
-                        </tr>
-                    </c:forEach>
-                </table>
-            </c:if>
+<div class="table_container">
+    <table id="addServiceJoin_table"  class="display" cellspacing="0" width="400">
+        <thead>
+            <tr class="tableHeading">
+                <th>مكان الخدمة</th>
+                <th>مدة الخدمة بالايام</th>
+                <th>مدة الخدمة بالاشهر</th>
+                <th>نوع المستند</th>
+                <th>رقم المستند</th>
+                <th>تاريخ المستند</th>                
+                <th> </th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
 
 
-            <form id="serviceJoinForm" method="post"  accept-charset="UTF-8"  action="<c:url value='addEmpServiceJoin'/>">
+<form id="serviceJoinForm" method="post"  accept-charset="UTF-8">
 
-                <table>
-                    <tbody>
-                        <tr>
+    <table>
+        <tbody>
+            <tr>
 
-                            <td>مكان الخدمة:</td>
-                            <td><input type="text" name="placeofservice"></td>
-                            <td>مدة الخدمة بالايام:</td>
-                            <td><input type="text" name="daysduration"></td>
-                            <td>مدة الخدمة بالاشهر:</td>
-                            <td><input type="text" name="monthsduration"></td>
-                        </tr>
-                        <tr>
-                            <td>نوع المستند:</td>
-                            <td><input type="text" name="doctype"></td>
-                            <td>رقم المستند:</td>
-                            <td><input type="text" name="docnumber"></td>
-                            <td>تاريخ المستند:</td>
-                            <td><input type="date" name="docdate"></td>      
-                        </tr>    
-                    </tbody>
-                </table>
-                <button type="submit" form="serviceJoinForm" value="Submit">إضافة</button>
-            </form>
- 
+                <td>مكان الخدمة:</td>
+                <td><input type="text" name="placeofservice"></td>
+                <td>مدة الخدمة بالايام:</td>
+                <td><input type="text" name="daysduration"></td>
+                <td>مدة الخدمة بالاشهر:</td>
+                <td><input type="text" name="monthsduration"></td>
+            </tr>
+            <tr>
+                <td>نوع المستند:</td>
+                <td><input type="text" name="doctype"></td>
+                <td>رقم المستند:</td>
+                <td><input type="text" name="docnumber"></td>
+                <td>تاريخ المستند:</td>
+                <td><input type="date" name="docdate"></td>      
+            </tr>    
+        </tbody>
+    </table>
+    <button type="submit" form="serviceJoinForm" value="Submit">إضافة</button>
+</form>
+
+<div id="deleteServiceJoin_dialog" title="حذف">
+    <form method="post" id="deleteServiceJoin_form">
+        <p>هل أنت متأكد من القيام بعملية الحذف؟</p>
+        <input type="text" name="id" id="service_id" hidden="hidden" />
+        <input type="submit" value="حذف" onclick='$("#deleteServiceJoin_dialog").dialog("close")' />
+        <input type="button" value="إلغاء" onclick='$("#deleteServiceJoin_dialog").dialog("close")' />
+    </form>
+</div>
+
+<script>
+    function show_delete_dialog_service(id)
+    {
+        document.getElementById("service_id").value = id;
+        $("#deleteServiceJoin_dialog").dialog("open");
+    }
+</script>

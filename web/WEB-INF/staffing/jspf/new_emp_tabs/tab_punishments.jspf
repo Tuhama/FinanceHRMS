@@ -1,67 +1,71 @@
 <%-- any content can be specified here e.g.: --%>
 <%@ page pageEncoding="UTF-8" %>
 
-            <c:if test="${!empty emp_punishments}">
-                <table id="emp_unpaidv_table">
-                    <tr class="header">
-                        <th colspan="8">  العقوبات</th>
-                    </tr>
-                    <tr class="tableHeading">
-                        <td>نوع العقوبة</td><td>سبب العقوبة</td><td>تاريخ العقوبة</td><td>نوع المستند</td><td>رقم المستند</td><td>تاريخ المستند</td>                
-                    </tr>
-                    <c:forEach var="emp_punishment" items="${emp_punishments}" varStatus="iter">
-                        <tr class="${((iter.index % 2) == 1) ? 'lightBlue' : 'white'} tableRow">
+<div class="table_container">
+    <table id="addPunishment_table"  class="display" cellspacing="0" width="400">
+        <thead>
+            <tr class="tableHeading">
+                <th>نوع العقوبة</th>
+                <th>سبب العقوبة</th>
+                <th>تاريخ العقوبة</th>
+                <th>نوع المستند</th>
+                <th>رقم المستند</th>
+                <th>تاريخ المستند</th>                
+                <th> </th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table> 
+</div>
+
+<form id="punishmentForm" method="post"  accept-charset="UTF-8">
+
+    <table>
+        <tbody>
+            <tr>
+                <td>نوع العقوبة:</td>
+                <td><select name="typepunishment_id">
+                        <c:if test="${!empty punishment_types}">
                             <c:forEach var="punishment_type" items="${punishment_types}" varStatus="iter">
-                                <c:if test="${emp_punishment.typepunishmentId eq punishment_type}">
-                                    <td>${punishment_type.name}</td>
-                                </c:if>
+
+                                <option value="${punishment_type.id}">
+                                    ${punishment_type.name}
+                                </option>
+
                             </c:forEach>
-                            <td>${emp_punishment.reason}</td>
-                            <td><script type="text/javascript">
-                                document.write(formatDate('${emp_punishment.date}'));
-                                </script></td> 
-                            <td>${emp_punishment.doctype}</td>
-                            <td>${emp_punishment.docnumber}</td>
-                            <td><script type="text/javascript">
-                                document.write(formatDate('${emp_punishment.docdate}'));
-                                </script></td> 
-                        </tr>
-                    </c:forEach>
-                </table> 
-            </c:if>
+                        </c:if>
+                    </select></td>
+                <td>سبب العقوبة:</td>
+                <td><input type="text" name="reason"></td>                          
+                <td>تاريخ العقوبة:</td>
+                <td><input type="date" name="date"></td>
+            </tr>
+            <tr>
+                <td>نوع المستند:</td>
+                <td><input type="text" name="doctype"></td>
+                <td>رقم المستند:</td>
+                <td><input type="text" name="docnumber"></td>
+                <td>تاريخ المستند:</td>
+                <td><input type="date" name="docdate"></td>      
+            </tr>    
+        </tbody>
+    </table>
+    <button type="submit" form="punishmentForm" value="Submit">إضافة</button>
+</form>
 
-            <form id="punishmentForm" method="post"  accept-charset="UTF-8"  action="<c:url value='addEmpPunishment'/>">
+<div id="deletePunishment_dialog" title="حذف">
+    <form method="post" id="deletePunishment_form">
+        <p>هل أنت متأكد من القيام بعملية الحذف؟</p>
+        <input type="text" name="id" id="punishment_id" hidden="hidden" />
+        <input type="submit" value="حذف" onclick='$("#deletePunishment_dialog").dialog("close")' />
+        <input type="button" value="إلغاء" onclick='$("#deletePunishment_dialog").dialog("close")' />
+    </form>
+</div>
 
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>نوع العقوبة:</td>
-                            <td><select name="typepunishment_id">
-                                    <c:if test="${!empty punishment_types}">
-                                        <c:forEach var="punishment_type" items="${punishment_types}" varStatus="iter">
-
-                                            <option value="${punishment_type.id}">
-                                                ${punishment_type.name}
-                                            </option>
-
-                                        </c:forEach>
-                                    </c:if>
-                                </select></td>
-                            <td>سبب العقوبة:</td>
-                            <td><input type="text" name="reason"></td>                          
-                            <td>تاريخ العقوبة:</td>
-                            <td><input type="date" name="date"></td>
-                        </tr>
-                        <tr>
-                            <td>نوع المستند:</td>
-                            <td><input type="text" name="doctype"></td>
-                            <td>رقم المستند:</td>
-                            <td><input type="text" name="docnumber"></td>
-                            <td>تاريخ المستند:</td>
-                            <td><input type="date" name="docdate"></td>      
-                        </tr>    
-                    </tbody>
-                </table>
-                <button type="submit" form="punishmentForm" value="Submit">إضافة</button>
-            </form>
- 
+<script>
+    function show_delete_dialog_punishment(id)
+    {
+        document.getElementById("punishment_id").value = id;
+        $("#deletePunishment_dialog").dialog("open");
+    }
+</script>

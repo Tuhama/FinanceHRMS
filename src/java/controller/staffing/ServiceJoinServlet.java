@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import session.EmpServicejoinFacade;
+import session.EmployeeFacade;
 
 /**
  *
@@ -35,8 +36,11 @@ public class ServiceJoinServlet extends HttpServlet {
     private static int op_mode = INSERT_MODE;
     
     private Employee employee = new Employee();
-    private final SimpleDateFormat vSDF = new SimpleDateFormat("yyyy-MM-dd");
     
+    private final SimpleDateFormat vSDF2 = new SimpleDateFormat("dd/MM/yyyy");
+    private final SimpleDateFormat vSDF = new SimpleDateFormat("yyyy-MM-dd");
+        @EJB
+    private EmployeeFacade employeeFacade;
         @EJB
     private EmpServicejoinFacade empServicejoinFacade;
    
@@ -74,15 +78,15 @@ public class ServiceJoinServlet extends HttpServlet {
             switch (userPath) {
 
                 case "/addServiceJoin": {
-                    insertServiceJoin(request);
+                    insertServiceJoin(request, response);
                     break;
                 }
                 case "/editServiceJoin": {
                     //insertServiceJoin(request);
                     break;
                 }
-                                case "/deleteServiceJoin": {
-                   // insertServiceJoin(request);
+                case "/deleteServiceJoin": {
+                   deleteServiceJoin(request,response);
                     break;
                 }
             }
@@ -94,7 +98,7 @@ public class ServiceJoinServlet extends HttpServlet {
         }
     }
 
- private void insertServiceJoin(HttpServletRequest request) throws NumberFormatException, ParseException {
+ private void insertServiceJoin(HttpServletRequest request, HttpServletResponse response) throws NumberFormatException, ParseException {
 
         EmpServicejoin empServiceJ = new EmpServicejoin();
         empServiceJ.setDaysduration(Short.parseShort(request.getParameter("daysduration")));
@@ -103,10 +107,19 @@ public class ServiceJoinServlet extends HttpServlet {
         empServiceJ.setDocdate(vSDF.parse(request.getParameter("docdate")));
         empServiceJ.setDocnumber(request.getParameter("docnumber"));
         empServiceJ.setDoctype(request.getParameter("doctype"));
+        employee = employeeFacade.find(Integer.parseInt(request.getParameter("currentEmp").trim()));
         empServiceJ.setEmployeeId(employee);
         empServicejoinFacade.create(empServiceJ);
-        employee.getEmpServicejoinCollection().add(empServiceJ);
-        getServletContext().setAttribute("emp_service_js", employee.getEmpServicejoinCollection());
+        try {
+
+            String json = service2json(empServiceJ);
+            response.setContentType("text/plain;charset=UTF-8");
+            response.setHeader("Cache-Control", "no-cache");
+            response.getWriter().write(json);
+
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+        }
 
     }
     /**
@@ -122,5 +135,36 @@ public class ServiceJoinServlet extends HttpServlet {
     public static void setOp_mode(int mode) {
         op_mode = mode;
     }
+
+    private void deleteServiceJoin(HttpServletRequest request, HttpServletResponse response) {
+
+        EmpServicejoin empServiceJ = empServicejoinFacade.find(Integer.parseInt(request.getParameter("id")));
+        empServicejoinFacade.remove(empServiceJ);
+    }   
+    
+    
+    private String service2json(EmpServicejoin empServiceJ) {
+ String s = "{";
+
+        s += "\"" + "col1" + "\"" + ":" + "\"" + empServiceJ.getPlaceofservice() + "\"";
+        s += ",";
+        s += "\"" + "col2" + "\"" + ":" + "\"" + empServiceJ.getDaysduration()+ "\"";
+        s += ",";
+        s += "\"" + "col3" + "\"" + ":" + "\"" + empServiceJ.getMonthsduration() + "\"";
+        s += ",";
+        s += "\"" + "col4" + "\"" + ":" + "\"" + " " + "\"";
+        s += ",";
+        s += "\"" + "col5" + "\"" + ":" + "\"" + " " + "\"";
+        s += ",";
+        s += "\"" + "col6" + "\"" + ":" + "\"" + empServiceJ.getDoctype() + "\"";
+        s += ",";
+        s += "\"" + "col7" + "\"" + ":" + "\"" + empServiceJ.getDocnumber() + "\"";
+        s += ",";
+        s += "\"" + "col8" + "\"" + ":" + "\"" + vSDF2.format(empServiceJ.getDocdate()) + "\"";
+        s += ",";
+        s += "\"" + "row_d" + "\"" + ":" + "\"" + "<input type='button' value='حذف' name='delete_b' onclick='show_delete_dialog_service(" + empServiceJ.getId() + ")'/>" + "\"";
+        s += "}";
+
+        return s;    }
 
 }
