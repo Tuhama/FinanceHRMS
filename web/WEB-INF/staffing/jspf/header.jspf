@@ -10,21 +10,18 @@
         <link rel="stylesheet" type="text/css" href="css/hrms.css"/>
         <link href="css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
         <link href="css/jquery-ui.css" rel="stylesheet" type="text/css"/>
-        <link href="css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
-
+        
         <script src="/HRMS_2/js/jquery-1.11.3.min.js" type="text/javascript"></script>
-        <script src="/HRMS_2/js/jquery-1.12.3.js" type="text/javascript"></script>
         <script src="/HRMS_2/js/jquery.dataTables.min.js" type="text/javascript"></script>
         <script src="/HRMS_2/js/jquery-ui.js" type="text/javascript"></script>
-
-        <script src="/HRMS_2/js/dataTablesPrep.js" type="text/javascript"></script>
+        
+        
         <script src="/HRMS_2/js/ajxify.js" type="text/javascript"></script>
         <script src="/HRMS_2/js/javascript.js" type="text/javascript"></script>
-
         <script>
-
+            
             $(document).ready(function () {
-                if ('${employee}' !== "")
+                if ('${employee}' != "")
                     prepareData4Edit();
                 overrideSubmits();
             });
@@ -85,7 +82,7 @@
                             document.getElementById("departments_select").appendChild(z);
                         }
             </c:forEach>
-                    }
+        }
                 }
             }
 
@@ -113,7 +110,7 @@
                             document.getElementById("sections_select").appendChild(z);
                         }
             </c:forEach>
-                    }
+        }
                 }
 
             }
@@ -141,7 +138,7 @@
                             document.getElementById("devisions_select").appendChild(z);
                         }
             </c:forEach>
-                    }
+        }
                 }
 
             }

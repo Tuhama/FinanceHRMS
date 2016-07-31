@@ -6,27 +6,12 @@ $(function () {
 });
 
 jQuery(document).ready(function () {
-
     prepareTabs();
 
     tab_enter_key();
 
     prepareDataTables();
-
-    //اذا تم النقر على زر الحذف في جدول سيتم تحديد السطرالموافق للزر
-    $("[id$='_table'] tbody").on('click', 'td', function () {
-        var row = $(this).parent("tr");
-        if ($(this).find('input[name=delete_b]').length > 0)
-        {
-            var table = $(this).parent("table").DataTable();
-            table.$('tr.selected').removeClass('selected');
-            $(row).addClass('selected');
-        }
-
-    });
-
 });
-
 
 
 function prepareTabs()
@@ -43,7 +28,29 @@ function prepareTabs()
         e.preventDefault();
     });
 }
-
+function prepareDataTables()
+{
+    $("[id$='_table']").DataTable({
+        "language": {
+            "search": "بحث",
+            "info": " _START_ إلى _END_ / _TOTAL_ ",
+            "sProcessing": "جاري التحميل...",
+            "sLengthMenu": "إظهار _MENU_",
+            "sZeroRecords": "لم يُعثر على أية سجلات",
+            "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجلّ",
+            "sInfoFiltered": "(منتقاة من مجموع _MAX_ سجل)",
+            "sInfoPostFix": "",
+            "sSearch": "ابحث:",
+            "sUrl": "",
+            "oPaginate": {
+                "sFirst": "الأول",
+                "sPrevious": "السابق",
+                "sNext": "التالي",
+                "sLast": "الأخير"
+            }
+        }
+    });
+}
 function tab_enter_key() {
     var input_types;
     input_types = "input, select, button, textarea";
@@ -116,17 +123,17 @@ function formatDate(ds)
 }
 
 function show_edit_dialog(id, name)
-{
-    document.getElementById("e_d_id").value = id;
-    document.getElementById("e_d_name").value = name;
-    $("#edit_dialog").dialog("open");
-}
-function show_delete_dialog(id)
-{
-    document.getElementById("d_d_id").value = id;
-    $("#delete_dialog").dialog("open");
-}
-function show_add_dialog()
-{
-    $("#add_dialog").dialog("open");
-}
+    {
+        document.getElementById("e_d_id").value = id;
+        document.getElementById("e_d_name").value = name;
+        $("#edit_dialog").dialog("open");
+    }
+    function show_delete_dialog(id)
+    {
+        document.getElementById("d_d_id").value = id;
+        $("#delete_dialog").dialog("open");
+    }
+    function show_add_dialog()
+    {
+        $("#add_dialog").dialog("open");
+    }

@@ -1,70 +1,65 @@
 <%-- any content can be specified here e.g.: --%>
 <%@ page pageEncoding="UTF-8" %>
-
-<div class="table_container">
-
-    <table id="addHealthLeave_table"  class="display" cellspacing="0" width="400">
-        <thead>
-            <tr class="tableHeading">
-                <th>نوع الإجازة</th>
-                <th>تاريخ البدء</th>
-                <th>تاريخ النهاية</th>
-                <th>السنة</th>
-                <th>مدة الاجازة</th> 
-                <th> </th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table> 
-</div>
-
-
-<form id="healthLeavForm" method="post"  accept-charset="UTF-8">
-
-    <table>
-        <tbody>
-            <tr>
-                <td>نوع الإجازة:</td>
-                <td><select name="typehealthleave_id">
-                        <c:if test="${!empty healthleave_types}">
+           <c:if test="${!empty emp_helthleaves}">
+                <table id="emp_unpaidv_table">
+                    <tr class="header">
+                        <th colspan="8">الإجازات  الصحية</th>
+                    </tr>
+                    <tr class="tableHeading">
+                        <td>نوع الإجازة</td><td>تاريخ البدء</td><td>تاريخ النهاية</td>
+                        <td>السنة</td><td>مدة الاجازة</td>                
+                    </tr>
+                    <c:forEach var="emp_helthleave" items="${emp_helthleaves}" varStatus="iter">
+                        <tr class="${((iter.index % 2) == 1) ? 'lightBlue' : 'white'} tableRow">  
                             <c:forEach var="healthleave_type" items="${healthleave_types}" varStatus="iter">
-
-                                <option value="${healthleave_type.id}">
-                                    ${healthleave_type.name}
-                                </option>
-
+                                <c:if test="${emp_helthleave.typehealthleaveId eq healthleave_type}">
+                                    <td>${healthleave_type.name}</td>
+                                </c:if>
                             </c:forEach>
-                        </c:if>
-                    </select></td>
-                <td>تاريخ البدء:</td>
-                <td><input type="date" name="startdate"></td>
-                <td>تاريخ النهاية:</td>
-                <td><input type="date" name="enddate"></td>
-            </tr>
-            <tr>
-                <td>السنة:</td>
-                <td><input type="text" name="year"></td>
-                <td>مدة الاجازة :</td>
-                <td><input type="text" name="dayscount"></td>
-            </tr>
-        </tbody>
-    </table>
-    <button type="submit" form="healthLeavForm" value="Submit">إضافة</button>
-</form>
+                            <td><script type="text/javascript">
+                                document.write(formatDate('${emp_helthleave.startdate}'));
+                                </script></td> 
+                            <td><script type="text/javascript">
+                                document.write(formatDate('${emp_helthleave.enddate}'));
+                                </script></td> 
+                            <td>${emp_helthleave.year}</td>
+                            <td>${emp_helthleave.dayscount}</td>
 
-<div id="deleteHealthLeave_dialog" title="حذف">
-    <form method="post" id="deleteHealthLeave_form">
-        <p>هل أنت متأكد من القيام بعملية الحذف؟</p>
-        <input type="text" name="id" id="leave_id" hidden="hidden" />
-        <input type="submit" value="حذف" onclick='$("#deleteHealthLeave_dialog").dialog("close")' />
-        <input type="button" value="إلغاء" onclick='$("#deleteHealthLeave_dialog").dialog("close")' />
-    </form>
-</div>
+                        </tr>
+                    </c:forEach>
+                </table> 
+            </c:if>
 
-<script>
-    function show_delete_dialog_leave(id)
-    {
-        document.getElementById("leave_id").value = id;
-        $("#deleteHealthLeave_dialog").dialog("open");
-    }
-</script>
+            <form id="healthLeavForm" method="post"  accept-charset="UTF-8"  action="<c:url value='addEmpHealthLeave'/>">
+
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>نوع الإجازة:</td>
+                            <td><select name="typehealthleave_id">
+                                    <c:if test="${!empty healthleave_types}">
+                                        <c:forEach var="healthleave_type" items="${healthleave_types}" varStatus="iter">
+
+                                            <option value="${healthleave_type.id}">
+                                                ${healthleave_type.name}
+                                            </option>
+
+                                        </c:forEach>
+                                    </c:if>
+                                </select></td>
+                            <td>تاريخ البدء:</td>
+                            <td><input type="date" name="startdate"></td>
+                            <td>تاريخ النهاية:</td>
+                            <td><input type="date" name="enddate"></td>
+                        </tr>
+                        <tr>
+                            <td>السنة:</td>
+                            <td><input type="text" name="year"></td>
+                            <td>مدة الاجازة :</td>
+                            <td><input type="text" name="dayscount"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="submit" form="healthLeavForm" value="Submit">إضافة</button>
+            </form>
+ 
