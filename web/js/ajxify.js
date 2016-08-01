@@ -30,7 +30,7 @@ function overrideSubmits() {
     $("form#unpaidVForm").submit(function (event) {
         createEmpDetail("addUnpaidV", $("form#unpaidVForm").serialize());
         event.preventDefault();
-        currentDataTable = $('#addUnpaidVacation_table');
+        currentDataTable = $('#addUnpaidV_table');
     });
     $("form#deleteUnpaidV_form").submit(function (event) {
         deleteEmpDetail("deleteUnpaidV", $("form#deleteUnpaidV_form").serialize());

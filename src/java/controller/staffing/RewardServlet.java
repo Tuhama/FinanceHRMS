@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import session.EmpRewardFacade;
+import session.EmployeeFacade;
 
 /**
  *
@@ -35,10 +36,14 @@ public class RewardServlet extends HttpServlet {
     private static int op_mode = INSERT_MODE;
     
     private Employee employee = new Employee();
+    
     private final SimpleDateFormat vSDF = new SimpleDateFormat("yyyy-MM-dd");
+    private final SimpleDateFormat vSDF2 = new SimpleDateFormat("dd/MM/yyyy");
+    
     @EJB
     private EmpRewardFacade empRewardFacade;
-       
+         @EJB
+    private EmployeeFacade employeeFacade;  
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -73,15 +78,15 @@ public class RewardServlet extends HttpServlet {
             switch (userPath) {
 
                 case "/addReward": {
-                    insertReward(request);
+                    insertReward(request, response);
                     break;
                 }
                 case "/editReward": {
                     //insertReward(request);
                     break;
                 }
-                                case "/deleteReward": {
-                   // insertReward(request);
+                case "/deleteReward": {
+                  deleteReward(request,response);
                     break;
                 }
             }
@@ -101,7 +106,7 @@ public class RewardServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    private void insertReward(HttpServletRequest request) throws ParseException, NumberFormatException {
+    private void insertReward(HttpServletRequest request, HttpServletResponse response) throws ParseException, NumberFormatException {
 
         EmpReward empReward = new EmpReward();
         empReward.setKind(request.getParameter("kind"));
@@ -109,10 +114,19 @@ public class RewardServlet extends HttpServlet {
         empReward.setDocdate(vSDF.parse(request.getParameter("docdate")));
         empReward.setDocnumber(request.getParameter("docnumber"));
         empReward.setDoctype(request.getParameter("doctype"));
+        employee = employeeFacade.find(Integer.parseInt(request.getParameter("currentEmp").trim()));
         empReward.setEmployeeId(employee);
         empRewardFacade.create(empReward);
-        employee.getEmpRewardCollection().add(empReward);
-        getServletContext().setAttribute("emp_rewards", employee.getEmpRewardCollection());
+        try {
+
+            String json = reward2json(empReward);
+            response.setContentType("text/plain;charset=UTF-8");
+            response.setHeader("Cache-Control", "no-cache");
+            response.getWriter().write(json);
+
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+        }
 
     }
     /**
@@ -128,5 +142,33 @@ public class RewardServlet extends HttpServlet {
     public static void setOp_mode(int mode) {
         op_mode = mode;
     }
+
+    private void deleteReward(HttpServletRequest request, HttpServletResponse response) {
+        EmpReward empReward = empRewardFacade.find(Integer.parseInt(request.getParameter("id")));
+        empRewardFacade.remove(empReward);    }
+
+    private String reward2json(EmpReward empReward) {
+ String s = "{";
+
+        s += "\"" + "col1" + "\"" + ":" + "\"" + empReward.getKind() + "\"";
+        s += ",";
+        s += "\"" + "col2" + "\"" + ":" + "\"" + empReward.getAmount() + "\"";
+        s += ",";
+        s += "\"" + "col3" + "\"" + ":" + "\"" + " " + "\"";
+        s += ",";
+        s += "\"" + "col4" + "\"" + ":" + "\"" + " " + "\"";
+        s += ",";
+        s += "\"" + "col5" + "\"" + ":" + "\"" + " " + "\"";
+        s += ",";
+        s += "\"" + "col6" + "\"" + ":" + "\"" + empReward.getDoctype() + "\"";
+        s += ",";
+        s += "\"" + "col7" + "\"" + ":" + "\"" + empReward.getDocnumber() + "\"";
+        s += ",";
+        s += "\"" + "col8" + "\"" + ":" + "\"" + vSDF2.format(empReward.getDocdate()) + "\"";
+        s += ",";
+        s += "\"" + "row_d" + "\"" + ":" + "\"" + "<input type='button' value='حذف' name='delete_b' onclick='show_delete_dialog_reward(" + empReward.getId() + ")'/>" + "\"";
+        s += "}";
+
+        return s;    }
 
 }

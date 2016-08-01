@@ -2,7 +2,6 @@
 <%@ page pageEncoding="UTF-8" %>
 
 <div class="table_container">
-    <%-- <c:if test="${!empty emp_events}"> --%>
     <table id="addEvent_table"  class="display" cellspacing="0" width="400">
         <thead>
 
@@ -15,40 +14,12 @@
                 <th>نوع المستند</th>
                 <th>رقم المستند</th>
                 <th>تاريخ المستند</th>
-                <th>حذف</th>
-                <th>تعديل</th>
+                <th> </th>
             </tr>
         </thead>
-
-        <tbody>
-
-        <c:if test="${!empty emp_events}">
-            <c:forEach var="emp_event" items="${emp_events}" varStatus="iter">
-                <tr class="${((iter.index % 2) == 1) ? 'lightBlue' : 'white'} tableRow">         
-                <c:forEach var="position" items="${positions}" varStatus="iter">
-                    <c:if test="${emp_event.positionId eq position}">
-                        <td>${position.name}</td>
-                    </c:if>
-                </c:forEach>
-                <td>${emp_event.name}</td>
-                <td><script type="text/javascript">
-                    document.write(formatDate('${emp_event.startdate}'));
-                    </script></td>
-                <td>${emp_event.salary}</td>
-                <td>${emp_event.category}</td>
-                <td>${emp_event.doctype}</td>
-                <td>${emp_event.docnumber}</td>
-                <td><script type="text/javascript">
-                    document.write(formatDate('${emp_event.docdate}'));
-                    </script></td>  
-                <td><input type="button" value="تعديل" name="edit_b" onclick="show_edit_dialog1('${emp_event.id}', '${emp_event.positionId}', '${emp_event.name}', '${emp_event.startdate}', '${emp_event.category}', '${emp_event.salary}', '${emp_event.doctype}', '${emp_event.docnumber}')"/></td>        
-                <td><input type="button" value="حذف" name="delete_b" onclick="show_delete_dialog('${emp_event.id}')"/></td> 
-                </tr>
-            </c:forEach>
-        </c:if>
-        </tbody>
+        <tbody></tbody>
     </table>
-    <%--</c:if> --%>
+
 </div>
 
 
@@ -95,24 +66,21 @@
     </table>
     <button type="submit" form="empEventForm" value="Submit">إضافة</button>
 </form>
-
+                                
+                                
+<div id="deleteEvent_dialog" title="حذف">
+    <form method="post" id="deleteEvent_form">
+        <p>هل أنت متأكد من القيام بعملية الحذف؟</p>
+        <input type="text" name="id" id="event_id" hidden="hidden" />
+        <input type="submit" value="حذف" onclick='$("#deleteEvent_dialog").dialog("close")' />
+        <input type="button" value="إلغاء" onclick='$("#deleteEvent_dialog").dialog("close")' />
+    </form>
+</div>
 
 <script>
-    function show_edit_dialog_event(id, name, startdate, category, salary, doctype, docnumber, docdate)
-    {
-        document.getElementById("e_d_id").value = id;
-        document.getElementById("e_d_name").value = branchname;
-        ///todo  set selected value for combo
-        document.getElementById("e_d_mainbranch").value = mainbranch;
-        $("#edit_dialog").dialog("open");
-    }
     function show_delete_dialog_event(id)
     {
-        document.getElementById("d_d_id").value = id;
-        $("#delete_dialog").dialog("open");
-    }
-    function show_add_dialog_event()
-    {
-        $("#add_dialog").dialog("open");
+        document.getElementById("event_id").value = id;
+        $("#deleteEvent_dialog").dialog("open");
     }
 </script>
