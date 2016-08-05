@@ -1,7 +1,8 @@
 
 $(function () {
     $("[id$='dialog']").dialog({
-        autoOpen: false
+        autoOpen: false,
+        width: 'auto',
     });
 });
 
@@ -12,18 +13,6 @@ jQuery(document).ready(function () {
     tab_enter_key();
 
     prepareDataTables();
-
-    //اذا تم النقر على زر الحذف في جدول سيتم تحديد السطرالموافق للزر
-    $("[id$='_table'] tbody").on('click', 'td', function () {
-        var row = $(this).parent("tr");
-        if ($(this).find('input[name=delete_b]').length > 0)
-        {
-            var table = $(this).parent("table").DataTable();
-            table.$('tr.selected').removeClass('selected');
-            $(row).addClass('selected');
-        }
-
-    });
 
 });
 
@@ -114,7 +103,7 @@ function formatDate(ds)
     var st = d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate();
     return st;
 }
-
+/*
 function show_edit_dialog(id, name)
 {
     document.getElementById("e_d_id").value = id;
@@ -129,4 +118,4 @@ function show_delete_dialog(id)
 function show_add_dialog()
 {
     $("#add_dialog").dialog("open");
-}
+}*/

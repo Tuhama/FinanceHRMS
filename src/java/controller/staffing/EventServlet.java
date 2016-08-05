@@ -5,15 +5,15 @@
  */
 package controller.staffing;
 
-
 import entity.EmpEvent;
 import entity.Employee;
 import entity.Position;
 import java.io.IOException;
 
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 
 import javax.servlet.ServletException;
@@ -40,10 +40,10 @@ public class EventServlet extends HttpServlet {
     private static int op_mode = INSERT_MODE;
 
     private Employee employee = new Employee();
-    
+
     private final SimpleDateFormat vSDF = new SimpleDateFormat("yyyy-MM-dd");
     private final SimpleDateFormat vSDF2 = new SimpleDateFormat("dd/MM/yyyy");
-    
+
     @EJB
     private EmpEventFacade empEventFacade;
     @EJB
@@ -70,11 +70,15 @@ public class EventServlet extends HttpServlet {
             switch (userPath) {
 
                 case "/addEvent": {
-                    insertEvent(request, response);
+                    setOp_mode(INSERT_MODE);
+                    flushEvent(request, response);
+                    // insertEvent(request, response);
                     break;
                 }
                 case "/editEvent": {
-                    //insertEvent(request);
+                    setOp_mode(UPDATE_MODE);
+                    flushEvent(request, response);
+                    //editEvent(request,response);
                     break;
                 }
                 case "/deleteEvent": {
@@ -100,9 +104,19 @@ public class EventServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private void insertEvent(HttpServletRequest request, HttpServletResponse response) throws NumberFormatException, ParseException {
+    private void flushEvent(HttpServletRequest request, HttpServletResponse response) throws NumberFormatException, ParseException {
+
+        if (request.getParameter("currentEmp") != null) {
+            employee = employeeFacade.find(Integer.parseInt(request.getParameter("currentEmp").trim()));
+        } else {
+            employee = (Employee) getServletContext().getAttribute("employee");
+        }
 
         EmpEvent empEvent = new EmpEvent();
+        if (request.getParameter("id") != null) {
+            empEvent = empEventFacade.find(Integer.parseInt(request.getParameter("id")));
+        }
+
         Position position = positionFacade.find(Short.parseShort(request.getParameter("position_id")));
         empEvent.setCategory(request.getParameter("category"));
         empEvent.setName(request.getParameter("name"));
@@ -113,32 +127,50 @@ public class EventServlet extends HttpServlet {
         empEvent.setDoctype(request.getParameter("doctype"));
         empEvent.setPositionId(position);
 
-        employee = employeeFacade.find(Integer.parseInt(request.getParameter("currentEmp").trim()));
+        // employee = employeeFacade.find(Integer.parseInt(request.getParameter("currentEmp").trim()));
         empEvent.setEmployeeId(employee);
 
-        empEventFacade.create(empEvent);
+        if (getOp_mode() == INSERT_MODE) {
+            try {
+                empEventFacade.create(empEvent);
 
-        //employee.getEmpEventCollection().add(empEvent);
-        //getServletContext().setAttribute("emp_events", employee.getEmpEventCollection());
-        try {
-            //Gson gson = new  GsonBuilder().setExclusionStrategies(new JsonExcludeStrategy()).create();
+                employee.getEmpEventCollection().add(empEvent);
+                getServletContext().setAttribute("emp_events", employee.getEmpEventCollection());
 
-            // gson.toJsonTree(empEvent).getAsJsonObject().remove("employeeId");
-            //String json = gson.toJson(empEvent);
-            String json = evet2json(empEvent);
-            response.setContentType("text/plain;charset=UTF-8");
-            response.setHeader("Cache-Control", "no-cache");
+                //Gson gson = new  GsonBuilder().setExclusionStrategies(new JsonExcludeStrategy()).create();
+                // gson.toJsonTree(empEvent).getAsJsonObject().remove("employeeId");
+                //String json = gson.toJson(empEvent);
+                String json = evet2json(empEvent);
+                response.setContentType("text/plain;charset=UTF-8");
+                response.setHeader("Cache-Control", "no-cache");
 /////no space befor or after..it causes problems with json parsing
-            response.getWriter().write(json);
+                response.getWriter().write(json);
 
-        } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+            } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+            }
+
+        } else {
+            try {
+                response.setContentType("text/plain;charset=UTF-8");
+                response.setHeader("Cache-Control", "no-cache");
+/////no space befor or after..it causes problems with json parsing
+                response.getWriter().write("ok");
+                empEventFacade.edit(empEvent);
+            } catch (IOException ex) {
+                response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+            }
         }
+
     }
 
     private void deleteEvent(HttpServletRequest request) {
         EmpEvent empEvent = empEventFacade.find(Integer.parseInt(request.getParameter("id")));
         empEventFacade.remove(empEvent);
+
+        employee.getEmpEventCollection().remove(empEvent);
+        getServletContext().setAttribute("emp_events", employee.getEmpEventCollection());
+
     }
 
     /**
@@ -155,8 +187,34 @@ public class EventServlet extends HttpServlet {
         op_mode = mode;
     }
 
-    //  {"att":"val",...}
     private String evet2json(EmpEvent event) {
+
+        String s = "{";
+        s += "\"" + "id" + "\"" + ":" + "\"" + event.getId() + "\"";
+        s += ",";
+        s += "\"" + "positionId" + "\"" + ":" + "\"" + event.getPositionId().getName() + "\"";
+        s += ",";
+        s += "\"" + "name" + "\"" + ":" + "\"" + event.getName() + "\"";
+        s += ",";
+        s += "\"" + "startdate" + "\"" + ":" + "\"" + vSDF2.format(event.getStartdate()) + "\"";
+        s += ",";
+        s += "\"" + "salary" + "\"" + ":" + "\"" + event.getSalary() + "\"";
+        s += ",";
+        s += "\"" + "category" + "\"" + ":" + "\"" + event.getCategory() + "\"";
+        s += ",";
+        s += "\"" + "doctype" + "\"" + ":" + "\"" + event.getDoctype() + "\"";
+        s += ",";
+        s += "\"" + "docnumber" + "\"" + ":" + "\"" + event.getDocnumber() + "\"";
+        s += ",";
+        s += "\"" + "docdate" + "\"" + ":" + "\"" + vSDF2.format(event.getDocdate()) + "\"";
+        s += "}";
+
+        return s;
+    }
+
+    //  {"att":"val",...}
+
+    private String evet2json_temp(EmpEvent event) {
 
         /*        Class<?> c = event.getClass();
          Field[] fields = c.getDeclaredFields();
@@ -188,26 +246,26 @@ public class EventServlet extends HttpServlet {
          s += "\"" + "docnumber" + "\"" + ":" + "\"" + event.getDocnumber() + "\"";
          s += ",";
          s += "\"" + "docdate" + "\"" + ":" + "\"" + event.getDocdate() + "\"";*/
-        s += "\"" + "col1" + "\"" + ":" + "\"" + event.getPositionId().getName() + "\"";
+        s += "\"" + "positionId" + "\"" + ":" + "\"" + event.getPositionId().getName() + "\"";
         s += ",";
-        s += "\"" + "col2" + "\"" + ":" + "\"" + event.getName() + "\"";
+        s += "\"" + "name" + "\"" + ":" + "\"" + event.getName() + "\"";
         s += ",";
-        s += "\"" + "col3" + "\"" + ":" + "\"" + vSDF2.format(event.getStartdate() )+ "\"";
+        s += "\"" + "startdate" + "\"" + ":" + "\"" + vSDF2.format(event.getStartdate()) + "\"";
         s += ",";
-        s += "\"" + "col4" + "\"" + ":" + "\"" + event.getSalary() + "\"";
+        s += "\"" + "salary" + "\"" + ":" + "\"" + event.getSalary() + "\"";
         s += ",";
-        s += "\"" + "col5" + "\"" + ":" + "\"" + event.getCategory() + "\"";
+        s += "\"" + "category" + "\"" + ":" + "\"" + event.getCategory() + "\"";
         s += ",";
-        s += "\"" + "col6" + "\"" + ":" + "\"" + event.getDoctype() + "\"";
+        s += "\"" + "doctype" + "\"" + ":" + "\"" + event.getDoctype() + "\"";
         s += ",";
-        s += "\"" + "col7" + "\"" + ":" + "\"" + event.getDocnumber() + "\"";
+        s += "\"" + "docnumber" + "\"" + ":" + "\"" + event.getDocnumber() + "\"";
         s += ",";
-        s += "\"" + "col8" + "\"" + ":" + "\"" + vSDF2.format(event.getDocdate()) + "\"";
+        s += "\"" + "docdate" + "\"" + ":" + "\"" + vSDF2.format(event.getDocdate()) + "\"";
         s += ",";
         s += "\"" + "row_d" + "\"" + ":" + "\"" + "<input type='button' value='حذف' name='delete_b' onclick='show_delete_dialog_event(" + event.getId() + ")'/>" + "\"";
         s += "}";
 
-        System.out.println(s);
+        //System.out.println(s);
         return s;
     }
 

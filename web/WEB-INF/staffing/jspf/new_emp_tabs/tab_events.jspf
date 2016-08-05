@@ -2,7 +2,7 @@
 <%@ page pageEncoding="UTF-8" %>
 
 <div class="table_container">
-    <table id="addEvent_table"  class="display" cellspacing="0" width="400">
+    <table id="event_table"  class="display" cellspacing="0" width="400">
         <thead>
 
             <tr class="tableHeading">

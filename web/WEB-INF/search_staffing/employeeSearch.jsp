@@ -15,7 +15,7 @@
 
                         </strong></td>
                     <td>
-                        <input type="text"
+                        <input type="search"
                                size="40" 
                                id="complete-field"
                                onkeyup="doCompletion()">

@@ -561,6 +561,5 @@ public class Employee implements Serializable {
     public String toString() {
         return "entity.Employee[ id=" + id + " ]";
     }
-
     
 }

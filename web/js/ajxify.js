@@ -5,6 +5,7 @@ var empId = "";
 var currentDataTable;//to reach the curently edited data table
 
 function overrideSubmits() {
+    
     $("form#personalInfoForm").submit(function (event) {
         EmpInfo("addEmployee", $("form#personalInfoForm").serialize());
         event.preventDefault();
@@ -18,14 +19,18 @@ function overrideSubmits() {
     $("form#empEventForm").submit(function (event) {
         createEmpDetail("addEvent", $("form#empEventForm").serialize());
         event.preventDefault();
-        currentDataTable = $('#addEvent_table');
+        currentDataTable = $('#event_table');
+    });
+    $("form#editEventForm").submit(function (event) {
+        editEmpDetail("editEvent", $("form#editEventForm").serialize());
+        event.preventDefault();
+        currentDataTable = $('#event_table');
     });
     $("form#deleteEvent_form").submit(function (event) {
         deleteEmpDetail("deleteEvent", $("form#deleteEvent_form").serialize());
         event.preventDefault();
-        currentDataTable = $('#addEvent_table');
+        currentDataTable = $('#event_table');
     });
-
 
     $("form#unpaidVForm").submit(function (event) {
         createEmpDetail("addUnpaidV", $("form#unpaidVForm").serialize());
@@ -145,6 +150,29 @@ function callbackDetail() {
             currentDataTable.DataTable().row.add($.parseJSON(req.responseText)).draw(false);
             ///this didn't work  var is not obj it seems!!      >>>  $('#addEvent_table').DataTable().row.add( responseJson ).draw(false);
             alert("تم الادخال بنجاح");
+        }
+        else
+            alert("خطأ في الادخال .." + req.status);
+    }
+
+}
+function editEmpDetail(uri, form_data) {
+    
+        var url = uri + "?" + form_data; //+ "&currentEmp=" + empId;
+        req = initRequest();
+        req.open("POST", url, true);
+        req.onreadystatechange = callbackEditDetail;
+        req.send(null);
+}
+function callbackEditDetail() {
+    if (req.readyState === 4) {
+        if (req.status === 200) {
+            //edit the table row
+            //currentDataTable.DataTable().row.add($.parseJSON(req.responseText)).draw(false);
+            ///this didn't work  var is not obj it seems!!      >>>  $('#addEvent_table').DataTable().row.add( responseJson ).draw(false);
+            edit_table_row();
+            alert("تم التعديل بنجاح");
+            
         }
         else
             alert("خطأ في الادخال .." + req.status);
