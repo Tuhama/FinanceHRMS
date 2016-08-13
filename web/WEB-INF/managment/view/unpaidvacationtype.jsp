@@ -4,7 +4,7 @@
     Author     : Tuhama
 --%>
 <c:if test="${!empty unpaid_vacation_types}">
-    <table   id="unpaidv_table"  class="display" cellspacing="0" width="400" >
+    <table   id="unpaidVType_table"  class="display" cellspacing="0" width="400" >
         <thead>
             <tr>
                 <th>رقم</th>
@@ -41,7 +41,7 @@
             </tr>
             <tr>
                 <td><input type="submit" value="تعديل" /></td>
-                <td><input type="button" value="إلغاء" onclick="todo()"/></td>
+                <td><input type="button" value="إلغاء" onclick='$("#edit_dialog").dialog("close")'/></td>
             </tr>
         </table>
     </form>
@@ -52,7 +52,7 @@
         <p>هل أنت متأكد من القيام بعملية الحذف؟</p>
         <input type="text" name="id" id="d_d_id" hidden="hidden" />
         <input type="submit" value="حذف" />
-        <input type="button" value="إلغاء" onclick="todo()"/>
+        <input type="button" value="إلغاء" onclick='$("#delete_dialog").dialog("close")'/>
     </form>
 </div>
 <div id="add_dialog" title="إضافة">
@@ -67,7 +67,7 @@
             </tr>
             <tr>
                 <td><input type="submit" value="إضافة" /></td>
-                <td><input type="button" value="إلغاء" onclick="todo()"/></td>
+                <td><input type="button" value="إلغاء" onclick='$("#add_dialog").dialog("close")'/></td>
             </tr>
         </table>
     </form>

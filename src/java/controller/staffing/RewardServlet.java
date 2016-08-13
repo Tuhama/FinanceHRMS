@@ -23,70 +23,48 @@ import session.EmployeeFacade;
  *
  * @author TUHAMA
  */
-@WebServlet(name = "RewardServlet", urlPatterns = {"/addReward","/editReward","/deleteReward"})
+@WebServlet(name = "RewardServlet", urlPatterns = {"/addReward", "/editReward", "/deleteReward"})
 public class RewardServlet extends HttpServlet {
 
     public static final int INSERT_MODE = 0;
     public static final int UPDATE_MODE = 1;
     public static final int REPORT_MODE = 2;
 
-    
-
     //to know if the operation is update or insert to the database
     private static int op_mode = INSERT_MODE;
-    
+
     private Employee employee = new Employee();
-    
+
     private final SimpleDateFormat vSDF = new SimpleDateFormat("yyyy-MM-dd");
     private final SimpleDateFormat vSDF2 = new SimpleDateFormat("dd/MM/yyyy");
-    
+
     @EJB
     private EmpRewardFacade empRewardFacade;
-         @EJB
-    private EmployeeFacade employeeFacade;  
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-       
-    }
+    @EJB
+    private EmployeeFacade employeeFacade;
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        employee=(Employee)getServletContext().getAttribute("current_employee");
-      String userPath = request.getServletPath();
+        employee = (Employee) getServletContext().getAttribute("current_employee");
+        String userPath = request.getServletPath();
 
         try {
             switch (userPath) {
 
                 case "/addReward": {
-                    insertReward(request, response);
+                    setOp_mode(INSERT_MODE);
+                    flushReward(request, response);
                     break;
                 }
                 case "/editReward": {
-                    //insertReward(request);
+                    setOp_mode(UPDATE_MODE);
+                    flushReward(request, response);
                     break;
                 }
                 case "/deleteReward": {
-                  deleteReward(request,response);
+                    deleteReward(request, response);
                     break;
                 }
             }
@@ -97,18 +75,19 @@ public class RewardServlet extends HttpServlet {
             ex.printStackTrace();
         }
     }
-/**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-    private void insertReward(HttpServletRequest request, HttpServletResponse response) throws ParseException, NumberFormatException {
+
+    private void flushReward(HttpServletRequest request, HttpServletResponse response) throws ParseException, NumberFormatException {
+
+        if (request.getParameter("currentEmp") != null) {
+            employee = employeeFacade.find(Integer.parseInt(request.getParameter("currentEmp").trim()));
+        } else {
+            employee = (Employee) getServletContext().getAttribute("employee");
+        }
 
         EmpReward empReward = new EmpReward();
+        if (request.getParameter("id") != null) {
+            empReward = empRewardFacade.find(Integer.parseInt(request.getParameter("id")));
+        }
         empReward.setKind(request.getParameter("kind"));
         empReward.setAmount(Integer.parseInt(request.getParameter("amount")));
         empReward.setDocdate(vSDF.parse(request.getParameter("docdate")));
@@ -116,19 +95,53 @@ public class RewardServlet extends HttpServlet {
         empReward.setDoctype(request.getParameter("doctype"));
         employee = employeeFacade.find(Integer.parseInt(request.getParameter("currentEmp").trim()));
         empReward.setEmployeeId(employee);
-        empRewardFacade.create(empReward);
-        try {
+        String json;
+        if (getOp_mode() == INSERT_MODE) {
+            empRewardFacade.create(empReward);
+            employee.getEmpRewardCollection().add(empReward);
+            getServletContext().setAttribute("emp_rewards", employee.getEmpRewardCollection());
 
-            String json = reward2json(empReward);
-            response.setContentType("text/plain;charset=UTF-8");
-            response.setHeader("Cache-Control", "no-cache");
-            response.getWriter().write(json);
+            json = reward2json(empReward);
 
-        } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+        } else {
+            json = "ok";
+            empRewardFacade.edit(empReward);
         }
 
+        try {
+            response.setContentType("text/plain;charset=UTF-8");
+            response.setHeader("Cache-Control", "no-cache");
+            /////no space befor or after..it causes problems with json parsing
+            response.getWriter().write(json);
+
+        } catch (IOException ex) {
+            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+        }
     }
+
+    private String reward2json(EmpReward empReward) {
+        String s = "{";
+        s += "\"" + "id" + "\"" + ":" + "\"" + empReward.getId() + "\"";
+        s += ",";
+        s += "\"" + "kind" + "\"" + ":" + "\"" + empReward.getKind() + "\"";
+        s += ",";
+        s += "\"" + "amount" + "\"" + ":" + "\"" + empReward.getAmount() + "\"";
+        s += ",";
+        s += "\"" + "doctype" + "\"" + ":" + "\"" + empReward.getDoctype() + "\"";
+        s += ",";
+        s += "\"" + "docnumber" + "\"" + ":" + "\"" + empReward.getDocnumber() + "\"";
+        s += ",";
+        s += "\"" + "docdate" + "\"" + ":" + "\"" + vSDF2.format(empReward.getDocdate()) + "\"";
+        s += "}";
+
+        return s;
+    }
+
+    private void deleteReward(HttpServletRequest request, HttpServletResponse response) {
+        EmpReward empReward = empRewardFacade.find(Integer.parseInt(request.getParameter("id")));
+        empRewardFacade.remove(empReward);
+    }
+
     /**
      * @return the op_mode
      */
@@ -142,33 +155,4 @@ public class RewardServlet extends HttpServlet {
     public static void setOp_mode(int mode) {
         op_mode = mode;
     }
-
-    private void deleteReward(HttpServletRequest request, HttpServletResponse response) {
-        EmpReward empReward = empRewardFacade.find(Integer.parseInt(request.getParameter("id")));
-        empRewardFacade.remove(empReward);    }
-
-    private String reward2json(EmpReward empReward) {
- String s = "{";
-
-        s += "\"" + "col1" + "\"" + ":" + "\"" + empReward.getKind() + "\"";
-        s += ",";
-        s += "\"" + "col2" + "\"" + ":" + "\"" + empReward.getAmount() + "\"";
-        s += ",";
-        s += "\"" + "col3" + "\"" + ":" + "\"" + " " + "\"";
-        s += ",";
-        s += "\"" + "col4" + "\"" + ":" + "\"" + " " + "\"";
-        s += ",";
-        s += "\"" + "col5" + "\"" + ":" + "\"" + " " + "\"";
-        s += ",";
-        s += "\"" + "col6" + "\"" + ":" + "\"" + empReward.getDoctype() + "\"";
-        s += ",";
-        s += "\"" + "col7" + "\"" + ":" + "\"" + empReward.getDocnumber() + "\"";
-        s += ",";
-        s += "\"" + "col8" + "\"" + ":" + "\"" + vSDF2.format(empReward.getDocdate()) + "\"";
-        s += ",";
-        s += "\"" + "row_d" + "\"" + ":" + "\"" + "<input type='button' value='حذف' name='delete_b' onclick='show_delete_dialog_reward(" + empReward.getId() + ")'/>" + "\"";
-        s += "}";
-
-        return s;    }
-
 }

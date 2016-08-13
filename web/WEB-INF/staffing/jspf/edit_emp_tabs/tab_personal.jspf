@@ -1,11 +1,15 @@
 <%-- any content can be specified here e.g.: --%>
 <%@ page pageEncoding="UTF-8" %>
+<%-- for the empId in ajaxify.js to be sent with the details--%>
+<script> empId = ${employee.id};</script>
+
+
 <form id="personalInfoEditForm" method="post"  accept-charset="UTF-8"  action="<c:url value='editEmployee'/>">
     <h3>بيانات شخصية:<hr></h3>
     <table >
         <tbody>
             <tr>
-                <input type="text" name="id" hidden="hidden" value="${employee.id}"/>
+                <input type="text" name="id" hidden="hidden" value="${employee.id}" tabindex="1" autofocus/>
                 <td>الاسم:</td>
                 <td><input type="text" name="firstname" value="${employee.firstname}"></td>
 

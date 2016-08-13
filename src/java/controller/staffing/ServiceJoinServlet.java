@@ -23,84 +23,67 @@ import session.EmployeeFacade;
  *
  * @author TUHAMA
  */
-@WebServlet(name = "ServiceJoinServlet", urlPatterns = {"/addServiceJoin","/editServiceJoin","/deleteServiceJoin"})
+@WebServlet(name = "ServiceJoinServlet", urlPatterns = {"/addServiceJoin", "/editServiceJoin", "/deleteServiceJoin"})
 public class ServiceJoinServlet extends HttpServlet {
 
     public static final int INSERT_MODE = 0;
     public static final int UPDATE_MODE = 1;
     public static final int REPORT_MODE = 2;
 
-    
-
     //to know if the operation is update or insert to the database
     private static int op_mode = INSERT_MODE;
-    
+
     private Employee employee = new Employee();
-    
+
     private final SimpleDateFormat vSDF2 = new SimpleDateFormat("dd/MM/yyyy");
     private final SimpleDateFormat vSDF = new SimpleDateFormat("yyyy-MM-dd");
-        @EJB
+    @EJB
     private EmployeeFacade employeeFacade;
-        @EJB
+    @EJB
     private EmpServicejoinFacade empServicejoinFacade;
-   
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-       
-    }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        employee=(Employee)getServletContext().getAttribute("current_employee");
-      String userPath = request.getServletPath();
+        employee = (Employee) getServletContext().getAttribute("current_employee");
+        String userPath = request.getServletPath();
 
         try {
             switch (userPath) {
 
                 case "/addServiceJoin": {
-                    insertServiceJoin(request, response);
+                    setOp_mode(INSERT_MODE);
+                    flushServiceJoin(request, response);
                     break;
                 }
                 case "/editServiceJoin": {
-                    //insertServiceJoin(request);
+                    setOp_mode(UPDATE_MODE);
+                    flushServiceJoin(request, response);
                     break;
                 }
                 case "/deleteServiceJoin": {
-                   deleteServiceJoin(request,response);
+                    deleteServiceJoin(request, response);
                     break;
                 }
             }
-
-            //response.sendRedirect(url);
-            //} catch (NumberFormatException | ParseException | IOException ex) {
         } catch (NumberFormatException | ParseException ex) {
             ex.printStackTrace();
         }
     }
 
- private void insertServiceJoin(HttpServletRequest request, HttpServletResponse response) throws NumberFormatException, ParseException {
+    private void flushServiceJoin(HttpServletRequest request, HttpServletResponse response) throws ParseException, NumberFormatException {
+
+        if (request.getParameter("currentEmp") != null) {
+            employee = employeeFacade.find(Integer.parseInt(request.getParameter("currentEmp").trim()));
+        } else {
+            employee = (Employee) getServletContext().getAttribute("employee");
+        }
 
         EmpServicejoin empServiceJ = new EmpServicejoin();
+        if (request.getParameter("id") != null) {
+            empServiceJ = empServicejoinFacade.find(Integer.parseInt(request.getParameter("id")));
+        }
         empServiceJ.setDaysduration(Short.parseShort(request.getParameter("daysduration")));
         empServiceJ.setMonthsduration(Short.parseShort(request.getParameter("monthsduration")));
         empServiceJ.setPlaceofservice(request.getParameter("placeofservice"));
@@ -109,19 +92,56 @@ public class ServiceJoinServlet extends HttpServlet {
         empServiceJ.setDoctype(request.getParameter("doctype"));
         employee = employeeFacade.find(Integer.parseInt(request.getParameter("currentEmp").trim()));
         empServiceJ.setEmployeeId(employee);
-        empServicejoinFacade.create(empServiceJ);
-        try {
+        String json;
+        if (getOp_mode() == INSERT_MODE) {
+            empServicejoinFacade.create(empServiceJ);
+            employee.getEmpServicejoinCollection().add(empServiceJ);
+            getServletContext().setAttribute("emp_service_js", employee.getEmpServicejoinCollection());
 
-            String json = service2json(empServiceJ);
-            response.setContentType("text/plain;charset=UTF-8");
-            response.setHeader("Cache-Control", "no-cache");
-            response.getWriter().write(json);
+            json = service2json(empServiceJ);
 
-        } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+        } else {
+            json = "ok";
+            empServicejoinFacade.edit(empServiceJ);
         }
 
+        try {
+            response.setContentType("text/plain;charset=UTF-8");
+            response.setHeader("Cache-Control", "no-cache");
+            /////no space befor or after..it causes problems with json parsing
+            response.getWriter().write(json);
+
+        } catch (IOException ex) {
+            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+        }
     }
+
+    private String service2json(EmpServicejoin empServiceJ) {
+        String s = "{";
+        s += "\"" + "id" + "\"" + ":" + "\"" + empServiceJ.getId() + "\"";
+        s += ",";
+        s += "\"" + "placeofservice" + "\"" + ":" + "\"" + empServiceJ.getPlaceofservice() + "\"";
+        s += ",";
+        s += "\"" + "daysduration" + "\"" + ":" + "\"" + empServiceJ.getDaysduration() + "\"";
+        s += ",";
+        s += "\"" + "monthsduration" + "\"" + ":" + "\"" + empServiceJ.getMonthsduration() + "\"";
+        s += ",";
+        s += "\"" + "doctype" + "\"" + ":" + "\"" + empServiceJ.getDoctype() + "\"";
+        s += ",";
+        s += "\"" + "docnumber" + "\"" + ":" + "\"" + empServiceJ.getDocnumber() + "\"";
+        s += ",";
+        s += "\"" + "docdate" + "\"" + ":" + "\"" + vSDF2.format(empServiceJ.getDocdate()) + "\"";
+        s += "}";
+
+        return s;
+    }
+
+    private void deleteServiceJoin(HttpServletRequest request, HttpServletResponse response) {
+
+        EmpServicejoin empServiceJ = empServicejoinFacade.find(Integer.parseInt(request.getParameter("id")));
+        empServicejoinFacade.remove(empServiceJ);
+    }
+
     /**
      * @return the op_mode
      */
@@ -135,36 +155,5 @@ public class ServiceJoinServlet extends HttpServlet {
     public static void setOp_mode(int mode) {
         op_mode = mode;
     }
-
-    private void deleteServiceJoin(HttpServletRequest request, HttpServletResponse response) {
-
-        EmpServicejoin empServiceJ = empServicejoinFacade.find(Integer.parseInt(request.getParameter("id")));
-        empServicejoinFacade.remove(empServiceJ);
-    }   
-    
-    
-    private String service2json(EmpServicejoin empServiceJ) {
- String s = "{";
-
-        s += "\"" + "col1" + "\"" + ":" + "\"" + empServiceJ.getPlaceofservice() + "\"";
-        s += ",";
-        s += "\"" + "col2" + "\"" + ":" + "\"" + empServiceJ.getDaysduration()+ "\"";
-        s += ",";
-        s += "\"" + "col3" + "\"" + ":" + "\"" + empServiceJ.getMonthsduration() + "\"";
-        s += ",";
-        s += "\"" + "col4" + "\"" + ":" + "\"" + " " + "\"";
-        s += ",";
-        s += "\"" + "col5" + "\"" + ":" + "\"" + " " + "\"";
-        s += ",";
-        s += "\"" + "col6" + "\"" + ":" + "\"" + empServiceJ.getDoctype() + "\"";
-        s += ",";
-        s += "\"" + "col7" + "\"" + ":" + "\"" + empServiceJ.getDocnumber() + "\"";
-        s += ",";
-        s += "\"" + "col8" + "\"" + ":" + "\"" + vSDF2.format(empServiceJ.getDocdate()) + "\"";
-        s += ",";
-        s += "\"" + "row_d" + "\"" + ":" + "\"" + "<input type='button' value='حذف' name='delete_b' onclick='show_delete_dialog_service(" + empServiceJ.getId() + ")'/>" + "\"";
-        s += "}";
-
-        return s;    }
 
 }

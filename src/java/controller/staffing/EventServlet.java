@@ -12,8 +12,6 @@ import java.io.IOException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 
 import javax.servlet.ServletException;
@@ -86,23 +84,10 @@ public class EventServlet extends HttpServlet {
                     break;
                 }
             }
-
-            //response.sendRedirect(url);
-            //} catch (NumberFormatException | ParseException | IOException ex) {
         } catch (NumberFormatException | ParseException ex) {
             ex.printStackTrace();
         }
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 
     private void flushEvent(HttpServletRequest request, HttpServletResponse response) throws NumberFormatException, ParseException {
 
@@ -130,36 +115,27 @@ public class EventServlet extends HttpServlet {
         // employee = employeeFacade.find(Integer.parseInt(request.getParameter("currentEmp").trim()));
         empEvent.setEmployeeId(employee);
 
+        String json;
         if (getOp_mode() == INSERT_MODE) {
-            try {
-                empEventFacade.create(empEvent);
+            empEventFacade.create(empEvent);
+            employee.getEmpEventCollection().add(empEvent);
+            getServletContext().setAttribute("emp_events", employee.getEmpEventCollection());
 
-                employee.getEmpEventCollection().add(empEvent);
-                getServletContext().setAttribute("emp_events", employee.getEmpEventCollection());
-
-                //Gson gson = new  GsonBuilder().setExclusionStrategies(new JsonExcludeStrategy()).create();
-                // gson.toJsonTree(empEvent).getAsJsonObject().remove("employeeId");
-                //String json = gson.toJson(empEvent);
-                String json = evet2json(empEvent);
-                response.setContentType("text/plain;charset=UTF-8");
-                response.setHeader("Cache-Control", "no-cache");
-/////no space befor or after..it causes problems with json parsing
-                response.getWriter().write(json);
-
-            } catch (Exception e) {
-                response.setStatus(HttpServletResponse.SC_NO_CONTENT);
-            }
+            json = evet2json(empEvent);
 
         } else {
-            try {
-                response.setContentType("text/plain;charset=UTF-8");
-                response.setHeader("Cache-Control", "no-cache");
-/////no space befor or after..it causes problems with json parsing
-                response.getWriter().write("ok");
-                empEventFacade.edit(empEvent);
-            } catch (IOException ex) {
-                response.setStatus(HttpServletResponse.SC_NO_CONTENT);
-            }
+            json = "ok";
+            empEventFacade.edit(empEvent);
+        }
+
+        try {
+            response.setContentType("text/plain;charset=UTF-8");
+            response.setHeader("Cache-Control", "no-cache");
+            /////no space befor or after..it causes problems with json parsing
+            response.getWriter().write(json);
+
+        } catch (IOException ex) {
+            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         }
 
     }
@@ -211,62 +187,4 @@ public class EventServlet extends HttpServlet {
 
         return s;
     }
-
-    //  {"att":"val",...}
-
-    private String evet2json_temp(EmpEvent event) {
-
-        /*        Class<?> c = event.getClass();
-         Field[] fields = c.getDeclaredFields();
-         for (Field field : fields) {
-         try {
-         if (!field.getName().equals("employeeId") && !field.getName().equals("serialVersionUID")) {
-         s += "\"" + field.getName() + "\"" + ":" + "\"" + field.get(event) + "\"";
-         s += ",";
-         }
-        
-         } catch (IllegalArgumentException | IllegalAccessException e1) {
-         }
-         }*/
-        String s = "{";
-        //   s += "\"" + "id" + "\"" + ":" + "\"" + event.getId() + "\"";
-        //  s += ","; 
-        /*        s += "\"" + "position" + "\"" + ":" + "\"" + event.getPositionId().getName() + "\"";
-         s += ",";
-         s += "\"" + "name" + "\"" + ":" + "\"" + event.getName() + "\"";
-         s += ",";
-         s += "\"" + "startdate" + "\"" + ":" + "\"" + event.getStartdate() + "\"";
-         s += ",";
-         s += "\"" + "salary" + "\"" + ":" + "\"" + event.getSalary() + "\"";
-         s += ",";
-         s += "\"" + "category" + "\"" + ":" + "\"" + event.getCategory() + "\"";
-         s += ",";
-         s += "\"" + "doctype" + "\"" + ":" + "\"" + event.getDoctype() + "\"";
-         s += ",";
-         s += "\"" + "docnumber" + "\"" + ":" + "\"" + event.getDocnumber() + "\"";
-         s += ",";
-         s += "\"" + "docdate" + "\"" + ":" + "\"" + event.getDocdate() + "\"";*/
-        s += "\"" + "positionId" + "\"" + ":" + "\"" + event.getPositionId().getName() + "\"";
-        s += ",";
-        s += "\"" + "name" + "\"" + ":" + "\"" + event.getName() + "\"";
-        s += ",";
-        s += "\"" + "startdate" + "\"" + ":" + "\"" + vSDF2.format(event.getStartdate()) + "\"";
-        s += ",";
-        s += "\"" + "salary" + "\"" + ":" + "\"" + event.getSalary() + "\"";
-        s += ",";
-        s += "\"" + "category" + "\"" + ":" + "\"" + event.getCategory() + "\"";
-        s += ",";
-        s += "\"" + "doctype" + "\"" + ":" + "\"" + event.getDoctype() + "\"";
-        s += ",";
-        s += "\"" + "docnumber" + "\"" + ":" + "\"" + event.getDocnumber() + "\"";
-        s += ",";
-        s += "\"" + "docdate" + "\"" + ":" + "\"" + vSDF2.format(event.getDocdate()) + "\"";
-        s += ",";
-        s += "\"" + "row_d" + "\"" + ":" + "\"" + "<input type='button' value='حذف' name='delete_b' onclick='show_delete_dialog_event(" + event.getId() + ")'/>" + "\"";
-        s += "}";
-
-        //System.out.println(s);
-        return s;
-    }
-
 }

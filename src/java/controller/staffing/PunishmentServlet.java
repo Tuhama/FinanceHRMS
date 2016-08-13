@@ -64,11 +64,13 @@ public class PunishmentServlet extends HttpServlet {
             switch (userPath) {
 
                 case "/addPunishment": {
-                    insertPunishment(request, response);
+                    setOp_mode(INSERT_MODE);
+                    flushPunishment(request, response);
                     break;
                 }
                 case "/editPunishment": {
-                    //insertPunishment(request);
+                    setOp_mode(UPDATE_MODE);
+                    flushPunishment(request, response);
                     break;
                 }
                 case "/deletePunishment": {
@@ -84,9 +86,18 @@ public class PunishmentServlet extends HttpServlet {
         }
     }
 
-    private void insertPunishment(HttpServletRequest request, HttpServletResponse response) throws NumberFormatException, ParseException {
+    private void flushPunishment(HttpServletRequest request, HttpServletResponse response) throws ParseException, NumberFormatException {
+
+        if (request.getParameter("currentEmp") != null) {
+            employee = employeeFacade.find(Integer.parseInt(request.getParameter("currentEmp").trim()));
+        } else {
+            employee = (Employee) getServletContext().getAttribute("employee");
+        }
 
         EmpPunishment empPunishment = new EmpPunishment();
+        if (request.getParameter("id") != null) {
+            empPunishment = empPunishmentFacade.find(Integer.parseInt(request.getParameter("id")));
+        }
         Typepunishment punishment_type = typePunishmentFacade.find(Short.parseShort(request.getParameter("typepunishment_id")));
         empPunishment.setReason(request.getParameter("reason"));
         empPunishment.setDate(vSDF.parse(request.getParameter("date")));
@@ -96,29 +107,55 @@ public class PunishmentServlet extends HttpServlet {
         empPunishment.setTypepunishmentId(punishment_type);
         employee = employeeFacade.find(Integer.parseInt(request.getParameter("currentEmp").trim()));
         empPunishment.setEmployeeId(employee);
-        empPunishmentFacade.create(empPunishment);
-        try {
 
-            String json = punishment2json(empPunishment);
-            response.setContentType("text/plain;charset=UTF-8");
-            response.setHeader("Cache-Control", "no-cache");
-            response.getWriter().write(json);
+        String json;
+        if (getOp_mode() == INSERT_MODE) {
+            empPunishmentFacade.create(empPunishment);
+            employee.getEmpPunishmentCollection().add(empPunishment);
+            getServletContext().setAttribute("emp_punishments", employee.getEmpPunishmentCollection());
 
-        } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+            json = punishment2json(empPunishment);
+
+        } else {
+            json = "ok";
+            empPunishmentFacade.edit(empPunishment);
         }
 
+        try {
+            response.setContentType("text/plain;charset=UTF-8");
+            response.setHeader("Cache-Control", "no-cache");
+            /////no space befor or after..it causes problems with json parsing
+            response.getWriter().write(json);
+
+        } catch (IOException ex) {
+            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+        }
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+    private String punishment2json(EmpPunishment empPunishment) {
+        String s = "{";
+        s += "\"" + "id" + "\"" + ":" + "\"" + empPunishment.getId() + "\"";
+        s += ",";
+        s += "\"" + "typepunishment_id" + "\"" + ":" + "\"" + empPunishment.getTypepunishmentId().getName() + "\"";
+        s += ",";
+        s += "\"" + "reason" + "\"" + ":" + "\"" + empPunishment.getReason() + "\"";
+        s += ",";
+        s += "\"" + "date" + "\"" + ":" + "\"" + vSDF2.format(empPunishment.getDate()) + "\"";
+        s += ",";
+        s += "\"" + "doctype" + "\"" + ":" + "\"" + empPunishment.getDoctype() + "\"";
+        s += ",";
+        s += "\"" + "docnumber" + "\"" + ":" + "\"" + empPunishment.getDocnumber() + "\"";
+        s += ",";
+        s += "\"" + "docdate" + "\"" + ":" + "\"" + vSDF2.format(empPunishment.getDocdate()) + "\"";
+        s += "}";
+
+        return s;
+    }
+
+    private void deletePunishment(HttpServletRequest request, HttpServletResponse response) {
+        EmpPunishment empPunishment = empPunishmentFacade.find(Integer.parseInt(request.getParameter("id")));
+        empPunishmentFacade.remove(empPunishment);
+    }
 
     /**
      * @return the op_mode
@@ -133,34 +170,5 @@ public class PunishmentServlet extends HttpServlet {
     public static void setOp_mode(int mode) {
         op_mode = mode;
     }
-
-    private void deletePunishment(HttpServletRequest request, HttpServletResponse response) {
-        EmpPunishment empPunishment = empPunishmentFacade.find(Integer.parseInt(request.getParameter("id")));
-        empPunishmentFacade.remove(empPunishment);
-    }
-
-    private String punishment2json(EmpPunishment empPunishment) {
- String s = "{";
-
-        s += "\"" + "col1" + "\"" + ":" + "\"" + empPunishment.getTypepunishmentId().getName() + "\"";
-                s += ",";
-        s += "\"" + "col4" + "\"" + ":" + "\"" + empPunishment.getReason() + "\"";
-        s += ",";
-        s += "\"" + "col2" + "\"" + ":" + "\"" + vSDF2.format(empPunishment.getDate()) + "\"";
-        s += ",";
-        s += "\"" + "col3" + "\"" + ":" + "\"" + " " + "\"";
-        s += ",";
-        s += "\"" + "col5" + "\"" + ":" + "\"" + " " + "\"";
-        s += ",";
-        s += "\"" + "col6" + "\"" + ":" + "\"" + empPunishment.getDoctype() + "\"";
-        s += ",";
-        s += "\"" + "col7" + "\"" + ":" + "\"" + empPunishment.getDocnumber() + "\"";
-        s += ",";
-        s += "\"" + "col8" + "\"" + ":" + "\"" + vSDF2.format(empPunishment.getDocdate()) + "\"";
-        s += ",";
-        s += "\"" + "row_d" + "\"" + ":" + "\"" + "<input type='button' value='حذف' name='delete_b' onclick='show_delete_dialog_punishment(" + empPunishment.getId() + ")'/>" + "\"";
-        s += "}";
-
-        return s;    }
 
 }

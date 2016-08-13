@@ -2,7 +2,7 @@
 $(function () {
     $("[id$='dialog']").dialog({
         autoOpen: false,
-        width: 'auto',
+        width: 'auto'
     });
 });
 
@@ -14,6 +14,7 @@ jQuery(document).ready(function () {
 
     prepareDataTables();
 
+    //validate_forms();
 });
 
 
@@ -103,7 +104,10 @@ function formatDate(ds)
     var st = d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate();
     return st;
 }
-/*
+
+
+
+//used by indexing pages
 function show_edit_dialog(id, name)
 {
     document.getElementById("e_d_id").value = id;
@@ -118,4 +122,5 @@ function show_delete_dialog(id)
 function show_add_dialog()
 {
     $("#add_dialog").dialog("open");
-}*/
+}
+

@@ -35,67 +35,67 @@ function overrideSubmits() {
     $("form#unpaidVForm").submit(function (event) {
         createEmpDetail("addUnpaidV", $("form#unpaidVForm").serialize());
         event.preventDefault();
-        currentDataTable = $('#addUnpaidV_table');
+        currentDataTable = $('#unpaidV_table');
     });
     $("form#deleteUnpaidV_form").submit(function (event) {
         deleteEmpDetail("deleteUnpaidV", $("form#deleteUnpaidV_form").serialize());
         event.preventDefault();
-        currentDataTable = $('#addUnpaidV_table');
+        currentDataTable = $('#unpaidV_table');
     });
 
     $("form#serviceJoinForm").submit(function (event) {
         createEmpDetail("addServiceJoin", $("form#serviceJoinForm").serialize());
         event.preventDefault();
-        currentDataTable = $('#addServiceJoin_table');
+        currentDataTable = $('#serviceJoin_table');
     });
     $("form#deleteServiceJoin_form").submit(function (event) {
         deleteEmpDetail("deleteUnpaidV", $("form#deleteServiceJoin_form").serialize());
         event.preventDefault();
-        currentDataTable = $('#addServiceJoin_table');
+        currentDataTable = $('#serviceJoin_table');
     });
 
     $("form#healthLeavForm").submit(function (event) {
         createEmpDetail("addHealthLeave", $("form#healthLeavForm").serialize());
         event.preventDefault();
-        currentDataTable = $('#addHealthLeave_table');
+        currentDataTable = $('#healthLeave_table');
     });
     $("form#deleteHealthLeave_form").submit(function (event) {
         deleteEmpDetail("deleteHealthLeave", $("form#deleteHealthLeave_form").serialize());
         event.preventDefault();
-        currentDataTable = $('#addHealthLeave_table');
+        currentDataTable = $('#healthLeave_table');
     });
 
     $("form#trainingForm").submit(function (event) {
         createEmpDetail("addTraining", $("form#trainingForm").serialize());
         event.preventDefault();
-        currentDataTable = $('#addTraining_table');
+        currentDataTable = $('#training_table');
     });
     $("form#deleteTraining_form").submit(function (event) {
         deleteEmpDetail("deleteTraining", $("form#deleteTraining_form").serialize());
         event.preventDefault();
-        currentDataTable = $('#addTraining_table');
+        currentDataTable = $('#training_table');
     });
 
     $("form#rewardForm").submit(function (event) {
         createEmpDetail("addReward", $("form#rewardForm").serialize());
         event.preventDefault();
-        currentDataTable = $('addReward_table');
+        currentDataTable = $('#reward_table');
     });
     $("form#deleteReward_form").submit(function (event) {
         deleteEmpDetail("deleteReward", $("form#deleteReward_form").serialize());
         event.preventDefault();
-        currentDataTable = $('#addReward_table');
+        currentDataTable = $('#reward_table');
     });
 
     $("form#punishmentForm").submit(function (event) {
         createEmpDetail("addPunishment", $("form#punishmentForm").serialize());
         event.preventDefault();
-        currentDataTable = $('#addPunishment_table');
+        currentDataTable = $('#punishment_table');
     });
     $("form#deletePunishment_form").submit(function (event) {
         deleteEmpDetail("deletePunishment", $("form#deletePunishment_form").serialize());
         event.preventDefault();
-        currentDataTable = $('#addPunishment_table');
+        currentDataTable = $('#punishment_table');
     });
 }
 
@@ -170,7 +170,7 @@ function callbackEditDetail() {
             //edit the table row
             //currentDataTable.DataTable().row.add($.parseJSON(req.responseText)).draw(false);
             ///this didn't work  var is not obj it seems!!      >>>  $('#addEvent_table').DataTable().row.add( responseJson ).draw(false);
-            edit_table_row();
+            edit_table_row(currentDataTable);
             alert("تم التعديل بنجاح");
             
         }

@@ -53,7 +53,7 @@ public class SearchServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        request.setCharacterEncoding("UTF-8");
         String userPath = request.getServletPath();
 
         switch (userPath) {
@@ -74,7 +74,7 @@ public class SearchServlet extends HttpServlet {
                     case "lookup":
                         int targetEmpId = Integer.parseInt(request.getParameter("id").trim().toLowerCase());
                         // setEmployeeInfo(targetEmpId);
-                       // java.sql.Connection conn = getJDBCConnection();//em.unwrap(java.sql.Connection.class);
+                        // java.sql.Connection conn = getJDBCConnection();//em.unwrap(java.sql.Connection.class);
                         // JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(employeeFacade.find(em));
                         getServletContext().setAttribute("emp_id", targetEmpId);
                         getServletContext().getRequestDispatcher("/WEB-INF/reporting/reports/employeeReport.jsp").forward(request, response);
@@ -147,7 +147,7 @@ public class SearchServlet extends HttpServlet {
                 writer.writeArray(a.build());
             }
 
-            response.setContentType("text/json");
+            response.setContentType("text/json;charset=UTF-8");
             response.setHeader("Cache-Control", "no-cache");
             response.getWriter().write(stringWriter.getBuffer().toString());
         }

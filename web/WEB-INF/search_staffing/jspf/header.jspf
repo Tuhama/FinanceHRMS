@@ -9,7 +9,8 @@
         <title>برنامج ذاتيات الموظفين</title>
         <link rel="stylesheet" type="text/css" href="css/hrms.css"/>
 
-        <script src="/HRMS_2/js/jquery-1.11.3.min.js" type="text/javascript"></script>    
+ 
+        <script src="/HRMS_2/js/jquery-1.12.3.js" type="text/javascript"></script>
         <script src="/HRMS_2/js/ajax_search_staffing.js" type="text/javascript"></script>
     </head>
 

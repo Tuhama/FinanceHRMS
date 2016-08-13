@@ -32,7 +32,6 @@ public class UnpaidVacationServlet extends HttpServlet {
     public static final int UPDATE_MODE = 1;
     public static final int REPORT_MODE = 2;
 
-    //to know if the operation is update or insert to the database
     private static int op_mode = INSERT_MODE;
 
     private Employee employee = new Employee();
@@ -47,29 +46,6 @@ public class UnpaidVacationServlet extends HttpServlet {
     @EJB
     private EmployeeFacade employeeFacade;
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -81,11 +57,13 @@ public class UnpaidVacationServlet extends HttpServlet {
             switch (userPath) {
 
                 case "/addUnpaidV": {
-                    insertUnpaidVacation(request, response);
+                    setOp_mode(INSERT_MODE);
+                    flushUnpaidVacation(request, response);
                     break;
                 }
                 case "/editUnpaidV": {
-                    //insertUnpaidVacation(request);
+                    setOp_mode(UPDATE_MODE);
+                    flushUnpaidVacation(request, response);
                     break;
                 }
                 case "/deleteUnpaidV": {
@@ -94,26 +72,23 @@ public class UnpaidVacationServlet extends HttpServlet {
                 }
             }
 
-            //response.sendRedirect(url);
-            //} catch (NumberFormatException | ParseException | IOException ex) {
         } catch (NumberFormatException | ParseException ex) {
             ex.printStackTrace();
         }
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+    private void flushUnpaidVacation(HttpServletRequest request, HttpServletResponse response) throws ParseException, NumberFormatException {
 
-    private void insertUnpaidVacation(HttpServletRequest request, HttpServletResponse response) throws NumberFormatException, ParseException {
+        if (request.getParameter("currentEmp") != null) {
+            employee = employeeFacade.find(Integer.parseInt(request.getParameter("currentEmp").trim()));
+        } else {
+            employee = (Employee) getServletContext().getAttribute("employee");
+        }
 
         EmpUnpaidvacation empUnpaidV = new EmpUnpaidvacation();
+        if (request.getParameter("id") != null) {
+            empUnpaidV = empUnpaidvacationFacade.find(Integer.parseInt(request.getParameter("id")));
+        }
         Typeunpaidvacation v_type = typeUnpaidVacationFacade.find(Short.parseShort(request.getParameter("typeunpaidvacation_id")));
         empUnpaidV.setTypeunpaidvacationId(v_type);
         //checkbox value isn't sent when the checkbox is not checked
@@ -130,18 +105,57 @@ public class UnpaidVacationServlet extends HttpServlet {
         empUnpaidV.setDoctype(request.getParameter("doctype"));
         employee = employeeFacade.find(Integer.parseInt(request.getParameter("currentEmp").trim()));
         empUnpaidV.setEmployeeId(employee);
-        empUnpaidvacationFacade.create(empUnpaidV);
-        try {
+        String json;
+        if (getOp_mode() == INSERT_MODE) {
+            empUnpaidvacationFacade.create(empUnpaidV);
+            employee.getEmpUnpaidvacationCollection().add(empUnpaidV);
+            getServletContext().setAttribute("emp_unpaid_vs", employee.getEmpUnpaidvacationCollection());
 
-            String json = unpaidV2json(empUnpaidV);
-            response.setContentType("text/plain;charset=UTF-8");
-            response.setHeader("Cache-Control", "no-cache");
-            response.getWriter().write(json);
+            json = unpaidV2json(empUnpaidV);
 
-        } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+        } else {
+            json = "ok";
+            empUnpaidvacationFacade.edit(empUnpaidV);
         }
 
+        try {
+            response.setContentType("text/plain;charset=UTF-8");
+            response.setHeader("Cache-Control", "no-cache");
+            /////no space befor or after..it causes problems with json parsing
+            response.getWriter().write(json);
+
+        } catch (IOException ex) {
+            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+        }
+    }
+
+    private String unpaidV2json(EmpUnpaidvacation empUnpaidV) {
+        String s = "{";
+        s += "\"" + "id" + "\"" + ":" + "\"" + empUnpaidV.getId() + "\"";
+        s += ",";
+        s += "\"" + "typeunpaidvacationId" + "\"" + ":" + "\"" + empUnpaidV.getTypeunpaidvacationId().getName() + "\"";
+        s += ",";
+        s += "\"" + "startdate" + "\"" + ":" + "\"" + vSDF2.format(empUnpaidV.getStartdate()) + "\"";
+        s += ",";
+        s += "\"" + "enddate" + "\"" + ":" + "\"" + vSDF2.format(empUnpaidV.getEnddate()) + "\"";
+        s += ",";
+        s += "\"" + "reason" + "\"" + ":" + "\"" + empUnpaidV.getReason() + "\"";
+        s += ",";
+        s += "\"" + "folding" + "\"" + ":" + "\"" +" <input type='checkbox' editable='false' checked='"+empUnpaidV.getFolding()+"'>"+ "\"";
+        s += ",";
+        s += "\"" + "doctype" + "\"" + ":" + "\"" + empUnpaidV.getDoctype() + "\"";
+        s += ",";
+        s += "\"" + "docnumber" + "\"" + ":" + "\"" + empUnpaidV.getDocnumber() + "\"";
+        s += ",";
+        s += "\"" + "docdate" + "\"" + ":" + "\"" + vSDF2.format(empUnpaidV.getDocdate()) + "\"";
+        s += "}";
+
+        return s;
+    }
+
+    private void deleteUnpaidVacation(HttpServletRequest request, HttpServletResponse response) {
+        EmpUnpaidvacation empUnpaidV = empUnpaidvacationFacade.find(Integer.parseInt(request.getParameter("id")));
+        empUnpaidvacationFacade.remove(empUnpaidV);
     }
 
     /**
@@ -157,34 +171,5 @@ public class UnpaidVacationServlet extends HttpServlet {
     public static void setOp_mode(int mode) {
         op_mode = mode;
     }
-
-    private void deleteUnpaidVacation(HttpServletRequest request, HttpServletResponse response) {
-        EmpUnpaidvacation empUnpaidV = empUnpaidvacationFacade.find(Integer.parseInt(request.getParameter("id")));
-        empUnpaidvacationFacade.remove(empUnpaidV);
-    }
-
-    private String unpaidV2json(EmpUnpaidvacation empUnpaidV) {
- String s = "{";
-
-        s += "\"" + "col1" + "\"" + ":" + "\"" + empUnpaidV.getTypeunpaidvacationId().getName() + "\"";
-        s += ",";
-        s += "\"" + "col2" + "\"" + ":" + "\"" + vSDF2.format(empUnpaidV.getStartdate()) + "\"";
-        s += ",";
-        s += "\"" + "col3" + "\"" + ":" + "\"" + vSDF2.format(empUnpaidV.getEnddate()) + "\"";
-        s += ",";
-        s += "\"" + "col4" + "\"" + ":" + "\"" + empUnpaidV.getReason() + "\"";
-        s += ",";
-        s += "\"" + "col5" + "\"" + ":" + "\"" + empUnpaidV.getFolding() + "\"";
-        s += ",";
-        s += "\"" + "col6" + "\"" + ":" + "\"" + empUnpaidV.getDoctype() + "\"";
-        s += ",";
-        s += "\"" + "col7" + "\"" + ":" + "\"" + empUnpaidV.getDocnumber() + "\"";
-        s += ",";
-        s += "\"" + "col8" + "\"" + ":" + "\"" + vSDF2.format(empUnpaidV.getDocdate()) + "\"";
-        s += ",";
-        s += "\"" + "row_d" + "\"" + ":" + "\"" + "<input type='button' value='حذف' name='delete_b' onclick='show_delete_dialog_UnpaidV(" + empUnpaidV.getId() + ")'/>" + "\"";
-        s += "}";
-
-        return s;    }
 
 }

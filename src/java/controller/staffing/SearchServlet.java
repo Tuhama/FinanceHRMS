@@ -5,8 +5,6 @@
  */
 package controller.staffing;
 
-
-
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.List;
@@ -31,8 +29,6 @@ import session.EmployeeFacade;
 import entity.Employee;
 import entity.Employee_;
 
-
-
 /**
  *
  * @author Tuhama
@@ -43,8 +39,6 @@ import entity.Employee_;
             "/searchStaffingEmp"})
 public class SearchServlet extends HttpServlet {
 
-
-
     private Employee employee = new Employee();
 
     @PersistenceContext(unitName = "HRMSPU")
@@ -53,12 +47,11 @@ public class SearchServlet extends HttpServlet {
     @EJB
     private EmployeeFacade employeeFacade;
 
-
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        request.setCharacterEncoding("UTF-8");
+        
         String userPath = request.getServletPath();
 
         switch (userPath) {
@@ -70,14 +63,14 @@ public class SearchServlet extends HttpServlet {
 
             case "/searchStaffingEmp":
                 String action = request.getParameter("action");
-                
+
                 switch (action) {
                     //اكمال تلقائي..يعيد قائمة الموظفين الذين لديهم اسم مشابه
                     case "complete":
                         String targetEmpStr = request.getParameter("id").trim().toLowerCase();
                         sendMatchingEmployees(targetEmpStr, response);
                         break;
-                        //بعد اختيار موظف محدد نقوم بإعادة بيناته كاملة والتوجه الى صفحة التعديل
+                    //بعد اختيار موظف محدد نقوم بإعادة بيناته كاملة والتوجه الى صفحة التعديل
                     case "lookup":
                         String targetEmpId = request.getParameter("id").trim().toLowerCase();
                         setEmployeeInfo(targetEmpId);
@@ -87,7 +80,6 @@ public class SearchServlet extends HttpServlet {
                 break;
         }
 
-        
     }
 
     private void setEmployeeInfo(String targetId) throws NumberFormatException {
@@ -102,8 +94,6 @@ public class SearchServlet extends HttpServlet {
         getServletContext().setAttribute("emp_events", employee.getEmpEventCollection());
 
     }
-
-
 
     //send the search results to user
     private void sendMatchingEmployees(String emp_name, HttpServletResponse response) throws IOException {
@@ -134,7 +124,7 @@ public class SearchServlet extends HttpServlet {
                 writer.writeArray(a.build());
             }
 
-            response.setContentType("text/json");
+            response.setContentType("text/json;charset=UTF-8");
             response.setHeader("Cache-Control", "no-cache");
             response.getWriter().write(stringWriter.getBuffer().toString());
         }

@@ -12,11 +12,24 @@ function prepareDataTables()
             $(_row).addClass('selected');
         }
     });
-    
-    
-    
-    
-    var e_table = $("#event_table").DataTable({
+
+
+    $("[id$='_table'] tbody").on('click', 'button', function () {
+        //
+        var _row = $(this).parents("tr");
+        var _tables = $(this).parents("table");
+        var _table = _tables[0];
+
+        var data = $(_table).DataTable().row($(_row)[0]).data();
+
+        if ($(this).attr('name') === 'edit_b')
+            show_detail_edit_dialog(_table, data);
+        else if ($(this).attr('name') === 'delete_b')
+            show_detail_delete_dialog(_table, data['id']);
+    });
+
+
+    $("#event_table").DataTable({
         "language": {
             "search": "بحث",
             "info": " _START_ إلى _END_ / _TOTAL_ ",
@@ -45,7 +58,6 @@ function prepareDataTables()
             {"data": "doctype"},
             {"data": "docnumber"},
             {"data": "docdate"},
-          //  {"data": "row_d"},
             {"data": null,
                 "defaultContent": "<button name='edit_b'>تعديل</button>"},
             {"data": null,
@@ -53,17 +65,7 @@ function prepareDataTables()
         ]
     });
 
-    
-    $('#event_table tbody').on('click', 'button', function () {
-        //
-        var _row = $(this).parents("tr");
-        var data = e_table.row($(_row)[0]).data();
-        
-        if($(this).attr('name')==='edit_b')show_edit_dialog_event(data);
-        else if ($(this).attr('name')==='delete_b')show_delete_dialog_event(data['id']);
-    });
-    
-    $("#addUnpaidv_table").dataTable({
+    $("#unpaidV_table").DataTable({
         "language": {
             "search": "بحث",
             "info": " _START_ إلى _END_ / _TOTAL_ ",
@@ -82,18 +84,24 @@ function prepareDataTables()
                 "sLast": "الأخير"
             }},
         "columns": [
-            {"data": "col1"},
-            {"data": "col2"},
-            {"data": "col3"},
-            {"data": "col4"},
-            {"data": "col5"},
-            {"data": "col6"},
-            {"data": "col7"},
-            {"data": "col8"},
-            {"data": "row_d"}
+            {"data": "id",
+                "visible": false},
+            {"data": "typeunpaidvacationId"},
+            {"data": "startdate"},
+            {"data": "enddate"},
+            {"data": "reason"},
+            {"data": "folding",
+             template:"{common.checkbox()}"},
+            {"data": "doctype"},
+            {"data": "docnumber"},
+            {"data": "docdate"},
+            {"data": null,
+                "defaultContent": "<button name='edit_b'>تعديل</button>"},
+            {"data": null,
+                "defaultContent": "<button name='delete_b'>حذف</button>"}
         ]
     });
-    $("#addTraining_table").DataTable({
+    $("#training_table").DataTable({
         "language": {
             "search": "بحث",
             "info": " _START_ إلى _END_ / _TOTAL_ ",
@@ -112,15 +120,20 @@ function prepareDataTables()
                 "sLast": "الأخير"
             }},
         "columns": [
-            {"data": "col1"},
-            {"data": "col2"},
-            {"data": "col3"},
-            {"data": "col4"},
-            {"data": "col5"},
-            {"data": "row_d"}
+            {"data": "id",
+                "visible": false},
+            {"data": "kind"},
+            {"data": "place"},
+            {"data": "startdate"},
+            {"data": "enddate"},
+            {"data": "duration"},
+            {"data": null,
+                "defaultContent": "<button name='edit_b'>تعديل</button>"},
+            {"data": null,
+                "defaultContent": "<button name='delete_b'>حذف</button>"}
         ]
     });
-    $("#addHealthLeave_table").DataTable({
+    $("#healthLeave_table").DataTable({
         "language": {
             "search": "بحث",
             "info": " _START_ إلى _END_ / _TOTAL_ ",
@@ -139,15 +152,20 @@ function prepareDataTables()
                 "sLast": "الأخير"
             }},
         "columns": [
-            {"data": "col1"},
-            {"data": "col2"},
-            {"data": "col3"},
-            {"data": "col4"},
-            {"data": "col5"},
-            {"data": "row_d"}
+            {"data": "id",
+                "visible": false},
+            {"data": "typehealthleaveId"},
+            {"data": "startdate"},
+            {"data": "enddate"},
+            {"data": "year"},
+            {"data": "dayscount"},
+            {"data": null,
+                "defaultContent": "<button name='edit_b'>تعديل</button>"},
+            {"data": null,
+                "defaultContent": "<button name='delete_b'>حذف</button>"}
         ]
     });
-    $("#addReward_table").DataTable({
+    $("#reward_table").DataTable({
         "language": {
             "search": "بحث",
             "info": " _START_ إلى _END_ / _TOTAL_ ",
@@ -166,15 +184,20 @@ function prepareDataTables()
                 "sLast": "الأخير"
             }},
         "columns": [
-            {"data": "col1"},
-            {"data": "col2"},
-            {"data": "col3"},
-            {"data": "col4"},
-            {"data": "col5"},
-            {"data": "row_d"}
+            {"data": "id",
+                "visible": false},
+            {"data": "kind"},
+            {"data": "amount"},
+            {"data": "doctype"},
+            {"data": "docnumber"},
+            {"data": "docdate"},
+            {"data": null,
+                "defaultContent": "<button name='edit_b'>تعديل</button>"},
+            {"data": null,
+                "defaultContent": "<button name='delete_b'>حذف</button>"}
         ]
     });
-    $("#addPunishment_table").DataTable({
+    $("#punishment_table").DataTable({
         "language": {
             "search": "بحث",
             "info": " _START_ إلى _END_ / _TOTAL_ ",
@@ -193,16 +216,21 @@ function prepareDataTables()
                 "sLast": "الأخير"
             }},
         "columns": [
-            {"data": "col1"},
-            {"data": "col2"},
-            {"data": "col3"},
-            {"data": "col4"},
-            {"data": "col5"},
-            {"data": "col6"},
-            {"data": "row_d"}
+            {"data": "id",
+                "visible": false},
+            {"data": "typepunishmentId"},
+            {"data": "reason"},
+            {"data": "date"},
+            {"data": "doctype"},
+            {"data": "docnumber"},
+            {"data": "docdate"},
+            {"data": null,
+                "defaultContent": "<button name='edit_b'>تعديل</button>"},
+            {"data": null,
+                "defaultContent": "<button name='delete_b'>حذف</button>"}
         ]
     });
-    $("#addServiceJoin_table").DataTable({
+    $("#serviceJoin_table").DataTable({
         "language": {
             "search": "بحث",
             "info": " _START_ إلى _END_ / _TOTAL_ ",
@@ -221,14 +249,94 @@ function prepareDataTables()
                 "sLast": "الأخير"
             }},
         "columns": [
-            {"data": "col1"},
-            {"data": "col2"},
-            {"data": "col3"},
-            {"data": "col4"},
-            {"data": "col5"},
-            {"data": "col6"},
-            {"data": "row_d"}
+            {"data": "id",
+                "visible": false},
+            {"data": "placeofservice"},
+            {"data": "daysduration"},
+            {"data": "monthsduration"},
+            {"data": "doctype"},
+            {"data": "docnumber"},
+            {"data": "docdate"},
+            {"data": null,
+                "defaultContent": "<button name='edit_b'>تعديل</button>"},
+            {"data": null,
+                "defaultContent": "<button name='delete_b'>حذف</button>"}
         ]
     });
 
 }
+/////proxy functions...call the function with the right table
+function show_detail_edit_dialog(current_table, data)
+{
+    if ($(current_table).attr('id') === 'event_table')
+        show_edit_dialog_event(data);
+    else
+    if ($(current_table).attr('id') === 'healthLeave_table')
+        show_edit_dialog_healthleave(data);
+    else
+    if ($(current_table).attr('id') === 'unpaidV_table')
+        show_edit_dialog_unpaidv(data);
+    else
+    if ($(current_table).attr('id') === 'training_table')
+        show_edit_dialog_training(data);
+    else
+    if ($(current_table).attr('id') === 'punishment_table')
+        show_edit_dialog_punisment(data);
+    else
+    if ($(current_table).attr('id') === 'reward_table')
+        show_edit_dialog_reward(data);
+    else
+    if ($(current_table).attr('id') === 'serviceJoin_table')
+        show_edit_dialog_servicejoin(data);
+
+}
+
+function show_detail_delete_dialog(current_table, id)
+{
+    if ($(current_table).attr('id') === 'event_table')
+        show_delete_dialog_event(id);
+    else
+    if ($(current_table).attr('id') === 'healthLeave_table')
+        show_delete_dialog_healthleave(id);
+    else
+    if ($(current_table).attr('id') === 'unpaidV_table')
+        show_delete_dialog_unpaidv(id);
+    else
+    if ($(current_table).attr('id') === 'training_table')
+        show_delete_dialog_training(id);
+    else
+    if ($(current_table).attr('id') === 'punishment_table')
+        show_delete_dialog_punisment(id);
+    else
+    if ($(current_table).attr('id') === 'reward_table')
+        show_delete_dialog_reward(id);
+    else
+    if ($(current_table).attr('id') === 'serviceJoin_table')
+        show_delete_dialog_servicejoin(id);
+
+}
+function edit_table_row(current_table)
+{
+    if ($(current_table).attr('id') === 'event_table')
+        edit_event_table_row();
+    else
+    if ($(current_table).attr('id') === 'healthLeave_table')
+        edit_healthleave_table_row();
+    else
+    if ($(current_table).attr('id') === 'unpaidV_table')
+        edit_unpaidV_table_row();
+    else
+    if ($(current_table).attr('id') === 'training_table')
+        edit_training_table_row();
+    else
+    if ($(current_table).attr('id') === 'punishment_table')
+        edit_punishment_table_row();
+    else
+    if ($(current_table).attr('id') === 'reward_table')
+        edit_reward_table_row();
+    else
+    if ($(current_table).attr('id') === 'serviceJoin_table')
+        edit_servicejoin_table_row();
+
+}
+

@@ -59,7 +59,7 @@
             </tr>
             <tr>
                 <td><input type="submit" value="تعديل" /></td>
-                <td><input type="button" value="إلغاء" onclick="todo()"/></td>
+                <td><input type="button" value="إلغاء" onclick="$("#editUnpaidV_dialog").dialog("close")"></td>
             </tr>
         </table>
     </form>

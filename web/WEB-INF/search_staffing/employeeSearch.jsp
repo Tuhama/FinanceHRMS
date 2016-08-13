@@ -4,7 +4,7 @@
     Author     : TUHAMA
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page pageEncoding="UTF-8"%>
 
 <div align="center" > 
     <form  name="autofillform">

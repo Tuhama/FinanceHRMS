@@ -16,7 +16,7 @@
     });
 
     function doCompletion() {
-        var url = "searchStaffingEmp?action=complete&id=" + escape(completeField.value);
+        var url = "searchStaffingEmp?action=complete&id=" + encodeURIComponent(completeField.value);
         req = initRequest();
         req.open("GET", url, true);
         req.onreadystatechange = callback;
