@@ -4,21 +4,51 @@ function validate_forms()
 
     $("#personalInfoForm").validate({
         rules: {
-            firstname: {required: true
-                },
-            lastname: {required: true,
-                pattern: "[\u0600-\u06ff]"},
-            fathername: {required: true,
-                pattern: "[\u0600-\u06ff]"},
-            mothername: {required: true,
-                pattern: "[\u0600-\u06ff]"},
-            phone: {
+            firstname: {
                 required: true,
-                number: true,
-                minlength: 7
+                minlength: 2
             },
-            address: {
+            lastname: {
+                required: true,
+                minlength: 2
+            },
+            fathername: {
+                required: true,
+                minlength: 2
+            },
+            mothername: {
+                required: true,
+                minlength: 2
+            },
+            lastname: {
+                required: true,
+                minlength: 2
+            },
+            placeOfBirth: {
+                required: true,
+                minlength: 2
+            },
+            dateOfBirth: {
                 required: true
+            },
+            registeinfo: {
+                required: true,
+                minlength: 2
+            },
+            nationalnumber: {
+                required: true,
+                minlength: 2
+            },
+            branch_id: {
+                required: true
+            }
+        },
+        messages: {
+            firstname: "الرجاء ادخال الاسم",
+            lastname: "الرجاء ادخال الكنية",
+            fathername: {
+                required: "الرجاء ادخال اسم الاب",
+                minlength: "Your username must consist of at least 2 characters"
             }
         }
     });

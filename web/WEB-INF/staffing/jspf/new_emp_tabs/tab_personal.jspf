@@ -6,34 +6,34 @@
                     <tbody>
                         <tr>
                             <td>الاسم:</td>
-                            <td><input type="text" name="firstname" size="25" tabindex="1" autofocus></td>
+                            <td><input type="text" name="firstname"  id="firstname" size="25" tabindex="1" autofocus></td>
 
                             <td>الكنية:</td>
-                            <td><input type="text" name="lastname"  size="25"  tabindex="5"></td>
+                            <td><input type="text" name="lastname" id="lastname"  size="25"  tabindex="5"></td>
                             <td></td>
                             <td></td>
                         </tr>
                         <tr>
                             <td>اسم الاب:</td>
-                            <td><input type="text" name="fathername" size="25"  required  tabindex="10"></td>
+                            <td><input type="text" name="fathername" size="25"   tabindex="10"></td>
 
                             <td>اسم الام:</td>
-                            <td><input type="text" name="mothername"  size="25"  required tabindex="15"></td>
+                            <td><input type="text" name="mothername"  size="25"  tabindex="15"></td>
                             <td colspan="2" rowspan="2">
                                 <img src="" alt="صورة الموظف" ondblclick="browsforimage()"/>
                             </td>
                         </tr>
                         <tr>
                             <td>محل الولادة:</td>
-                            <td><input type="text" name="placeOfBirth"  size="30" required  tabindex="20"></td>
+                            <td><input type="text" name="placeOfBirth"  size="30"   tabindex="20"></td>
                             <td>تاريخ الولادة:</td>
-                            <td><input type="date" name="dateOfBirth" min="1900-01-02"  required tabindex="25"></td>
+                            <td><input type="date" name="dateOfBirth" min="1900-01-02"   tabindex="25"></td>
                         </tr>
                         <tr>
                             <td>محل ورقم القيد:</td>
-                            <td><input type="text" name="registeinfo" size="30"  required  tabindex="30"></td>
+                            <td><input type="text" name="registeinfo" size="30"    tabindex="30"></td>
                             <td>الرقم الوطني:</td>
-                            <td><input type="text" name="nationalnumber" pattern="\d{11}" size="11"  required  tabindex="35"></td>
+                            <td><input type="text" name="nationalnumber" pattern="\d{11}" size="11"    tabindex="35"></td>
                             <td></td>
                             <td></td>
                         </tr>
@@ -41,7 +41,7 @@
                             <td>الجنس:</td>
                             <td>
 
-                                <select name="gender"  required  tabindex="40">
+                                <select name="gender"   tabindex="40">
                                     <c:forEach var="gender" items="${genders}" varStatus="iter">
                                         <option value="${gender}">
                                             ${gender}

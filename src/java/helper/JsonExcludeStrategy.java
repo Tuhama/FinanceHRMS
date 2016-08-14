@@ -12,6 +12,7 @@ import com.google.gson.FieldAttributes;
 /**
  *
  * @author Tuhama
+ * not used for now
  */
 public class JsonExcludeStrategy  implements ExclusionStrategy {
     private final Class classToExclude= entity.Employee.class;
