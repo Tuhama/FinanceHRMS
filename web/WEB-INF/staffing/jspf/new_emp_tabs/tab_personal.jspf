@@ -4,34 +4,36 @@
                 <h3>بيانات شخصية:<hr></h3>
                 <table >
                     <tbody>
+                        <tr><div class="error"></div></tr>
                         <tr>
-                            <td>الاسم:</td>
-                            <td><input type="text" name="firstname"  id="firstname" size="25" tabindex="1" autofocus></td>
+                    
+                            <td><label for="firstname"> الاسم:</label></td>
+                            <td><input type="text" name="firstname"  id="firstname" tabindex="1" autofocus></td>
 
                             <td>الكنية:</td>
-                            <td><input type="text" name="lastname" id="lastname"  size="25"  tabindex="5"></td>
+                            <td><input type="text" name="lastname" id="lastname"  tabindex="5"></td>
                             <td></td>
                             <td></td>
                         </tr>
                         <tr>
                             <td>اسم الاب:</td>
-                            <td><input type="text" name="fathername" size="25"   tabindex="10"></td>
+                            <td><input type="text" name="fathername"  tabindex="10"></td>
 
                             <td>اسم الام:</td>
-                            <td><input type="text" name="mothername"  size="25"  tabindex="15"></td>
+                            <td><input type="text" name="mothername"  tabindex="15"></td>
                             <td colspan="2" rowspan="2">
                                 <img src="" alt="صورة الموظف" ondblclick="browsforimage()"/>
                             </td>
                         </tr>
                         <tr>
                             <td>محل الولادة:</td>
-                            <td><input type="text" name="placeOfBirth"  size="30"   tabindex="20"></td>
+                            <td><input type="text" name="placeOfBirth"  tabindex="20"></td>
                             <td>تاريخ الولادة:</td>
-                            <td><input type="date" name="dateOfBirth" min="1900-01-02"   tabindex="25"></td>
+                            <td><input type="date" name="dateOfBirth"  tabindex="25"></td>
                         </tr>
                         <tr>
                             <td>محل ورقم القيد:</td>
-                            <td><input type="text" name="registeinfo" size="30"    tabindex="30"></td>
+                            <td><input type="text" name="registeinfo" tabindex="30"></td>
                             <td>الرقم الوطني:</td>
                             <td><input type="text" name="nationalnumber" pattern="\d{11}" size="11"    tabindex="35"></td>
                             <td></td>
@@ -104,7 +106,7 @@
                         </tr>
                         <tr>
                             <td>القسم:</td>
-                            <td><select id="departments_select" onchange="refill_sections(this)"  tabindex="75">
+                            <td><select name="departments_select"  id="departments_select" onchange="refill_sections(this)"  tabindex="75">
                                     <c:if test="${!empty departments}">
                                         <option>--القسم--</option>
                                         <c:forEach var="department" items="${departments}" varStatus="iter">

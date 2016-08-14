@@ -1,6 +1,6 @@
 <%-- any content can be specified here e.g.: --%>
 <%@ page pageEncoding="UTF-8" %>
-
+</div><!-- end .content -->
   <div class="footer"></div>
   <!-- end .container --></div>
 </body>
