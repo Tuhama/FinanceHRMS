@@ -22,7 +22,7 @@
 
 
 <form id="serviceJoinForm" method="post"  accept-charset="UTF-8">
-
+ <div class="error"></div>
     <table>
         <tbody>
             <tr>

@@ -46,7 +46,7 @@
 
 
 <form id="punishmentForm" method="post"  accept-charset="UTF-8"  action="<c:url value='addEmpPunishment'/>">
-
+ <div class="error"></div>
     <table>
         <tbody>
             <tr>

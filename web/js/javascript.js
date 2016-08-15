@@ -29,7 +29,8 @@ function prepareTabs()
 
         // Change/remove current tab to active
         jQuery(this).parent('li').addClass('active').siblings().removeClass('active');
-
+        //move focus to the first input element of the active tab
+        $('form').find('*').filter(':input:visible:first').focus();
         e.preventDefault();
     });
 }

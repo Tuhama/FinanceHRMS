@@ -125,6 +125,10 @@ function callbackEmp() {
         if (req.status === 200) {
             empId = req.responseText;
             alert("تم الادخال بنجاح");
+            //move focus to next tab >>>>>>>>>>>>>>not working
+           // var selected = $("tabs").tabs("option", "selected");
+        //$("ul.tabs").tabs("option", "selected", selected + 1);
+        //$( "ul.tabs" ).tabs( "option", "active", 2);
         }
     }
 }

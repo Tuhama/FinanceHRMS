@@ -40,7 +40,7 @@
 
 
 <form id="trainingForm" method="post"  accept-charset="UTF-8"  action="<c:url value='addEmpTrainingCourse'/>">
-
+ <div class="error"></div>
     <table>
         <tbody>
             <tr>

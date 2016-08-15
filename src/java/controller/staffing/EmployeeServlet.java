@@ -127,6 +127,7 @@ public class EmployeeServlet extends HttpServlet {
     }
 
     private void flushEmployee(HttpServletRequest request, HttpServletResponse response) throws NumberFormatException, ParseException, IOException {
+       try{
         if (request.getParameter("id") != null) {
             employee = employeeFacade.find(Integer.parseInt(request.getParameter("id")));
         }
@@ -174,6 +175,7 @@ public class EmployeeServlet extends HttpServlet {
         employee.setFirstworkdate(vSDF.parse(request.getParameter("firstworkdate")));
         employee.setWorkdocdate(vSDF.parse(request.getParameter("workdocdate")));
         employee.setWorkdocnumber(request.getParameter("workdocnumber"));
+        if(!"".equals(request.getParameter("modworkdocdate")))
         employee.setModworkdocdate(vSDF.parse(request.getParameter("modworkdocdate")));
         employee.setModworkdocnumber(request.getParameter("modworkdocnumber"));
         employee.setNotes(request.getParameter("notes"));
@@ -188,12 +190,15 @@ public class EmployeeServlet extends HttpServlet {
                 response.setHeader("Cache-Control", "no-cache");
                 response.getWriter().write(" " + employee.getId().toString() + " ");
             } catch (Exception e) {
-                response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+                response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
             }
 
         } else {
             employeeFacade.edit(employee);
         }
+        } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            }
     }
 
     /**

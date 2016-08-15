@@ -5,6 +5,7 @@
 
 
 <form id="personalInfoEditForm" method="post"  accept-charset="UTF-8"  action="<c:url value='editEmployee'/>">
+     <div class="error"></div>
     <h3>بيانات شخصية:<hr></h3>
     <table >
         <tbody>
