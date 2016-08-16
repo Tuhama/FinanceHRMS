@@ -68,15 +68,39 @@
         </jsp-property-group>
     </jsp-config>
     <security-constraint>
-        <display-name>Constraint1</display-name>
+        <display-name>Indexing</display-name>
         <web-resource-collection>
-            <web-resource-name>hrms administration</web-resource-name>
+            <web-resource-name>index pages</web-resource-name>
             <description/>
-            <url-pattern>/*</url-pattern>
+            <url-pattern>/managment</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <description/>
-            <role-name>hrmsAdministration</role-name>
+            <role-name>hrmsIndexing</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Staffing</display-name>
+        <web-resource-collection>
+            <web-resource-name>staffing pages</web-resource-name>
+            <description/>
+            <url-pattern>/staffing/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>hrmsStaffing</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Reporting</display-name>
+        <web-resource-collection>
+            <web-resource-name>reporting pages</web-resource-name>
+            <description/>
+            <url-pattern>/reporting/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>hrmsReporting</role-name>
         </auth-constraint>
     </security-constraint>
     <login-config>
@@ -89,7 +113,15 @@
     </login-config>
     <security-role>
         <description/>
-        <role-name>hrmsAdministration</role-name>
+        <role-name>hrmsIndexing</role-name>
+    </security-role>
+    <security-role>
+        <description/>
+        <role-name>hrmsStaffing</role-name>
+    </security-role>
+    <security-role>
+        <description/>
+        <role-name>hrmsReporting</role-name>
     </security-role>
     <resource-ref>
         <res-ref-name>jdbc/hrms</res-ref-name>

@@ -154,10 +154,10 @@ body, html {
         <div class="card card-container">
             <img  id="profile-img" class="profile-img-card" src="img/avatar_2x.png" alt=""/>
           <p id="profile-name" class="profile-name-card"></p>
-            <form class="form-signin">
+            <form action="j_security_check" class="form-signin"   accept-charset="UTF-8">
                 
-                <input type="text" id="username" class="form-control" placeholder="اسم المستخدم" required autofocus>
-                <input type="password" id="password" class="form-control" placeholder="كلمة السر" required>
+                <input type="text" name="j_username" id="username" class="form-control" placeholder="اسم المستخدم" required autofocus>
+                <input type="password"  name="j_password" id="password" class="form-control" placeholder="كلمة السر" required>
                 
                 <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">تسجيل الدخول</button>
             </form><!-- /form -->
