@@ -2,237 +2,241 @@
 <%@ page pageEncoding="UTF-8" %>
 <form id="personalInfoForm" method="post"  accept-charset="UTF-8">
     <div class="error"></div>
-                <h3>بيانات شخصية:<hr></h3>
-                <table >
-                    <tbody>
-                        
-                        <tr>
-                    
-                            <td><label for="firstname"> الاسم:</label></td>
-                            <td><input type="text" name="firstname"  id="firstname" tabindex="1" autofocus></td>
+    <h3>بيانات شخصية:<hr></h3>
+    <table >
+        <tbody>
 
-                            <td>الكنية:</td>
-                            <td><input type="text" name="lastname" id="lastname"  tabindex="5"></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>اسم الاب:</td>
-                            <td><input type="text" name="fathername"  tabindex="10"></td>
+            <tr>
+        <label for=""></label>
+        <td><label for="firstname"> الاسم:</label></td>
+        <td><input type="text" name="firstname"  id="firstname" tabindex="1" autofocus></td>
 
-                            <td>اسم الام:</td>
-                            <td><input type="text" name="mothername"  tabindex="15"></td>
-                            <td colspan="2" rowspan="2">
-                                <img src="" alt="صورة الموظف" ondblclick="browsforimage()"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>محل الولادة:</td>
-                            <td><input type="text" name="placeOfBirth"  tabindex="20"></td>
-                            <td>تاريخ الولادة:</td>
-                            <td><input type="date" name="dateOfBirth"  tabindex="25"></td>
-                        </tr>
-                        <tr>
-                            <td>محل ورقم القيد:</td>
-                            <td><input type="text" name="registeinfo" tabindex="30"></td>
-                            <td>الرقم الوطني:</td>
-                            <td><input type="text" name="nationalnumber" pattern="\d{11}" size="11"    tabindex="35"></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>الجنس:</td>
-                            <td>
+        <td><label for="lastname"> الكنية:</label></td>
+        <td><input type="text" name="lastname" id="lastname"  tabindex="5"></td>
+        <td></td>
+        <td></td>
+        </tr>
+        <tr>
+            <td><label for="fathername">اسم الاب:</label></td>
+            <td><input type="text" name="fathername"  tabindex="10"></td>
 
-                                <select name="gender"   tabindex="40">
-                                    <c:forEach var="gender" items="${genders}" varStatus="iter">
-                                        <option value="${gender}">
-                                            ${gender}
-                                        </option>
-                                    </c:forEach>
-                                </select></td>
-                            <td>الجنسية:</td>
-                            <td>
+            <td><label for="mothername">اسم الام:</label></td>
+            <td><input type="text" name="mothername"  tabindex="15"></td>
+            <td colspan="2" rowspan="2">
+                <img src="" alt="صورة الموظف" ondblclick="browsforimage()"/>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="placeOfBirth">محل الولادة:</label></td>
+            <td><input type="text" name="placeOfBirth"  tabindex="20"></td>
+            <td><label for="dateOfBirth">تاريخ الولادة:</label></td>
+            <td><input type="date" name="dateOfBirth"  tabindex="25"></td>
+        </tr>
+        <tr>
+            <td><label for="registeinfo">محل ورقم القيد:</label></td>
+            <td><input type="text" name="registeinfo" tabindex="30"></td>
+            <td><label for="nationalnumber">الرقم الوطني:</label></td>
+            <td><input type="text" name="nationalnumber" pattern="\d{11}" size="11"    tabindex="35"></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><label for="gender">الجنس:</label></td>
+            <td>
 
-                                <select name="natianality_id"  required tabindex="45">
-                                    <c:forEach var="natianality" items="${natianalities}" varStatus="iter">
-                                        <option value="${natianality.id}">
-                                            ${natianality.name}
-                                        </option>
-                                    </c:forEach>
-                                </select></td>
-                            <td>اللغة الاجنبية:</td>
-                            <td>
+                <select name="gender"   tabindex="40">
+                    <c:forEach var="gender" items="${genders}" varStatus="iter">
+                        <option value="${gender}">
+                            ${gender}
+                        </option>
+                    </c:forEach>
+                </select></td>
+            <td><label for="natianality_id">الجنسية:</label></td>
+            <td>
 
-                                <select name="foreignlanguage_id" tabindex="50">
-                                    <c:forEach var="foreignlanguage" items="${foreignlanguages}" varStatus="iter">
-                                        <option value="${foreignlanguage.id}">
-                                            ${foreignlanguage.name}
-                                        </option>
-                                    </c:forEach>
-                                </select></td>
-                        </tr>
-                        <tr>
-                            <td>الهاتف:</td>
-                            <td><input type="number" name="homePhone" tabindex="55"></td>
-                            <td>الموبايل:</td>
-                            <td><input type="number" name="mobilePhone" tabindex="60"></td>
-                            <td>العنوان:</td>
-                            <td><input type="text" name="address" tabindex="65"></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <select name="natianality_id"  required tabindex="45">
+                    <c:forEach var="natianality" items="${natianalities}" varStatus="iter">
+                        <option value="${natianality.id}">
+                            ${natianality.name}
+                        </option>
+                    </c:forEach>
+                </select></td>
+        </tr>
+        <tr>
+            <td><label for="foreignlanguage_id">اللغة الاجنبية:</label></td>
+            <td>
 
-                <h3>بيانات وظيفية:</h3>
-                <hr>
-                <table >
-                    <tbody>
-                        <tr>
-                            <td>المديرية:</td>
-                            <td><select name="branch_id" tabindex="70">
-                                    <c:if test="${!empty branches}">
-                                        <c:forEach var="branch" items="${branches}" varStatus="iter">
+                <select name="foreignlanguage_id" tabindex="50">
+                    <c:forEach var="foreignlanguage" items="${foreignlanguages}" varStatus="iter">
+                        <option value="${foreignlanguage.id}">
+                            ${foreignlanguage.name}
+                        </option>
+                    </c:forEach>
+                </select></td>
+        </tr>
+        <tr>
+            <td><label for="homePhone">الهاتف:</label></td>
+            <td><input type="number" name="homePhone" tabindex="55"></td>
+            <td><label for="mobilePhone">الموبايل:</label></td>
+            <td><input type="number" name="mobilePhone" tabindex="60"></td>
+        </tr>
+        <tr>
+            <td><label for="address">العنوان:</label></td>
+            <td><input type="text" name="address" tabindex="65"></td>
+        </tr>
+        </tbody>
+    </table>
 
-                                            <option value="${branch.id}">
-                                                ${branch.name}
-                                            </option>
+    <h3>بيانات وظيفية:</h3>
+    <hr>
+    <table >
+        <tbody>
+            <tr>
+                <td><label for="branch_id">المديرية:</label></td>
+                <td><select name="branch_id" tabindex="70">
+                        <c:if test="${!empty branches}">
+                            <c:forEach var="branch" items="${branches}" varStatus="iter">
 
-                                        </c:forEach>
-                                    </c:if>
-                                </select></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>القسم:</td>
-                            <td><select name="departments_select"  id="departments_select" onchange="refill_sections(this)"  tabindex="75">
-                                    <c:if test="${!empty departments}">
-                                        <option>--القسم--</option>
-                                        <c:forEach var="department" items="${departments}" varStatus="iter">
+                                <option value="${branch.id}">
+                                    ${branch.name}
+                                </option>
 
-                                            <option value="${department}">
-                                                ${department.name}
-                                            </option>
+                            </c:forEach>
+                        </c:if>
+                    </select></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><label for="department_id">القسم:</label></td>
+                <td><select name="department_id"  id="departments_select" onchange="refill_sections(this)"  tabindex="75">
+                        <c:if test="${!empty departments}">
+                            <option>--القسم--</option>
+                            <c:forEach var="department" items="${departments}" varStatus="iter">
 
-                                        </c:forEach>
-                                    </c:if>
-                                </select></td>
+                                <option value="${department}">
+                                    ${department.name}
+                                </option>
 
-                            <td >الدائرة:</td>
-                            <td><select id="sections_select"  onChange="refill_devisions(this)" tabindex="80"></select></td>
-                            <td>الشعبة:</td>
-                            <td><select id="devisions_select" name="devision_id" tabindex="85"></select></td>
-                        </tr>
-                        <tr>
-                            <td>الفئة:</td>
-                            <td><select name="category_id" tabindex="90">
-                                    <c:forEach var="category" items="${categories}" varStatus="iter">
-                                        <option value="${category.id}">
-                                            ${category.name}
-                                        </option>
-                                    </c:forEach>
-                                </select></td>
-                            <td>الراتب المقطوع:</td>
-                            <td><input type="text" name="basesalary" tabindex="95"></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>الوضع الوظيفي:</td>
-                            <td>
+                            </c:forEach>
+                        </c:if>
+                    </select></td>
 
-                                <select name="workstatus_id" tabindex="100">
-                                    <c:forEach var="workstatus" items="${workstatuss}" varStatus="iter">
-                                        <option value="${workstatus.id}">
-                                            ${workstatus.name}
-                                        </option>
-                                    </c:forEach>  
-                                </select></td>
-                            <td>الحالة العائلية:</td>
-                            <td>
+                <td><label for="section_id">الدائرة:</label></td>
+                <td><select id="sections_select"  onChange="refill_devisions(this)" tabindex="80" name="section_id"></select></td>
+                <td><label for="devision_id">الشعبة:</label></td>
+                <td><select id="devisions_select" name="devision_id" tabindex="85"></select></td>
+            </tr>
+            <tr>
+                <td><label for="category_id">الفئة:</label></td>
+                <td><select name="category_id" tabindex="90">
+                        <c:forEach var="category" items="${categories}" varStatus="iter">
+                            <option value="${category.id}">
+                                ${category.name}
+                            </option>
+                        </c:forEach>
+                    </select></td>
+                <td><label for="basesalary">الراتب المقطوع:</label></td>
+                <td><input type="text" name="basesalary" tabindex="95"></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><label for="workstatus_id">الوضع الوظيفي:</label></td>
+                <td>
 
-                                <select name="familystatus_id" tabindex="105">
-                                    <c:forEach var="familystatus" items="${familystatuss}" varStatus="iter">
-                                        <option value="${familystatus.id}">
-                                            ${familystatus.name}
-                                        </option>
-                                    </c:forEach>
-                                </select></td>
-                            <td>حالة الخدمةالعسكرية:</td>
-                            <td>                    
+                    <select name="workstatus_id" tabindex="100">
+                        <c:forEach var="workstatus" items="${workstatuss}" varStatus="iter">
+                            <option value="${workstatus.id}">
+                                ${workstatus.name}
+                            </option>
+                        </c:forEach>  
+                    </select></td>
+                <td><label for="familystatus_id">الحالة العائلية:</label></td>
+                <td>
 
-                                <select name="martialstatus_id" tabindex="110">
-                                    <c:forEach var="martialstatus" items="${martialstatuss}" varStatus="iter">
-                                        <option value="${martialstatus.id}">
-                                            ${martialstatus.name}
-                                        </option>
-                                    </c:forEach>
-                                </select></td>
-                        </tr>
-                        <tr>
-                            <td>آخر مؤهل علمي:</td>
-                            <td><select name="certificate_id" tabindex="115">
-                                    <c:if test="${!empty certificates}">
-                                        <c:forEach var="certificate" items="${certificates}" varStatus="iter">
+                    <select name="familystatus_id" tabindex="105">
+                        <c:forEach var="familystatus" items="${familystatuss}" varStatus="iter">
+                            <option value="${familystatus.id}">
+                                ${familystatus.name}
+                            </option>
+                        </c:forEach>
+                    </select></td>
+                <td><label for="martialstatus_id">حالة الخدمةالعسكرية:</label></td>
+                <td>                    
 
-                                            <option value="${certificate.id}">
-                                                ${certificate.name}
-                                            </option>
+                    <select name="martialstatus_id" tabindex="110">
+                        <c:forEach var="martialstatus" items="${martialstatuss}" varStatus="iter">
+                            <option value="${martialstatus.id}">
+                                ${martialstatus.name}
+                            </option>
+                        </c:forEach>
+                    </select></td>
+            </tr>
+            <tr>
+                <td><label for="certificate_id">آخر مؤهل علمي:</label></td>
+                <td><select name="certificate_id" tabindex="115">
+                        <c:if test="${!empty certificates}">
+                            <c:forEach var="certificate" items="${certificates}" varStatus="iter">
 
-                                        </c:forEach>
-                                    </c:if>                    
-                                </select></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr><td>&nbsp;</td></tr>
-                        <tr>
-                            <td>تاريخ اول مباشرة::</td>
-                            <td><input type="date" name="firstworkdate" tabindex="120"></td>
-                            <td></td>
-                            <td></td>                <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>رقم قرار التعيين:</td>
-                            <td><input type="text" name="workdocnumber" tabindex="125"></td>
-                            <td> تاريخ قرار التعيين:</td>
-                            <td><input type="date" name="workdocdate" tabindex="130"></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>تعديل رقم قرار التعيين:</td>
-                            <td><input type="text" name="modworkdocnumber" tabindex="135"></td>
-                            <td>تعديل تاريخ قرار التعيين:</td>
-                            <td><input type="date" name="modworkdocdate" tabindex="140"></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr><td>&nbsp;</td>
-                            <td></td>
-                            <td></td>                
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>الرقم التأميني:</td>
-                            <td><input type="text" name="socialsecuritynumber" tabindex="145"></td>
-                            <td>الرقم الذاتي:</td>
-                            <td><input type="text" name="personalnumber" tabindex="150"></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <br>
-                ملاحظات:<br>
-                <textarea name="notes" tabindex="155"></textarea>
-                <br>
-                <button type="submit" form="personalInfoForm" value="Submit" tabindex="160">حفظ</button>
-            </form>
+                                <option value="${certificate.id}">
+                                    ${certificate.name}
+                                </option>
+
+                            </c:forEach>
+                        </c:if>                    
+                    </select></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr><td>&nbsp;</td></tr>
+            <tr>
+                <td><label for="firstworkdate">تاريخ اول مباشرة:</label></td>
+                <td><input type="date" name="firstworkdate" tabindex="120"></td>
+                <td></td>
+                <td></td>                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><label for="workdocnumber">رقم قرار التعيين:</label></td>
+                <td><input type="text" name="workdocnumber" tabindex="125"></td>
+                <td> <label for="workdocdate">تاريخ قرار التعيين:</label></td>
+                <td><input type="date" name="workdocdate" tabindex="130"></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><label for="modworkdocnumber">تعديل رقم قرار التعيين:</label></td>
+                <td><input type="text" name="modworkdocnumber" tabindex="135"></td>
+                <td><label for="modworkdocdate">تعديل تاريخ قرار التعيين:</label></td>
+                <td><input type="date" name="modworkdocdate" tabindex="140"></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr><td>&nbsp;</td>
+                <td></td>
+                <td></td>                
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><label for="socialsecuritynumber">الرقم التأميني:</label></td>
+                <td><input type="text" name="socialsecuritynumber" tabindex="145"></td>
+                <td><label for="personalnumber">الرقم الذاتي:</label></td>
+                <td><input type="text" name="personalnumber" tabindex="150"></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <label for="notes">ملاحظات:</label><br>
+    <textarea name="notes" tabindex="155"></textarea>
+    <br>
+    <button type="submit" form="personalInfoForm" value="Submit" tabindex="160">حفظ</button>
+</form>

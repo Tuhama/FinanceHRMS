@@ -171,8 +171,8 @@
 	form .group,
 	form .control,
 	form .submit,
-	form textarea,
-	form select
+	form textarea//,tu: not sucsessfully overriden
+	//form select
 		{
 		width: 200px !important;
 		}
