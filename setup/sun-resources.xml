@@ -10,3 +10,8 @@
     <property name="Password" value="root"/>
   </jdbc-connection-pool>
 </resources>
+<glassfish-web-app>
+    <jsp-config>
+    </jsp-config>
+    <parameter-encoding default-charset="UTF-8" />
+</glassfish-web-app>
