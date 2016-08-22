@@ -15,9 +15,15 @@ jQuery(document).ready(function () {
     prepareDataTables();
 
     validate_forms();
+    
+    prepareCalendar();
 });
 
 
+function prepareCalendar()
+{
+    $('input[type="date"]').mask("9999/99/99",{placeholder:"يوم/شهر/سنة"});
+}
 
 function prepareTabs()
 {
@@ -105,7 +111,6 @@ function formatDate(ds)
     var st = d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate();
     return st;
 }
-
 
 
 //used by indexing pages
