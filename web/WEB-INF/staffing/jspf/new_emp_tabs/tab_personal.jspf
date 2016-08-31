@@ -7,7 +7,6 @@
         <tbody>
 
             <tr>
-        <label for=""></label>
         <td><label for="firstname"> الاسم:</label></td>
         <td><input type="text" name="firstname"  id="firstname" tabindex="1" autofocus></td>
 
@@ -61,8 +60,6 @@
                         </option>
                     </c:forEach>
                 </select></td>
-        </tr>
-        <tr>
             <td><label for="foreignlanguage_id">اللغة الاجنبية:</label></td>
             <td>
 
@@ -79,8 +76,6 @@
             <td><input type="number" name="homePhone" tabindex="55"></td>
             <td><label for="mobilePhone">الموبايل:</label></td>
             <td><input type="number" name="mobilePhone" tabindex="60"></td>
-        </tr>
-        <tr>
             <td><label for="address">العنوان:</label></td>
             <td><input type="text" name="address" tabindex="65"></td>
         </tr>
@@ -195,24 +190,23 @@
             </tr>
             <tr><td>&nbsp;</td></tr>
             <tr>
-                <td><label for="firstworkdate">تاريخ اول مباشرة:</label></td>
+                <td><label for="firstworkdate" style="width: 100px">تاريخ اول مباشرة:</label></td>
                 <td><input type="date" name="firstworkdate" tabindex="120"></td>
-                <td></td>
-                <td></td>                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td><label for="workdocnumber">رقم قرار التعيين:</label></td>
+
+                <td><label for="workdocnumber" style="width: 100px">رقم قرار التعيين:</label></td>
                 <td><input type="text" name="workdocnumber" tabindex="125"></td>
-                <td> <label for="workdocdate">تاريخ قرار التعيين:</label></td>
+                <td> <label for="workdocdate" style="width: 100px">تاريخ قرار التعيين:</label></td>
                 <td><input type="date" name="workdocdate" tabindex="130"></td>
                 <td></td>
                 <td></td>
             </tr>
             <tr>
-                <td><label for="modworkdocnumber">تعديل رقم قرار التعيين:</label></td>
+                                <td></td>
+                <td></td>
+                
+                <td><label for="modworkdocnumber" style="width: 100px">تعديل رقم قرار التعيين:</label></td>
                 <td><input type="text" name="modworkdocnumber" tabindex="135"></td>
-                <td><label for="modworkdocdate">تعديل تاريخ قرار التعيين:</label></td>
+                <td><label for="modworkdocdate" style="width: 100px">تعديل تاريخ قرار التعيين:</label></td>
                 <td><input type="date" name="modworkdocdate" tabindex="140"></td>
                 <td></td>
                 <td></td>

@@ -11,7 +11,7 @@ and open the template in the editor.
 body {
     // font: 100%/1.4 Verdana, Arial, Helvetica, sans-serif;
     font-family: "Scheherazade",  serif;
-    font-size: 110%;
+    font-size: 75%;
     font-weight: bolder;
     background-color: #4E5869;
     margin: 0;
@@ -225,6 +225,7 @@ label {
     width: 75px;
     text-align: left;
     float: right;
+    height: 15px;
 }
 ///overriding screen.css
 form select
@@ -232,16 +233,18 @@ form select
     max-width: 60px;
     float: right;
     text-align: right;
+    
 }
 form label
 {
     //padding:0px 10px;
-    width: 140px;
+    width: 75px;
     float: right;
     text-align: right;
 }
 form input{
-    width: 200px;
+    width: 150px;
+    height: 15px;
 }
 //div.error{background-color:#ccccff;margin:5px;padding:5px;}
 //:lang(ar) {
