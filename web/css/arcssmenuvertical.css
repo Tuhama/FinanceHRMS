@@ -1,0 +1,146 @@
+/* Root = Horizontal, Secondary = Vertical */
+ul#navmenu {
+  margin: 0;
+  border: 0 none;
+  padding: 0;
+  width: 480px; /*For KHTML*/
+  height:39px;
+  list-style: none;
+  position:relative;
+  z-index:456258; /*phpline*/
+  top: 0px;
+}
+
+ul#navmenu li {
+  margin: 0;
+  border: 0 none;
+  padding: 0;
+  float: right; /*For Gecko*/
+  display: inline;
+  list-style: none;
+  position: relative;
+  height: 24px; 
+  width: auto; /*[if IE 6]*/
+  padding-top: 0px;
+  margin-right: 3px
+  
+}
+
+ul#navmenu ul {
+  margin: 0;
+  border: #FF0000 0px solid;
+  padding: 0;
+  width: auto;
+  list-style: none;
+  display: none;
+  position: absolute;
+  top: 39px;
+  right: 0; 
+}
+
+ul#navmenu ul li {
+width: 100%;
+}
+
+
+/* Root Menu */
+ul#navmenu a {
+  border-left: #dadada 0px solid;
+  padding: 0 0px;
+  float: none !important; /*For Opera*/
+  float: right; /*For IE*/
+  display: block;
+  color: #4f4f4f;
+  font: 12px/23px tahoma;
+  text-decoration: none;
+  /*height: auto !important;*/
+  height: 39px; /*For IE*/
+  width: 90px;
+  margin-top: 0px;
+  margin-right: 22px;
+}
+
+/* Root Menu Hover Persistence */
+ul#navmenu a:hover,
+ul#navmenu li:hover a,
+ul#navmenu li.iehover a {
+  background:url(../../images/ovmenu.gif) center no-repeat;
+  color: #FFFFFF; 
+}
+
+/* 2nd Menu */
+ul#navmenu li:hover li a,
+ul#navmenu li.iehover li a {
+  background:#49c2b9;
+  float: none; text-align: right; font-size: 11px;
+  color: #FFFFFF; border-bottom: 1px solid #fafafa; width:150px; height: auto !important;
+   padding-left: 0px;
+   padding-right: 0px;
+}
+
+/* 2nd Menu Hover Persistence */
+ul#navmenu li:hover li a:hover,
+ul#navmenu li:hover li:hover a,
+ul#navmenu li.iehover li a:hover,
+ul#navmenu li.iehover li.iehover a {
+  background: #7accc8;
+  color: #FFF; border-bottom: 1px solid #fafafa;
+}
+
+/* 3rd Menu */
+ul#navmenu li:hover li:hover li a,
+ul#navmenu li.iehover li.iehover li a {
+  background:#1d1d1d;
+  float: none; text-align: right;
+  color: #ffffff; border-bottom: 1px solid #323232; width:150px; height: auto !important;
+   padding-left: 0px;
+   padding-right: 11px;
+}
+
+/* 3rd Menu Hover Persistence */
+ul#navmenu li:hover li:hover li a:hover,
+ul#navmenu li:hover li:hover li:hover a,
+ul#navmenu li.iehover li.iehover li a:hover,
+ul#navmenu li.iehover li.iehover li.iehover a {
+  background: #ed1b24;
+  color: #FFF; border-bottom: 1px solid #323232;
+}
+
+/* 4th Menu */
+ul#navmenu li:hover li:hover li:hover li a,
+ul#navmenu li.iehover li.iehover li.iehover li a {
+  background: #ba3829;
+  color: #ffffff; border: 0px solid #891300; border-bottom: 0px solid #ba3829;
+}
+
+/* 4th Menu Hover */
+ul#navmenu li:hover li:hover li:hover li a:hover,
+ul#navmenu li.iehover li.iehover li.iehover li a:hover {
+  background: #9a2719;
+  color: #FFF; border-bottom: 0px solid #891300;
+}
+
+ul#navmenu ul ul,
+ul#navmenu ul ul ul {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 160px;
+}
+
+/* Do Not Move - Must Come Before display:block for Gecko */
+ul#navmenu li:hover ul ul,
+ul#navmenu li:hover ul ul ul,
+ul#navmenu li.iehover ul ul,
+ul#navmenu li.iehover ul ul ul {
+  display: none;
+}
+
+ul#navmenu li:hover ul,
+ul#navmenu ul li:hover ul,
+ul#navmenu ul ul li:hover ul,
+ul#navmenu li.iehover ul,
+ul#navmenu ul li.iehover ul,
+ul#navmenu ul ul li.iehover ul {
+  display: block;
+}

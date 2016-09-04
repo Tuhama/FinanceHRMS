@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-   <context-param>
+    <context-param>
         <description>حمص</description>
         <param-name>mainBranch</param-name>
         <param-value>2</param-value>
@@ -11,10 +11,10 @@
         </session-timeout>
     </session-config>
     <jsp-config>
-            <jsp-property-group>
-        <url-pattern>*.jsp</url-pattern>
-        <page-encoding>UTF-8</page-encoding>
-    </jsp-property-group>
+        <jsp-property-group>
+            <url-pattern>*.jsp</url-pattern>
+            <page-encoding>UTF-8</page-encoding>
+        </jsp-property-group>
         <jsp-property-group>
             <description>managment header and footer settings</description>
             <display-name>mangment jspf</display-name>
@@ -44,10 +44,10 @@
         <jsp-property-group>
             <description>main jspf</description>
             <display-name>main jspf</display-name>
-            <url-pattern>/index.html</url-pattern>
+            <url-pattern>/index.jsp</url-pattern>
             <page-encoding>UTF-8</page-encoding>
-            <include-prelude>/WEB-INF/jspf/header.jspf</include-prelude>
-            <include-coda>/WEB-INF/jspf/footer.jspf</include-coda>
+            <include-prelude>/WEB-INF/jspf/header_2.jspf</include-prelude>
+            <include-coda>/WEB-INF/jspf/footer_2.jspf</include-coda>
         </jsp-property-group>
         <jsp-property-group>
             <display-name>search jspf</display-name>

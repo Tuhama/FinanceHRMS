@@ -152,7 +152,7 @@ body, html {
     </head>
  <div class="container">
         <div class="card card-container">
-            <img  id="profile-img" class="profile-img-card" src="img/avatar_2x.png" alt=""/>
+            <img  id="profile-img" class="profile-img-card" src="images/avatar_2x.png" alt=""/>
           <p id="profile-name" class="profile-name-card"></p>
             <form action="j_security_check" class="form-signin"   accept-charset="UTF-8">
                 

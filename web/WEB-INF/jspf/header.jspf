@@ -7,6 +7,7 @@
     <head>
         <title>برنامج ذاتيات الموظفين</title>
         <meta charset="utf-8">
+         <%-- --%>
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
@@ -27,10 +28,10 @@
 
             <div class="Header_Div_0">
                 <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="938" height="124">
-                    <param name="movie" value="img/header.swf" />
+                    <param name="movie" value="images/header.swf" />
                     <param name="quality" value="high" />
                     <param name="wmode" value="transparent" />
-                    <embed src="img/header.swf" width="938" height="124" quality="high" type="application/x-shockwave-flash" wmode="transparent"></embed>
+                    <embed src="images/header.swf" width="938" height="124" quality="high" type="application/x-shockwave-flash" wmode="transparent"></embed>
                 </object>
             </div>
 
@@ -42,17 +43,18 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="#">Logo</a>
+                        <a class="navbar-brand" href="#"><img src="images/point.png" alt=""/></a>
+                        
                     </div>
                     <div class="collapse navbar-collapse" id="myNavbar">
                         <ul class="nav navbar-nav">
-                            <li class="active"><a href="#">Home</a></li>
+                            <li class="active"><a href="#">الرئيسية</a></li>
                             <li><a href="#">ادارة موظفين</a></li>
-                            <li><a href="#">Projects</a></li>
-                            <li><a href="#">Contact</a></li>
+                            <li><a href="#">تقارير</a></li>
+                            <li><a href="#">فهارس</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                            <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> تسجيل دخول</a></li>
                         </ul>
                     </div>
                 </div>
@@ -72,13 +74,14 @@
                         <h3>Test</h3>
                         <p>Lorem ipsum...</p>
                     </div>
-                    <div class="col-sm-2 sidenav">
+                      <%--                    <div class="col-sm-2 sidenav">
                         <div class="well">
                             <p>ADS</p>
                         </div>
                         <div class="well">
                             <p>ADS</p>
                         </div>
-                    </div>
+                    </div> --%>
+
                 </div>
             </div>

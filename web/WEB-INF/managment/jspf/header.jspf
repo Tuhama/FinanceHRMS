@@ -22,7 +22,7 @@
     <body>
 
         <div class="container">
-            <div class="header"><a href="/HRMS_2"><img src="img/finance.ico" alt="Insert Logo Here" name="Insert_logo" width="20%" height="90" id="Insert_logo" style="background-color: #8090AB; display:block;" /></a> 
+            <div class="header"><a href="/HRMS_2"><img src="images/finance.ico" alt="Insert Logo Here" name="Insert_logo" width="20%" height="90" id="Insert_logo" style="background-color: #8090AB; display:block;" /></a> 
                 <!-- end .header --></div>
             <div class="sidebar1">
                 <ul class="nav">
