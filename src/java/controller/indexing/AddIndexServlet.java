@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author TUHAMA
  */
-@WebServlet(name = "AddIndexServlet", urlPatterns = {"/addMainBranch","/addBranch","/addCertificate","/addPosition","/addHealthleavetype","/addPunishmenttype","/addUnpaidvacationtype", "/addDepartment","/addSection", "/addDevision","/addNatianality", "/addForeignlanguage", "/addCategory","/addFamilystatus", "/addMartialstatus", "/addWorkstatus"})
+@WebServlet(name = "AddIndexServlet", urlPatterns = {"/indexing/addMainBranch","/indexing/addBranch","/indexing/addCertificate","/indexing/addPosition","/indexing/addHealthleavetype","/indexing/addPunishmenttype","/indexing/addUnpaidvacationtype", "/indexing/addDepartment","/indexing/addSection", "/indexing/addDevision","/indexing/addNatianality", "/indexing/addForeignlanguage", "/indexing/addCategory","/indexing/addFamilystatus", "/indexing/addMartialstatus", "/indexing/addWorkstatus"})
 public class AddIndexServlet extends HttpServlet {
 
 @EJB
@@ -75,14 +75,14 @@ public class AddIndexServlet extends HttpServlet {
 
         String url = "";
         switch (userPath) {
-            case "/addMainBranch": {
+            case "/indexing/addMainBranch": {
                 Mainbranch m_branch = new Mainbranch();
                 m_branch.setName(request.getParameter("name"));
                 mainbranchFacade.create(m_branch);
                 url = "mainbranch";
                 break;
             }
-            case "/addBranch": {
+            case "/indexing/addBranch": {
                 Branch branch = new Branch();
                 branch.setName(request.getParameter("name"));
                 Mainbranch m_branch = mainbranchFacade.find(Short.parseShort(request.getParameter("mainbranch")));
@@ -91,7 +91,7 @@ public class AddIndexServlet extends HttpServlet {
                 url = "branch";
                 break;
             }
-            case "/editBranch": {
+            case "/indexing/editBranch": {
                 Branch branch = branchFacade.find(Short.parseShort(request.getParameter("id")));
                 branch.setName(request.getParameter("name"));
                 Mainbranch m_branch = mainbranchFacade.find(Short.parseShort(request.getParameter("mainbranch")));
@@ -100,50 +100,50 @@ public class AddIndexServlet extends HttpServlet {
                 url = "branch";
                 break;
             }
-            case "/deleteBranch": {
+            case "/indexing/deleteBranch": {
                 Branch branch = branchFacade.find(Short.parseShort(request.getParameter("id")));
                 branchFacade.remove(branch);
                 url = "branch";
                 break;
             }
-            case "/addCertificate":
+            case "/indexing/addCertificate":
                 Certificate certificate = new Certificate();
                 certificate.setName(request.getParameter("name"));
                 certificateFacade.create(certificate);
                 url = "certificate";
                 break;
-            case "/addPosition":
+            case "/indexing/addPosition":
                 Position position = new Position();
                 position.setName(request.getParameter("name"));
                 positionFacade.create(position);
                 url = "position";
                 break;
-            case "/addHealthleavetype":
+            case "/indexing/addHealthleavetype":
                 Typehealthleave healthleavetype = new Typehealthleave();
                 healthleavetype.setName(request.getParameter("name"));
                 healthleavetypeFacade.create(healthleavetype);
                 url = "healthleavetype";
                 break;
-            case "/addPunishmenttype":
+            case "/indexing/addPunishmenttype":
                 Typepunishment punishmenttype = new Typepunishment();
                 punishmenttype.setName(request.getParameter("name"));
                 punishmenttypeFacade.create(punishmenttype);
                 url = "punishmenttype";
                 break;
-            case "/addUnpaidvacationtype":
+            case "/indexing/addUnpaidvacationtype":
                 Typeunpaidvacation unpaidvtype = new Typeunpaidvacation();
                 unpaidvtype.setName(request.getParameter("name"));
                 unpaidvacationtypeFacade.create(unpaidvtype);
                 url = "unpaidvacationtype";
                 break;
-            case "/addDepartment": {
+            case "/indexing/addDepartment": {
                 Department department = new Department();
                 department.setName(request.getParameter("name"));
                 departmentFacade.create(department);
                 url = "department";
                 break;
             }
-            case "/addSection": {
+            case "/indexing/addSection": {
                 Section section = new Section();
                 section.setName(request.getParameter("name"));
                 Department department = departmentFacade.find(Short.parseShort(request.getParameter("department")));
@@ -152,7 +152,7 @@ public class AddIndexServlet extends HttpServlet {
                 url = "section";
                 break;
             }
-            case "/addDevision": {
+            case "/indexing/addDevision": {
                 Devision devision = new Devision();
                 devision.setName(request.getParameter("name"));
                 Section section = sectionFacade.find(Short.parseShort(request.getParameter("section")));
@@ -161,42 +161,42 @@ public class AddIndexServlet extends HttpServlet {
                 url = "devision";
                 break;
             }
-            case "/addNatianality": {
+            case "/indexing/addNatianality": {
                 Natianality natianality = new Natianality();
                 natianality.setName(request.getParameter("name"));
                 natianalityFacade.create(natianality);
                 url = "natianality";
                 break;
             }
-            case "/addForeignlanguage": {
+            case "/indexing/addForeignlanguage": {
                 Foreignlanguage foreignlanguage = new Foreignlanguage();
                 foreignlanguage.setName(request.getParameter("name"));
                 foreignlanguageFacade.create(foreignlanguage);
                 url = "foreignlanguage";
                 break;
             }
-            case "/addCategory": {
+            case "/indexing/addCategory": {
                 Category category = new Category();
                 category.setName(request.getParameter("name"));
                 categoryFacade.create(category);
                 url = "category";
                 break;
             }
-            case "/addFamilystatus": {
+            case "/indexing/addFamilystatus": {
                 Familystatus familystatus = new Familystatus();
                 familystatus.setName(request.getParameter("name"));
                 familystatusFacade.create(familystatus);
                 url = "familystatus";
                 break;
             }
-            case "/addMartialstatus": {
+            case "/indexing/addMartialstatus": {
                 Martialstatus martialstatus = new Martialstatus();
                 martialstatus.setName(request.getParameter("name"));
                 martialstatusFacade.create(martialstatus);
                 url = "martialstatus";
                 break;
             }
-            case "/addWorkstatus": {
+            case "/indexing/addWorkstatus": {
                 Workstatus workstatus = new Workstatus();
                 workstatus.setName(request.getParameter("name"));
                 workstatusFacade.create(workstatus);

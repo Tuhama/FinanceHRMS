@@ -35,8 +35,9 @@ import entity.Employee_;
  */
 @WebServlet(name = "SearchStaffServlet",
         urlPatterns = {
-            "/searchStaffingView",
-            "/searchStaffingEmp"})
+            "/staffing/searchStaffingView",
+            "/staffing/searchStaffingEmp",
+            "/staffing/editEmpView"})
 public class SearchServlet extends HttpServlet {
 
     private Employee employee = new Employee();
@@ -51,32 +52,40 @@ public class SearchServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        
+
         String userPath = request.getServletPath();
 
         switch (userPath) {
 
-            case "/searchStaffingView":
-                String url = "/WEB-INF/search_staffing/employeeSearch.jsp";
+            case "/staffing/searchStaffingView":
+                String url = "/staffing/search_staffing/employeeSearch.jsp";
                 request.getRequestDispatcher(url).forward(request, response);
                 break;
 
-            case "/searchStaffingEmp":
-                String action = request.getParameter("action");
+            case "/staffing/searchStaffingEmp":
+                /*                String action = request.getParameter("action");
+                
+                 switch (action) {
+                 //اكمال تلقائي..يعيد قائمة الموظفين الذين لديهم اسم مشابه
+                 case "complete":
+                 String targetEmpStr = request.getParameter("id").trim().toLowerCase();
+                 sendMatchingEmployees(targetEmpStr, response);
+                 break;
+                 //بعد اختيار موظف محدد نقوم بإعادة بيناته كاملة والتوجه الى صفحة التعديل
+                 case "lookup":
+                 String targetEmpId = request.getParameter("id").trim().toLowerCase();
+                 setEmployeeInfo(targetEmpId);
+                 getServletContext().getRequestDispatcher("/staffing/view/editEmployeeT.jsp").forward(request, response);
+                 break;
+                 }*/
+                String targetEmpStr = request.getParameter("term").trim().toLowerCase();
+                sendMatchingEmployees(targetEmpStr, response);
+                break;
+            case "/staffing/editEmpView":
+                String targetEmpId = request.getParameter("id").trim().toLowerCase();
+                setEmployeeInfo(targetEmpId);
+                getServletContext().getRequestDispatcher("/staffing/view/editEmployeeT.jsp").forward(request, response);
 
-                switch (action) {
-                    //اكمال تلقائي..يعيد قائمة الموظفين الذين لديهم اسم مشابه
-                    case "complete":
-                        String targetEmpStr = request.getParameter("id").trim().toLowerCase();
-                        sendMatchingEmployees(targetEmpStr, response);
-                        break;
-                    //بعد اختيار موظف محدد نقوم بإعادة بيناته كاملة والتوجه الى صفحة التعديل
-                    case "lookup":
-                        String targetEmpId = request.getParameter("id").trim().toLowerCase();
-                        setEmployeeInfo(targetEmpId);
-                        getServletContext().getRequestDispatcher("/WEB-INF/staffing/view/editEmployeeT.jsp").forward(request, response);
-                        break;
-                }
                 break;
         }
 
@@ -114,14 +123,18 @@ public class SearchServlet extends HttpServlet {
             JsonArrayBuilder a = Json.createArrayBuilder();
             results.stream().forEach((elem) -> {
                 JsonObjectBuilder empBuilder = Json.createObjectBuilder();
+                String value = elem.getFirstname() + " " + elem.getFathername() + " " + elem.getLastname();
+
+                /* empBuilder.add("id", elem.getId())
+                 .add("firstname", elem.getFirstname())
+                 .add("lastname", elem.getLastname());*/
                 empBuilder.add("id", elem.getId())
-                        .add("firstname", elem.getFirstname())
-                        .add("lastname", elem.getLastname());
+                        .add("value", value);
                 a.add(empBuilder);
             });
             StringWriter stringWriter = new StringWriter();
             try (JsonWriter writer = Json.createWriter(stringWriter)) {
-                writer.writeArray(a.build());
+                writer.write(a.build());
             }
 
             response.setContentType("text/json;charset=UTF-8");

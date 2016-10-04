@@ -30,6 +30,9 @@ function prepareDataTables()
 
 
     $("#event_table").DataTable({
+        "filter": false,
+        "paginate":false,
+        "info":false,
         "language": {
             "search": "بحث",
             "info": " _START_ إلى _END_ / _TOTAL_ ",
@@ -66,6 +69,9 @@ function prepareDataTables()
     });
 
     $("#unpaidV_table").DataTable({
+         "filter": false,
+        "paginate":false,
+        "info":false,
         "language": {
             "search": "بحث",
             "info": " _START_ إلى _END_ / _TOTAL_ ",
@@ -102,6 +108,9 @@ function prepareDataTables()
         ]
     });
     $("#training_table").DataTable({
+         "filter": false,
+        "paginate":false,
+        "info":false,
         "language": {
             "search": "بحث",
             "info": " _START_ إلى _END_ / _TOTAL_ ",
@@ -134,6 +143,9 @@ function prepareDataTables()
         ]
     });
     $("#healthLeave_table").DataTable({
+         "filter": false,
+        "paginate":false,
+        "info":false,
         "language": {
             "search": "بحث",
             "info": " _START_ إلى _END_ / _TOTAL_ ",
@@ -166,6 +178,9 @@ function prepareDataTables()
         ]
     });
     $("#reward_table").DataTable({
+         "filter": false,
+        "paginate":false,
+        "info":false,
         "language": {
             "search": "بحث",
             "info": " _START_ إلى _END_ / _TOTAL_ ",
@@ -198,6 +213,9 @@ function prepareDataTables()
         ]
     });
     $("#punishment_table").DataTable({
+         "filter": false,
+        "paginate":false,
+        "info":false,
         "language": {
             "search": "بحث",
             "info": " _START_ إلى _END_ / _TOTAL_ ",
@@ -231,6 +249,9 @@ function prepareDataTables()
         ]
     });
     $("#serviceJoin_table").DataTable({
+         "filter": false,
+        "paginate":false,
+        "info":false,
         "language": {
             "search": "بحث",
             "info": " _START_ إلى _END_ / _TOTAL_ ",

@@ -12,7 +12,7 @@ function validate_forms()
     
     
     $("#personalInfoForm").validate({
-        errorLabelContainer: $("#personalInfoForm div.error"),
+        //errorLabelContainer: $("#personalInfoForm div.error"),
         rules: {
             firstname: {
                 required: true,
@@ -71,6 +71,9 @@ function validate_forms()
             workdocdate: {
                 required: true
             }
+        },
+        messages:{
+            required: "*"
         }
     });
     $("#personalInfoEditForm").validate({

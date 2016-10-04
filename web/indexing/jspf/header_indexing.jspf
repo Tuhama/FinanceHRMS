@@ -1,0 +1,90 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%@ page pageEncoding="UTF-8" %>
+
+<html xml:lang="ar" lang="ar"  dir="rtl"><head>
+        <title>برنامج ذاتيات الموظفين
+            الهيئة العامة للضرائب والرسوم </title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+
+
+        <link href="../css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
+        <link href="../css/jquery-ui.css" rel="stylesheet" type="text/css"/><%-- for the  --%>
+        <%--<link href="../css/style.css" rel="stylesheet" type="text/css"/>  for the datepicker --%>
+        <link href="../css/arwhite.css" rel="stylesheet" type="text/css">
+
+        <style type="text/css">
+            <!--
+            @import"../css/arcssmenuvertical.css";
+            -->
+        </style>
+
+        <script src="../js/jquery-1.12.3.js" type="text/javascript"></script>
+        <script src="../js/jquery.validate.js" type="text/javascript"></script>
+        <script src="../js/messages_ar.js" type="text/javascript"></script>
+        <script src="../js/jquery-ui.js" type="text/javascript"></script>     
+        <script src="../js/jquery.dataTables.min.js" type="text/javascript"></script>  
+
+
+        <script>
+            $(function () {
+                //prepare dialogs
+                $("[id$='dialog']").dialog({
+                    autoOpen: false,
+                    width: 'auto'
+                });
+                //prepare data tables
+                prepareDataTables();
+            });
+            function prepareDataTables()
+            {
+                //اذا تم النقر على زر الحذف او التعديل في جدول سيتم تحديد السطرالموافق للزر
+                $("[id$='_table'] ").DataTable(
+                        {
+                            "filter": false,
+                            "paginate": false,
+                            "info": false,
+                            "language": {
+                                "search": "بحث",
+                                "info": " _START_ إلى _END_ / _TOTAL_ ",
+                                "sProcessing": "جاري التحميل...",
+                                "sLengthMenu": "إظهار _MENU_",
+                                "sZeroRecords": "لم يُعثر على أية سجلات",
+                                "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجلّ",
+                                "sInfoFiltered": "(منتقاة من مجموع _MAX_ سجل)",
+                                "sInfoPostFix": "",
+                                "sSearch": "ابحث:",
+                                "sUrl": "",
+                                "oPaginate": {
+                                    "sFirst": "الأول",
+                                    "sPrevious": "السابق",
+                                    "sNext": "التالي",
+                                    "sLast": "الأخير"
+                                }}});
+            }
+            //used by indexing pages
+            function show_edit_dialog(id, name)
+            {
+                document.getElementById("e_d_id").value = id;
+                document.getElementById("e_d_name").value = name;
+                $("#edit_dialog").dialog("open");
+            }
+            function show_delete_dialog(id)
+            {
+                document.getElementById("d_d_id").value = id;
+                $("#delete_dialog").dialog("open");
+            }
+            function show_add_dialog()
+            {
+                $("#add_dialog").dialog("open");
+            }
+        </script>
+    </head>
+    <body leftmargin="0" topmargin="0" rightmargin="0" bottommargin="0" scrolling="auto">
+        <div align="center" style="width: 100%; height: auto">
+
+            <div align="center" class="BodyDiv_Continer"> 
+                <div class="Header_Fotter">
+                    <%@ include file="/indexing/jspf/header_basic.jspf" %> 
+

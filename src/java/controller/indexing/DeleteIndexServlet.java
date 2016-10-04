@@ -20,8 +20,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author TUHAMA
  */
-@WebServlet(name = "DeleteIndexServlet", urlPatterns = {"/deleteMainBranch", "/deleteBranch", "/deleteCertificate",
-    "/deletePosition", "/deleteHealthleavetype", "/deletePunishmenttype", "/deleteUnpaidvacationtype", "/deleteDepartment", "/deleteSection", "/deleteDevision", "/deleteNatianality", "/deleteForeignlanguage", "/deleteCategory", "/deleteFamilystatus", "/deleteMartialstatus", "/deleteWorkstatus"})
+@WebServlet(name = "DeleteIndexServlet", urlPatterns = {"/indexing/deleteMainBranch", "/indexing/deleteBranch", "/indexing/deleteCertificate",
+    "/indexing/deletePosition", "/indexing/deleteHealthleavetype", "/indexing/deletePunishmenttype", "/indexing/deleteUnpaidvacationtype", "/indexing/deleteDepartment", "/indexing/deleteSection", "/indexing/deleteDevision", "/indexing/deleteNatianality", "/indexing/deleteForeignlanguage", "/indexing/deleteCategory", "/indexing/deleteFamilystatus", "/indexing/deleteMartialstatus", "/indexing/deleteWorkstatus"})
 public class DeleteIndexServlet extends HttpServlet {
 
     @EJB
@@ -73,92 +73,92 @@ public class DeleteIndexServlet extends HttpServlet {
 ////todo check constraints before delete
         String url = "";
         switch (userPath) {
-            case "/deleteMainBranch": {
+            case "/indexing/deleteMainBranch": {
                 Mainbranch m_branch = mainbranchFacade.find(Short.parseShort(request.getParameter("id")));
                 mainbranchFacade.remove(m_branch);
                 url = "mainbranch";
                 break;
             }
-            case "/deleteBranch": {
+            case "/indexing/deleteBranch": {
                 Branch branch = branchFacade.find(Short.parseShort(request.getParameter("id")));
                 branchFacade.remove(branch);
                 url = "branch";
                 break;
             }
-            case "/deleteCertificate":
+            case "/indexing/deleteCertificate":
                 Certificate certificate = certificateFacade.find(Short.parseShort(request.getParameter("id")));
                 certificateFacade.remove(certificate);
                 url = "certificate";
                 break;
-            case "/deletePosition":
+            case "/indexing/deletePosition":
                 Position position = positionFacade.find(Short.parseShort(request.getParameter("id")));
                 positionFacade.remove(position);
                 url = "position";
                 break;
-            case "/deleteHealthleavetype":
+            case "/indexing/deleteHealthleavetype":
                 Typehealthleave healthleavetype = healthleavetypeFacade.find(Short.parseShort(request.getParameter("id")));
                 healthleavetypeFacade.remove(healthleavetype);
                 url = "healthleavetype";
                 break;
-            case "/deletePunishmenttype":
+            case "/indexing/deletePunishmenttype":
                 Typepunishment punishmenttype = punishmenttypeFacade.find(Short.parseShort(request.getParameter("id")));
                 punishmenttypeFacade.remove(punishmenttype);
                 url = "punishmenttype";
                 break;
-            case "/deleteUnpaidvacationtype":
+            case "/indexing/deleteUnpaidvacationtype":
                 Typeunpaidvacation unpaidvtype = unpaidvacationtypeFacade.find(Short.parseShort(request.getParameter("id")));
                 unpaidvacationtypeFacade.remove(unpaidvtype);
                 url = "unpaidvacationtype";
                 break;
-            case "/deleteDepartment": {
+            case "/indexing/deleteDepartment": {
                 Department department = departmentFacade.find(Short.parseShort(request.getParameter("id")));
                 departmentFacade.remove(department);
                 url = "department";
                 break;
             }
-            case "/deleteSection": {
+            case "/indexing/deleteSection": {
                 Section section = sectionFacade.find(Short.parseShort(request.getParameter("id")));
                 sectionFacade.remove(section);
                 url = "section";
                 break;
             }
-            case "/deleteDevision": {
+            case "/indexing/deleteDevision": {
                 Devision devision = devisionFacade.find(Short.parseShort(request.getParameter("id")));
                 devisionFacade.remove(devision);
                 url = "devision";
                 break;
             }
-            case "/deleteNatianality": {
+            case "/indexing/deleteNatianality": {
                 Natianality natianality = natianalityFacade.find(Short.parseShort(request.getParameter("id")));
                 natianalityFacade.remove(natianality);
                 url = "natianality";
                 break;
             }
-            case "/deleteForeignlanguage": {
+            case "/indexing/deleteForeignlanguage": {
                 Foreignlanguage foreignlanguage = foreignlanguageFacade.find(Short.parseShort(request.getParameter("id")));
                 foreignlanguageFacade.remove(foreignlanguage);
                 url = "foreignlanguage";
                 break;
             }
-            case "/deleteCategory": {
+            case "/indexing/deleteCategory": {
                 Category category =categoryFacade.find(Short.parseShort(request.getParameter("id")));
                 categoryFacade.remove(category);
                 url = "category";
                 break;
             }
-            case "/deleteFamilystatus": {
+            case "/indexing/deleteFamilystatus": {
                 Familystatus familystatus =familystatusFacade.find(Short.parseShort(request.getParameter("id")));
                 familystatusFacade.remove(familystatus);
                 url = "familystatus";
                 break;
             }
-            case "/deleteMartialstatus": {
+            case "/indexing/deleteMartialstatus": {
                 Martialstatus martialstatus = martialstatusFacade.find(Short.parseShort(request.getParameter("id")));
                 martialstatusFacade.remove(martialstatus);
                 url = "martialstatus";
                 break;
             }
-            case "/deleteWorkstatus": {
+            case "/indexing/deleteWorkstatus": {
                 Workstatus workstatus = workstatusFacade.find(Short.parseShort(request.getParameter("id")));
                 workstatusFacade.remove(workstatus);
                 url = "workstatus";

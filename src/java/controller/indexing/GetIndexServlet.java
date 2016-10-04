@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author TUHAMA
  */
-@WebServlet(name = "GetIndexServlet", urlPatterns = {"/mainbranch","/branch", "/certificate", "/position", "/healthleavetype","/punishmenttype","/unpaidvacationtype","/department", "/section","/devision", "/natianality","/foreignlanguage","/category","/familystatus","/martialstatus", "/workstatus"})
+@WebServlet(name = "GetIndexServlet", urlPatterns = {"/indexing/mainbranch","/indexing/branch", "/indexing/certificate", "/indexing/position", "/indexing/healthleavetype","/indexing/punishmenttype","/indexing/unpaidvacationtype","/indexing/department", "/indexing/section","/indexing/devision", "/indexing/natianality","/indexing/foreignlanguage","/indexing/category","/indexing/familystatus","/indexing/martialstatus", "/indexing/workstatus"})
 public class GetIndexServlet extends HttpServlet {
     @EJB
     private MainbranchFacade mainbranchFacade;
@@ -67,76 +67,76 @@ public class GetIndexServlet extends HttpServlet {
                 String userPath = request.getServletPath();
 
         switch (userPath) {
-            case "/mainbranch":
+            case "/indexing/mainbranch":
                 getServletContext().setAttribute("mainbranches", mainbranchFacade.findAll());
                 userPath = "mainbranch.jsp";
                 break;
-            case "/branch":
+            case "/indexing/branch":
                 getServletContext().setAttribute("mainbranches", mainbranchFacade.findAll());
                 getServletContext().setAttribute("branches", branchFacade.findAll());
                 userPath = "branch.jsp";
                 break;
-            case "/certificate":
+            case "/indexing/certificate":
                 getServletContext().setAttribute("certificates", certificateFacade.findAll());
                 userPath = "certificate.jsp";
                 break;
-            case "/position":
+            case "/indexing/position":
                 getServletContext().setAttribute("positions", positionFacade.findAll());
                 userPath = "position.jsp";
                 break;
-            case "/healthleavetype":
+            case "/indexing/healthleavetype":
                 getServletContext().setAttribute("healthleave_types", healthleavetypeFacade.findAll());
                 userPath = "healthleavetype.jsp";
                 break;
-            case "/punishmenttype":
+            case "/indexing/punishmenttype":
                 getServletContext().setAttribute("punishment_types", punishmenttypeFacade.findAll());
                 userPath = "punishmenttype.jsp";
                 break;
-            case "/unpaidvacationtype":
+            case "/indexing/unpaidvacationtype":
                 getServletContext().setAttribute("unpaid_vacation_types", unpaidvacationtypeFacade.findAll());
                 userPath = "unpaidvacationtype.jsp";
                 break;
-            case "/department":
+            case "/indexing/department":
                 getServletContext().setAttribute("departments", departmentFacade.findAll());
                 userPath = "department.jsp";
                 break;
-            case "/section":
+            case "/indexing/section":
                 getServletContext().setAttribute("departments", departmentFacade.findAll());
                 getServletContext().setAttribute("sections", sectionFacade.findAll());
                 userPath = "section.jsp";
                 break;
-            case "/devision":
+            case "/indexing/devision":
                 getServletContext().setAttribute("departments", departmentFacade.findAll());
                 getServletContext().setAttribute("sections", sectionFacade.findAll());
                 getServletContext().setAttribute("devisions", devisionFacade.findAll());
                 userPath = "devision.jsp";
                 break;
-            case "/natianality":
+            case "/indexing/natianality":
                 getServletContext().setAttribute("natianalities", natianalityFacade.findAll());
                 userPath = "natianality.jsp";
                 break;
-            case "/foreignlanguage":
+            case "/indexing/foreignlanguage":
                 getServletContext().setAttribute("foreignlanguages", foreignlanguageFacade.findAll());
                 userPath = "foreignlanguage.jsp";
                 break;
-            case "/category":
+            case "/indexing/category":
                 getServletContext().setAttribute("categories", categoryFacade.findAll());
                 userPath = "category.jsp";
                 break;
-            case "/familystatus":
+            case "/indexing/familystatus":
                 getServletContext().setAttribute("familystatuss", familystatusFacade.findAll());
                 userPath = "familystatus.jsp";
                 break;
-            case "/martialstatus":
+            case "/indexing/martialstatus":
                 getServletContext().setAttribute("martialstatuss", martialstatusFacade.findAll());
                 userPath = "martialstatus.jsp";
                 break;
-            case "/workstatus":
+            case "/indexing/workstatus":
                 getServletContext().setAttribute("workstatuss", workstatusFacade.findAll());
                 userPath = "workstatus.jsp";
                 break;
         }
-        String url = "/WEB-INF/managment/view/" + userPath;
+        String url = "/indexing/view/" + userPath;
 
         try {
             request.getRequestDispatcher(url).forward(request, response);

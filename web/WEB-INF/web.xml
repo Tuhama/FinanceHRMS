@@ -17,36 +17,36 @@
         </jsp-property-group>
         <jsp-property-group>
             <description>managment header and footer settings</description>
-            <display-name>mangment jspf</display-name>
-            <url-pattern>/WEB-INF/managment/view/*</url-pattern>
-            <url-pattern>/WEB-INF/managment/index.html</url-pattern>
+            <display-name>indexing jspf</display-name>
+            <url-pattern>/indexing/view/*</url-pattern>
+            <url-pattern>/indexing/index.html</url-pattern>
             <page-encoding>UTF-8</page-encoding>
-            <include-prelude>/WEB-INF/managment/jspf/header.jspf</include-prelude>
-            <include-coda>/WEB-INF/managment/jspf/footer.jspf</include-coda>
+            <include-prelude>/indexing/jspf/header_indexing.jspf</include-prelude>
+            <include-coda>/WEB-INF/jspf/footer_2.jspf</include-coda>
         </jsp-property-group>
         <jsp-property-group>
             <description>staffing header and footer</description>
             <display-name>staffing jspf</display-name>
-            <url-pattern>/WEB-INF/staffing/index.html</url-pattern>
-            <url-pattern>/WEB-INF/staffing/view/*</url-pattern>
+            <url-pattern>/staffing/view/*</url-pattern>
+            <url-pattern>/staffing/index.html</url-pattern>
             <page-encoding>UTF-8</page-encoding>
-            <include-prelude>/WEB-INF/staffing/jspf/header.jspf</include-prelude>
-            <include-coda>/WEB-INF/staffing/jspf/footer.jspf</include-coda>
+            <include-prelude>/staffing/jspf/header_staffing.jspf</include-prelude>
+            <include-coda>/WEB-INF/jspf/footer_2.jspf</include-coda>
         </jsp-property-group>
         <jsp-property-group>
             <display-name>reporting jspf</display-name>
-            <url-pattern>/WEB-INF/reporting/view/*</url-pattern>
-            <url-pattern>/WEB-INF/reporting/index.html</url-pattern>
+            <url-pattern>/reporting/view/*</url-pattern>
+            <url-pattern>/reporting/index.html</url-pattern>
             <page-encoding>UTF-8</page-encoding>
-            <include-prelude>/WEB-INF/reporting/jspf/header.jspf</include-prelude>
-            <include-coda>/WEB-INF/reporting/jspf/footer.jspf</include-coda>
+            <include-prelude>/reporting/jspf/header_reporting.jspf</include-prelude>
+            <include-coda>/WEB-INF/jspf/footer_2.jspf</include-coda>
         </jsp-property-group>
         <jsp-property-group>
             <description>main jspf</description>
             <display-name>main jspf</display-name>
-            <url-pattern>/index.jsp</url-pattern>
+            <url-pattern>/index.html</url-pattern>
             <page-encoding>UTF-8</page-encoding>
-            <include-prelude>/WEB-INF/jspf/header_2.jspf</include-prelude>
+            <include-prelude>/WEB-INF/jspf/header_main.jspf</include-prelude>
             <include-coda>/WEB-INF/jspf/footer_2.jspf</include-coda>
         </jsp-property-group>
         <jsp-property-group>
@@ -58,75 +58,19 @@
         </jsp-property-group>
         <jsp-property-group>
             <display-name>search_staffing</display-name>
-            <url-pattern>/WEB-INF/search_staffing</url-pattern>
-            <url-pattern>/WEB-INF/search_staffing/employeeSearch.jsp</url-pattern>
+            <url-pattern>/staffing/search_staffing/employeeSearch.jsp</url-pattern>
             <page-encoding>UTF-8</page-encoding>
-            <include-prelude>/WEB-INF/search_staffing/jspf/header.jspf</include-prelude>
-            <include-coda>/WEB-INF/search_staffing/jspf/footer.jspf</include-coda>
+            <include-prelude>/staffing/search_staffing/jspf/header_staffing.jspf</include-prelude>
+            <include-coda>/WEB-INF/jspf/footer_2.jspf</include-coda>
         </jsp-property-group>
         <jsp-property-group>
             <display-name>search_reporting</display-name>
-            <url-pattern>/WEB-INF/search_reporting/employeeSearch.jsp</url-pattern>
-            <include-prelude>/WEB-INF/search_reporting/jspf/header.jspf</include-prelude>
-            <include-coda>/WEB-INF/search_reporting/jspf/footer.jspf</include-coda>
+            <url-pattern>/reporting/search_reporting/employeeSearch.jsp</url-pattern>
+            <page-encoding>UTF-8</page-encoding>
+            <include-prelude>/reporting/search_reporting/jspf/header_reporting.jspf</include-prelude>
+            <include-coda>/WEB-INF/jspf/footer_2.jspf</include-coda>
         </jsp-property-group>
     </jsp-config>
-    <security-constraint>
-        <display-name>Indexing</display-name>
-        <web-resource-collection>
-            <web-resource-name>index pages</web-resource-name>
-            <description/>
-            <url-pattern>/managment</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <description/>
-            <role-name>hrmsIndexing</role-name>
-        </auth-constraint>
-    </security-constraint>
-    <security-constraint>
-        <display-name>Staffing</display-name>
-        <web-resource-collection>
-            <web-resource-name>staffing pages</web-resource-name>
-            <description/>
-            <url-pattern>/staffing/*</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <description/>
-            <role-name>hrmsStaffing</role-name>
-        </auth-constraint>
-    </security-constraint>
-    <security-constraint>
-        <display-name>Reporting</display-name>
-        <web-resource-collection>
-            <web-resource-name>reporting pages</web-resource-name>
-            <description/>
-            <url-pattern>/reporting/*</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <description/>
-            <role-name>hrmsReporting</role-name>
-        </auth-constraint>
-    </security-constraint>
-    <login-config>
-        <auth-method>FORM</auth-method>
-        <realm-name>file</realm-name>
-        <form-login-config>
-            <form-login-page>/login.jsp</form-login-page>
-            <form-error-page>/error.jsp</form-error-page>
-        </form-login-config>
-    </login-config>
-    <security-role>
-        <description/>
-        <role-name>hrmsIndexing</role-name>
-    </security-role>
-    <security-role>
-        <description/>
-        <role-name>hrmsStaffing</role-name>
-    </security-role>
-    <security-role>
-        <description/>
-        <role-name>hrmsReporting</role-name>
-    </security-role>
     <resource-ref>
         <res-ref-name>jdbc/hrms</res-ref-name>
         <res-type>javax.sql.DataSource</res-type>

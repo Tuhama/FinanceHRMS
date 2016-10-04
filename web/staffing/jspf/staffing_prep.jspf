@@ -1,0 +1,162 @@
+<%-- temporary:: need to replace jstl tags with js and move th cod to a js file --%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page pageEncoding="UTF-8" %>
+<script>
+
+    $(document).ready(function () {
+        if ('${employee}' !== "")
+            prepareData4Edit();
+        overrideSubmits();
+    });
+
+    function prepareData4Edit() {
+                document.getElementById("dateOfBirth").value = formatDate_box('${employee.dateOfBirth}');
+                document.getElementById("workdocdate").value = formatDate_box('${employee.workdocdate}');
+                document.getElementById("modworkdocdate").value = formatDate_box('${employee.modworkdocdate}');
+                document.getElementById("firstworkdate").value = formatDate_box('${employee.firstworkdate}');
+               
+        /////for editing window
+        var devision = '${employee.devisionId}';
+        var section = getsection_for_devision(devision);
+        var department = getdepartment_for_section(section);
+        //fill the select element and set the selected option
+        fill_departments(department);
+        fill_sections(department, section);
+        fill_devisions(section, devision);
+    }
+
+
+
+    function getsection_for_devision(i)
+    {
+        if ("${!empty devisions}")
+        {
+    <c:forEach var = "devision" items = "${devisions}" varStatus = "iter">
+            if ("${devision}" == i)
+                return "${devision.sectionId}";
+    </c:forEach>
+        }
+    }
+    
+    function getdepartment_for_section(i)
+    {
+        if ("${!empty sections}")
+        {
+    <c:forEach var = "section" items = "${sections}" varStatus = "iter">
+            if ("${section}" == i)
+                return "${section.departmentId}";
+    </c:forEach>
+        }
+    }
+    function fill_departments(dep)
+    {
+        //clear old elements
+        var dep_select = document.getElementById("departments_select");
+        dep_select.innerHTML = '';
+        if ("${!empty departments}")
+        {
+
+    <c:forEach var = "dep_" items = "${departments}" varStatus = "iter">
+            {
+                var z = document.createElement("option");
+                z.setAttribute("value", "${dep_}");
+                //set the selected department
+                if ("${dep_}" == dep)
+                    z.setAttribute("selected", "selected");
+                var t = document.createTextNode("${dep_.name}");
+                z.appendChild(t);
+                document.getElementById("departments_select").appendChild(z);
+            }
+    </c:forEach>
+
+        }
+    }
+
+    function fill_sections(dep, sec)
+    {
+        //clear old elements
+        var sec_select = document.getElementById("sections_select");
+        sec_select.innerHTML = '';
+        if ("${!empty sections}")
+        {
+
+    <c:forEach var = "sec_" items = "${sections}" varStatus = "iter">
+            if ("${sec_.departmentId}" == dep) {
+                var z = document.createElement("option");
+                z.setAttribute("value", "${sec_.id}");
+                //set the selected department
+                if ("${sec_}" == sec)
+                    z.setAttribute("selected", "selected");
+                var t = document.createTextNode("${sec_.name}");
+                z.appendChild(t);
+                document.getElementById("sections_select").appendChild(z);
+            }
+    </c:forEach>
+
+        }
+
+    }
+    function fill_devisions(sec, dev)
+    {
+        //clear old elements
+        var dev_select = document.getElementById("devisions_select");
+        dev_select.innerHTML = '';
+        if ("${!empty devisions}")
+        {
+
+    <c:forEach var = "dev_" items = "${devisions}" varStatus = "iter" >
+            if ("${dev_.sectionId}" == sec) {
+                var z = document.createElement("option");
+                z.setAttribute("value", "${dev_.id}");
+                //set the selected department
+                if ("${dev_}" == dev)
+                    z.setAttribute("selected", "selected");
+                var t = document.createTextNode("${dev_.name}");
+                z.appendChild(t);
+                document.getElementById("devisions_select").appendChild(z);
+            }
+    </c:forEach>
+
+        }
+
+    }
+    /////////////this script is for filling related combo boxes automatically when one comboBox is changed    
+
+    function refill_sections(depselect) {
+        //clear old elements
+        var select = document.getElementById("sections_select");
+        select.innerHTML = '<option>--الدائرة--</option>';
+        var i = depselect.options[depselect.selectedIndex].value;
+    <c:if test = "${!empty sections}">
+        <c:forEach var = "section" items = "${sections}" varStatus = "iter">
+        var x = "${section.departmentId}";
+        if (x === i) {
+            var z = document.createElement("option");
+            z.setAttribute("value", "${section}");
+            var t = document.createTextNode("${section.name}");
+            z.appendChild(t);
+            document.getElementById("sections_select").appendChild(z);
+        }
+        </c:forEach>
+    </c:if>
+    }
+    function refill_devisions(secselect) {
+        //clear old elements
+        var select = document.getElementById("devisions_select");
+        select.innerHTML = '';
+        var i = secselect.options[secselect.selectedIndex].value;
+    <c:if test = "${!empty devisions}" >
+        <c:forEach var = "devision" items = "${devisions}" varStatus = "iter" >
+        var x = "${devision.sectionId}";
+        if (x === i) {
+            var z = document.createElement("option");
+            z.setAttribute("value", "${devision.id}");
+            var t = document.createTextNode("${devision.name}");
+            z.appendChild(t);
+            document.getElementById("devisions_select").appendChild(z);
+        }
+        </c:forEach>
+    </c:if>
+    }
+
+</script>

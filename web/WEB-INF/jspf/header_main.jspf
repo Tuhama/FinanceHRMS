@@ -1,0 +1,29 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page pageEncoding="UTF-8" %>
+<html xml:lang="ar" lang="ar"  dir="rtl"><head>
+        <title>برنامج ذاتيات الموظفين
+            الهيئة العامة للضرائب والرسوم </title>
+        <meta http-equiv="Content-Type" content="text/html; charset=windows-1256">
+<link rel="shortcut icon" href="img/favicon.ico">
+
+        <link href="css/arwhite.css" rel="stylesheet" type="text/css">
+
+        <style type="text/css">
+            <!--
+            @import"css/arcssmenuvertical.css";
+            -->
+        </style>
+    </head>
+    <body leftmargin="0" topmargin="0" rightmargin="0" bottommargin="0" scrolling="auto">
+        <div align="center" style="width: 100%; height: auto">
+
+            <div align="center" class="BodyDiv_Continer"> 
+                <div class="Header_Fotter">
+                    <%@ include file="/WEB-INF/jspf/header_basic.jspf" %> 
+
+
+
+
+
+
+

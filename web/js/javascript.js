@@ -14,7 +14,7 @@ jQuery(document).ready(function () {
 
     prepareDataTables();
 
-    validate_forms();
+   // validate_forms();
     
     prepareCalendar();
 });
@@ -22,23 +22,20 @@ jQuery(document).ready(function () {
 
 function prepareCalendar()
 {
-    $('input[type="date"]').mask("9999/99/99",{placeholder:"يوم/شهر/سنة"});
+    $( '.datepicker' ).datepicker( $.datepicker.regional[ "ar" ] );
+    $( '.datepicker' ).datepicker({dateFormat:'dd/mm/yy'}); 
+    $( '.datepicker' ).mask("99/99/9999",{placeholder:"--/--/----"});
+    //$('input[type="date"]').mask("9999/99/99",{placeholder:"يوم/شهر/سنة"});
 }
 
 function prepareTabs()
 {
-    jQuery('.tabs .tab-links a').on('click', function (e) {
-        var currentAttrValue = jQuery(this).attr('href');
-
-        // Show/Hide Tabs
-        jQuery('.tabs ' + currentAttrValue).show().siblings().hide();
-
-        // Change/remove current tab to active
-        jQuery(this).parent('li').addClass('active').siblings().removeClass('active');
-        //move focus to the first input element of the active tab
-        $('form').find('*').filter(':input:visible:first').focus();
-        e.preventDefault();
-    });
+    $( "#tabs" ).tabs({
+  activate: function( event, ui ) {
+      //set focus to the first input element in the tab
+      $('form').find('*').filter(':input:visible:first').focus();
+  }
+});
 }
 
 function tab_enter_key() {
@@ -102,7 +99,7 @@ function formatDate_box(ds)
     if (month < 10)
         month = "0" + (d.getMonth() + 1);
 
-    var st = d.getFullYear() + "-" + month + "-" + day;
+    var st = day + "/" + month + "/" + d.getFullYear();
     return st;
 }
 function formatDate(ds)
@@ -113,20 +110,5 @@ function formatDate(ds)
 }
 
 
-//used by indexing pages
-function show_edit_dialog(id, name)
-{
-    document.getElementById("e_d_id").value = id;
-    document.getElementById("e_d_name").value = name;
-    $("#edit_dialog").dialog("open");
-}
-function show_delete_dialog(id)
-{
-    document.getElementById("d_d_id").value = id;
-    $("#delete_dialog").dialog("open");
-}
-function show_add_dialog()
-{
-    $("#add_dialog").dialog("open");
-}
+
 

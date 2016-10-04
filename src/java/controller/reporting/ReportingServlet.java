@@ -20,7 +20,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
  *
  * @author TUHAMA
  */
-@WebServlet(name = "ReportingServlet", urlPatterns = {"/allEmployeeRep"})
+@WebServlet(name = "ReportingServlet", urlPatterns = {"/reporting/allEmployeeRep"})
 public class ReportingServlet extends HttpServlet {
     
     @EJB
@@ -34,14 +34,14 @@ public class ReportingServlet extends HttpServlet {
         String userPath = request.getServletPath();
         switch (userPath) {
 
-            case "/allEmployeeRep":
+            case "/reporting/allEmployeeRep":
                 JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(employeeFacade.findAll());
                 getServletContext().setAttribute("data_source", beanCollectionDataSource);
                 
                 userPath = "allEmployeeReport.jsp";
-                url = "/WEB-INF/reporting/reports/" + userPath;
+                url = "/reporting/reports/" + userPath;
                 break;
-            case "/emp_report":
+            case "/reporting/emp_report":
                 /*String targetId = request.getParameter("id");
                  if (targetId != null) {
                  targetId = targetId.trim().toLowerCase();

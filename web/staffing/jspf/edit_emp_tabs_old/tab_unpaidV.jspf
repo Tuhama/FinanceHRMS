@@ -1,0 +1,218 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+
+<table id="unpaidV_table"  class="display" cellspacing="0" width="400">
+    <thead>
+        <tr class="tableHeading">
+            <th> رقم</th>
+            <th>نوع الإجازة</th>
+            <th>تاريخ البدء</th>
+            <th>تاريخ النهاية</th>
+            <th>السبب</th>
+            <th>مؤشر طي</th>
+            <th>نوع المستند</th>
+            <th>رقم المستند</th>
+            <th>تاريخ المستند</th>                
+            <th> </th>
+            <th> </th>
+        </tr>
+    </thead>
+    <tbody>
+    <c:if test="${!empty emp_unpaid_vs}">
+        <c:forEach var="emp_unpaid_v" items="${emp_unpaid_vs}" varStatus="iter">
+            <tr> 
+                <td>${emp_unpaid_v.id}</td>
+
+            <c:forEach var="unpaid_vacation_type" items="${unpaid_vacation_types}" varStatus="iter">
+                <c:if test="${emp_unpaid_v.typeunpaidvacationId eq unpaid_vacation_type}">
+                    <td>${unpaid_vacation_type.name}</td>
+                </c:if>
+            </c:forEach>
+
+            <td><script type="text/javascript">
+                document.write(formatDate('${emp_unpaid_v.startdate}'));
+                </script></td>
+
+            <td><script type="text/javascript">
+                document.write(formatDate('${emp_unpaid_v.enddate}'));
+                </script></td>
+
+            <td>${emp_unpaid_v.reason}</td>
+            <td> <input type="checkbox" name="folding" editable="false" ${emp_unpaid_v.folding == "true"?"checked":""}></td>
+            <td>${emp_unpaid_v.doctype}</td>
+
+            <td>${emp_unpaid_v.docnumber}</td>
+
+            <td><script type="text/javascript">
+                document.write(formatDate('${emp_unpaid_v.docdate}'));
+                </script></td>  
+            <td></td> 
+            <td></td> 
+            </tr>
+        </c:forEach>
+    </c:if>
+</tbody>
+
+</table>
+
+
+<form id="unpaidVForm" method="post"  accept-charset="UTF-8"  action="<c:url value='addEmpUnpaidV'/>">
+ <div class="error"></div>
+    <table>
+        <tbody>
+            <tr>
+                <td>نوع الإجازة:</td>
+                <td><select name="typeunpaidvacation_id">
+                        <c:if test="${!empty unpaid_vacation_types}">
+                            <c:forEach var="unpaid_vacation_type" items="${unpaid_vacation_types}" varStatus="iter">
+
+                                <option value="${unpaid_vacation_type.id}">
+                                    ${unpaid_vacation_type.name}
+                                </option>
+
+                            </c:forEach>
+                        </c:if>
+                    </select></td>
+                <td>تاريخ البدء:</td>
+                <td><input  type="text" class="datepicker"   name="startdate"></td>
+
+
+                <td>تاريخ النهاية:</td>
+                <td><input  type="text" class="datepicker"   name="enddate"></td>
+            </tr>
+            <tr>
+                <td>السبب:</td>
+                <td><input type="text" name="reason"></td>
+                <td>
+                    مؤشر طي:</td>
+                <td> <input type="checkbox" name="folding" value="true"></td>
+            </tr>
+            <tr>
+                <td>نوع المستند:</td>
+                <td><input type="text" name="doctype"></td>
+                <td>رقم المستند:</td>
+                <td><input type="text" name="docnumber"></td>
+                <td>تاريخ المستند:</td>
+                <td><input  type="text" class="datepicker"   name="docdate"></td>      
+            </tr>
+        </tbody>
+    </table>
+    <button type="submit" form="unpaidVForm" value="Submit">إضافة</button>
+</form>
+
+
+<div id="editUnpaidV_dialog" title="تعديل">
+    <form id="editUnpaidVForm" method="post"  accept-charset="UTF-8">
+        <table>
+            <tbody>
+                <tr hidden="hidden">
+                    <td>
+                        <input type="text" name="id" id="e_d_u_id"  />
+                    </td>
+                </tr>
+                <tr>
+                    <td>نوع الإجازة:</td>
+                    <td><select name="typeunpaidvacation_id" id="e_d_u_typeunpaidvacation_id">
+                            <c:if test="${!empty unpaid_vacation_types}">
+                                <c:forEach var="unpaid_vacation_type" items="${unpaid_vacation_types}" varStatus="iter">
+                                    <option value="${unpaid_vacation_type.id}">
+                                        ${unpaid_vacation_type.name}
+                                    </option>
+                                </c:forEach>
+                            </c:if>
+                        </select></td>
+                    <td>تاريخ البدء:</td>
+                    <td><input  type="text" class="datepicker"   name="startdate" id="e_d_u_startdate"></td>
+                    <td>تاريخ النهاية:</td>
+                    <td><input  type="text" class="datepicker"   name="enddate" id="e_d_u_enddate"></td>
+                </tr>
+                <tr>
+                    <td>السبب:</td>
+                    <td><input type="text" name="reason" id="e_d_u_reason"></td>
+                    <td>
+                        مؤشر طي:</td>
+                    <td> <input type="checkbox" name="folding" value="true" id="e_d_u_folding"></td>
+                </tr>
+                <tr>
+                    <td>نوع المستند:</td>
+                    <td><input type="text" name="doctype" id="e_d_u_doctype"></td>
+                    <td>رقم المستند:</td>
+                    <td><input type="text" name="docnumber" id="e_d_u_docnumber" ></td>
+                    <td>تاريخ المستند:</td>
+                    <td><input  type="text" class="datepicker"   name="docdate" id="e_d_u_docdate"></td>      
+                </tr>    
+            </tbody>
+        </table>
+        <input type="submit" value="تعديل"  onclick='$("#editUnpaidV_dialog").dialog("close")'>
+    </form>
+</div>
+
+<script>
+    function show_edit_dialog_unpaidv(row_data)
+    {
+        document.getElementById("e_d_u_id").value = row_data['id'];
+        var type = row_data['typeunpaidvacation_id'];
+        var dd = document.getElementById('e_d_u_typeunpaidvacation_id');
+        for (var i = 0; i < dd.options.length; i++) {
+            if (dd.options[i].text === type) {
+                dd.selectedIndex = i;
+                break;
+            }
+        }
+        document.getElementById("e_d_u_startdate").value = formatDate_box(row_data['startdate']);
+        document.getElementById("e_d_u_enddate").value = formatDate_box(row_data['enddate']);
+        document.getElementById("e_d_u_reason").value = row_data['reason'];
+        document.getElementById("e_d_u_folding").value = row_data['folding'];
+
+        document.getElementById("e_d_u_doctype").value = row_data['doctype'];
+        document.getElementById("e_d_u_docnumber").value = row_data['docnumber'];
+        document.getElementById("e_d_u_docdate").value = formatDate_box(row_data['docdate']);
+
+        $("#editUnpaidV_dialog").dialog("open");
+    }
+
+    function edit_unpaidV_table_row()
+    {
+        var new_data = "{";
+        new_data += "\"" + "id" + "\"" + ":" + "\"" + document.getElementById("e_d_u_id").value + "\"";
+        new_data += ",";
+        new_data += "\"" + "typeunpaidvacation_id" + "\"" + ":" + "\"" + document.getElementById
+                ("e_d_u_typeunpaidvacation_id").options[document.getElementById("e_d_u_typeunpaidvacation_id").selectedIndex].text + "\"";
+        new_data += ",";
+        new_data += "\"" + "reason" + "\"" + ":" + "\"" + document.getElementById("e_d_u_reason").value + "\"";
+        new_data += ",";
+        new_data += "\"" + "folding" + "\"" + ":" + "\"" + document.getElementById("e_d_u_folding").value + "\"";
+        new_data += ",";
+        new_data += "\"" + "enddate" + "\"" + ":" + "\"" + document.getElementById("e_d_u_enddate").value + "\"";
+        new_data += ",";
+        new_data += "\"" + "startdate" + "\"" + ":" + "\"" + document.getElementById("e_d_u_startdate").value + "\"";
+        new_data += ",";
+        new_data += "\"" + "doctype" + "\"" + ":" + "\"" + document.getElementById("e_d_u_doctype").value + "\"";
+        new_data += ",";
+        new_data += "\"" + "docnumber" + "\"" + ":" + "\"" + document.getElementById("e_d_u_docnumber").value + "\"";
+        new_data += ",";
+        new_data += "\"" + "docdate" + "\"" + ":" + "\"" + document.getElementById("e_d_u_docdate").value + "\"";
+        new_data += "}";
+
+        $('#unpaidV_table').DataTable().row('.selected').data($.parseJSON(new_data)).draw(false);
+    }
+</script>                                
+
+
+
+<div id="deleteUnpaidV_dialog" title="حذف">
+    <form method="post" id="deleteUnpaidV_form">
+        <p>هل أنت متأكد من القيام بعملية الحذف؟</p>
+        <input type="text" name="id" id="d_d_u_id" hidden="hidden" />
+        <input type="submit" value="حذف" onclick='$("#deleteUnpaidV_dialog").dialog("close")' />
+        <input type="button" value="إلغاء" onclick='$("#deleteUnpaidV_dialog").dialog("close")' />
+    </form>
+</div>
+
+<script>
+    function show_delete_dialog_unpaidv(id)
+    {
+        document.getElementById("d_d_u_id").value = id;
+        $("#deleteUnpaidV_dialog").dialog("open");
+    }
+</script>

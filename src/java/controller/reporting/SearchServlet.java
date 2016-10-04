@@ -38,8 +38,9 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
  */
 @WebServlet(name = "SearchRepServlet",
         urlPatterns = {
-            "/searchRepView",
-            "/searchRepEmp"})
+            "/reporting/searchRepView",
+            "/reporting/searchRepEmp",
+        "/reporting/empRepView"})
 public class SearchServlet extends HttpServlet {
 
     private Employee employee = new Employee();
@@ -58,44 +59,50 @@ public class SearchServlet extends HttpServlet {
 
         switch (userPath) {
 
-            case "/searchRepView":
-                String url = "/WEB-INF/search_reporting/employeeSearch.jsp";
+            case "/reporting/searchRepView":
+                String url = "/reporting/search_reporting/employeeSearch.jsp";
                 request.getRequestDispatcher(url).forward(request, response);
                 break;
 
-            case "/searchRepEmp":
-                String action = request.getParameter("action");
+            case "/reporting/searchRepEmp":
+                String targetEmpStr = request.getParameter("term").trim().toLowerCase();
+                sendMatchingEmployees(targetEmpStr, response);
+                /* switch (action) {
+                 case "complete":
+                 String targetEmpStr = request.getParameter("id").trim().toLowerCase();
+                 sendMatchingEmployees(targetEmpStr, response);
+                 break;
+                 case "lookup":
+                 int targetEmpId = Integer.parseInt(request.getParameter("id").trim().toLowerCase());
+                 // setEmployeeInfo(targetEmpId);
+                 // java.sql.Connection conn = getJDBCConnection();//em.unwrap(java.sql.Connection.class);
+                 // JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(employeeFacade.find(em));
+                 getServletContext().setAttribute("emp_id", targetEmpId);
+                 getServletContext().getRequestDispatcher("/WEB-INF/reporting/reports/employeeReport.jsp").forward(request, response);
+                
+                 break;
+                 }*/
+                break;
+            case "/reporting/empRepView":
+                int targetEmpId = Integer.parseInt(request.getParameter("id").trim().toLowerCase());
+                getServletContext().setAttribute("emp_id", targetEmpId);
+                getServletContext().getRequestDispatcher("/reporting/reports/employeeReport.jsp").forward(request, response);
 
-                switch (action) {
-                    case "complete":
-                        String targetEmpStr = request.getParameter("id").trim().toLowerCase();
-                        sendMatchingEmployees(targetEmpStr, response);
-                        break;
-                    case "lookup":
-                        int targetEmpId = Integer.parseInt(request.getParameter("id").trim().toLowerCase());
-                        // setEmployeeInfo(targetEmpId);
-                        // java.sql.Connection conn = getJDBCConnection();//em.unwrap(java.sql.Connection.class);
-                        // JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(employeeFacade.find(em));
-                        getServletContext().setAttribute("emp_id", targetEmpId);
-                        getServletContext().getRequestDispatcher("/WEB-INF/reporting/reports/employeeReport.jsp").forward(request, response);
-
-                        break;
-                }
                 break;
         }
 
     }
-
+    /*
     public static Connection getJDBCConnection() {
-        Connection connection = null;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/hrms1", "root", "root");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return connection;
+    Connection connection = null;
+    try {
+    Class.forName("com.mysql.jdbc.Driver");
+    connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/hrms1", "root", "root");
+    } catch (Exception e) {
+    e.printStackTrace();
     }
+    return connection;
+    }*/
 
     private void setEmployeeInfo(int targetId) throws NumberFormatException {
         employee = employeeFacade.find(targetId);
@@ -120,7 +127,7 @@ public class SearchServlet extends HttpServlet {
 
     //send the search results to user
     private void sendMatchingEmployees(String emp_name, HttpServletResponse response) throws IOException {
-        // check if user sent empty string
+               // check if user sent empty string
         if (!emp_name.equals("")) {
             CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<Employee> cq = cb.createQuery(Employee.class);
@@ -137,14 +144,15 @@ public class SearchServlet extends HttpServlet {
             JsonArrayBuilder a = Json.createArrayBuilder();
             results.stream().forEach((elem) -> {
                 JsonObjectBuilder empBuilder = Json.createObjectBuilder();
+                String value = elem.getFirstname() + " " + elem.getFathername() + " " + elem.getLastname();
+
                 empBuilder.add("id", elem.getId())
-                        .add("firstname", elem.getFirstname())
-                        .add("lastname", elem.getLastname());
+                        .add("value", value);
                 a.add(empBuilder);
             });
             StringWriter stringWriter = new StringWriter();
             try (JsonWriter writer = Json.createWriter(stringWriter)) {
-                writer.writeArray(a.build());
+                writer.write(a.build());
             }
 
             response.setContentType("text/json;charset=UTF-8");

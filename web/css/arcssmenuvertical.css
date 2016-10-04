@@ -64,7 +64,8 @@ ul#navmenu a {
 ul#navmenu a:hover,
 ul#navmenu li:hover a,
 ul#navmenu li.iehover a {
-  background:url(../../images/ovmenu.gif) center no-repeat;
+ // background:url(../../images/ovmenu.gif) center no-repeat;
+  background:url(images/ovmenu.gif) center no-repeat;
   color: #FFFFFF; 
 }
 

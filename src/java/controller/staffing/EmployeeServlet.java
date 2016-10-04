@@ -33,7 +33,7 @@ import session.WorkstatusFacade;
  *
  * @author TUHAMA
  */
-@WebServlet(name = "AddEmployeeServlet", urlPatterns = {"/employeeView", "/addEmployee", "/editEmployee", "/deleteEmployee"})
+@WebServlet(name = "EmployeeServlet", urlPatterns = {"/staffing/employeeView", "/staffing/addEmployee", "/staffing/editEmployee", "/staffing/deleteEmployee"})
 public class EmployeeServlet extends HttpServlet {
 
     public static final int INSERT_MODE = 0;
@@ -44,7 +44,7 @@ public class EmployeeServlet extends HttpServlet {
     //to know if the operation is update or insert to the database
     private static int op_mode = INSERT_MODE;
 
-    private final SimpleDateFormat vSDF = new SimpleDateFormat("yyyy-MM-dd");
+    private final SimpleDateFormat vSDF = new SimpleDateFormat("dd/mm/yyyy");
 
     @EJB
     private EmployeeFacade employeeFacade;
@@ -75,13 +75,13 @@ public class EmployeeServlet extends HttpServlet {
         String userPath = request.getServletPath();
 
         switch (userPath) {
-            case "/employeeView":
+            case "/staffing/employeeView":
                 getServletContext().setAttribute("employee", null);
                 userPath = "newEmployeeT.jsp";
                 break;
         }
         // use RequestDispatcher to forward request internally
-        String url = "/WEB-INF/staffing/view/" + userPath;
+        String url = "/staffing/view/" + userPath;
 
         try {
             request.getRequestDispatcher(url).forward(request, response);
@@ -98,27 +98,22 @@ public class EmployeeServlet extends HttpServlet {
         try {
             switch (userPath) {
 
-                case "/editEmployee": {
+                case "/staffing/editEmployee": {
                     setOp_mode(UPDATE_MODE);
                     flushEmployee(request, response);
                     break;
                 }
-                case "/addEmployee":
+                case "/staffing/addEmployee":
                     setOp_mode(INSERT_MODE);
                     flushEmployee(request, response);
                     break;
 
-                case "/deleteEmployee":
+                case "/staffing/deleteEmployee":
                     // setOp_mode(DELETE_MODE);
                     deleteEmployee(request, response);
                     break;
             }
-            getServletContext().setAttribute("current_employee", employee);
-            userPath = "";
-            if (!userPath.equals("")) {
-                String url = "/WEB-INF/staffing/view/" + userPath;
-                request.getRequestDispatcher(url).forward(request, response);
-            }
+            getServletContext().setAttribute("current_employee", employee);//?? do we need it?
 
         } catch (NumberFormatException | ParseException ex) {
             Logger.getLogger(EmployeeServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -197,7 +192,8 @@ public class EmployeeServlet extends HttpServlet {
             employeeFacade.edit(employee);
         }
         } catch (Exception e) {
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+e.printStackTrace();
+//response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
     }
 

@@ -5,7 +5,7 @@ var empId = "";
 var currentDataTable;//to reach the curently edited data table
 
 function overrideSubmits() {
-    
+
     $("form#personalInfoForm").submit(function (event) {
         EmpInfo("addEmployee", $("form#personalInfoForm").serialize());
         event.preventDefault();
@@ -125,10 +125,15 @@ function callbackEmp() {
         if (req.status === 200) {
             empId = req.responseText;
             alert("تم الادخال بنجاح");
-            //move focus to next tab >>>>>>>>>>>>>>not working
-           // var selected = $("tabs").tabs("option", "selected");
-        //$("ul.tabs").tabs("option", "selected", selected + 1);
-        //$( "ul.tabs" ).tabs( "option", "active", 2);
+            
+            //fill the employee info to div in all tabs
+            var content = "الموظف الحالي: " + $('#firstname').val() + " " + $('#fathername').val() + " " + $('#lastname').val();
+            $('div.emp_breif').html(content);
+            
+            //move focus to next tab
+            var active = $("#tabs").tabs("option", "active");
+            $("#tabs").tabs("option", "active", active + 1);
+
         }
     }
 }
@@ -161,12 +166,12 @@ function callbackDetail() {
 
 }
 function editEmpDetail(uri, form_data) {
-    
-        var url = uri + "?" + form_data; //+ "&currentEmp=" + empId;
-        req = initRequest();
-        req.open("POST", url, true);
-        req.onreadystatechange = callbackEditDetail;
-        req.send(null);
+
+    var url = uri + "?" + form_data; //+ "&currentEmp=" + empId;
+    req = initRequest();
+    req.open("POST", url, true);
+    req.onreadystatechange = callbackEditDetail;
+    req.send(null);
 }
 function callbackEditDetail() {
     if (req.readyState === 4) {
@@ -176,7 +181,7 @@ function callbackEditDetail() {
             ///this didn't work  var is not obj it seems!!      >>>  $('#addEvent_table').DataTable().row.add( responseJson ).draw(false);
             edit_table_row(currentDataTable);
             alert("تم التعديل بنجاح");
-            
+
         }
         else
             alert("خطأ في الادخال .." + req.status);

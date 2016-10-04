@@ -21,7 +21,7 @@ import session.*;
  *
  * @author TUHAMA
  */
-@WebServlet(name = "ControllerServlet", loadOnStartup = 1,urlPatterns = {"/managment", "/staffing", "/reporting"})
+@WebServlet(name = "ControllerServlet", loadOnStartup = 1,urlPatterns = {"/indexing/", "/staffing/", "/reporting/"})
 public class ControllerServlet extends HttpServlet {
 
     @EJB
@@ -110,19 +110,19 @@ public class ControllerServlet extends HttpServlet {
         String userPath = request.getServletPath();
 
         switch (userPath) {
-            case "/managment":
-                userPath = "managment/index" + ".html";
+            case "/indexing/":
+                userPath = "/indexing/index" + ".html";
                 break;
-            case "/staffing":
-                userPath = "staffing/index" + ".html";
+            case "/staffing/":
+                userPath = "/staffing/index" + ".html";
                 break;
-            case "/reporting":
-                userPath = "reporting/index" + ".html";
+            case "/reporting/":
+                userPath = "/reporting/index" + ".html";
                 break;
         }
         // use RequestDispatcher to forward request internally
-        String url = "/WEB-INF/" + userPath;
-
+        //String url = "/WEB-INF/" + userPath;
+  String url =  userPath;
         try {
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception ex) {

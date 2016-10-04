@@ -1,0 +1,234 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<%-- for the empId in ajaxify.js to be sent with the details--%>
+<script> empId = ${employee.id};</script>
+
+
+<form id="personalInfoEditForm" method="post"  accept-charset="UTF-8"  action="<c:url value='editEmployee'/>">
+     <div class="error"></div>
+    <h3>بيانات شخصية:<hr></h3>
+    <table >
+        <tbody>
+            <tr>
+                <input type="text" name="id" hidden="hidden" value="${employee.id}" tabindex="1" autofocus/>
+                <td>الاسم:</td>
+                <td><input type="text" name="firstname" value="${employee.firstname}"></td>
+
+                <td>الكنية:</td>
+                <td><input type="text" name="lastname" value="${employee.lastname}"></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>اسم الاب:</td>
+                <td><input type="text" name="fathername" value="${employee.fathername}"></td>
+
+                <td>اسم الام:</td>
+                <td><input type="text" name="mothername" value="${employee.mothername}"></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>محل الولادة:</td>
+                <td><input type="text" name="placeOfBirth" value="${employee.placeOfBirth}"></td>
+                <td>تاريخ الولادة:</td>
+                <td><input  type="text" class="datepicker"   name="dateOfBirth" id="dateOfBirth"></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>محل ورقم القيد:</td>
+                <td><input type="text" name="registeinfo" value="${employee.registeinfo}"></td>
+                <td>الرقم الوطني:</td>
+                <td><input type="text" name="nationalnumber" value="${employee.nationalnumber}"></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>الجنس:</td>
+                <td>
+                    <select name="gender"  tabindex="40">
+                                    <c:forEach var="gender" items="${genders}" varStatus="iter">
+                                        <option value="${gender}" ${employee.gender == gender ?"selected":""}>
+                                            ${gender}
+                                        </option>
+                                    </c:forEach>
+                                </select>
+      </td>
+                <td>الجنسية:</td>
+                <td>
+                    <select name="natianality_id" tabindex="45">
+                                    <c:forEach var="natianality" items="${natianalities}" varStatus="iter">
+                                        <option value="${natianality.id}"  ${employee.natianalityId == natianality ?"selected":""}>
+                                            ${natianality.name}
+                                        </option>
+                                    </c:forEach>
+                                </select>
+      </td>
+                <td>اللغة الاجنبية:</td>
+                <td>
+                    <select name="foreignlanguage_id" tabindex="50">
+                                    <c:forEach var="foreignlanguage" items="${foreignlanguages}" varStatus="iter">
+                                        <option value="${foreignlanguage.id}" ${employee.foreignlanguageId == foreignlanguage ?"selected":""}>
+                                            ${foreignlanguage.name}
+                                        </option>
+                                    </c:forEach>
+                                </select></td>
+            </tr>
+            <tr>
+                <td>الهاتف:</td>
+                <td><input type="text" name="homePhone" value="${employee.homePhone}"></td>
+                <td>الموبايل:</td>
+                <td><input type="text" name="mobilePhone" value="${employee.mobilePhone}"></td>
+                <td>العنوان:</td>
+                <td><input type="text" name="address" value="${employee.address}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>بيانات وظيفية:</h3>
+    <table >
+        <tbody>
+            <tr>
+                <td>المديرية:</td>
+                <td><select name="branch_id">
+                        <c:if test="${!empty branches}">
+                            <c:forEach var="branch" items="${branches}" varStatus="iter">
+                                <option value="${branch.id}" ${employee.branchId == branch?"selected":""}>
+                                    ${branch.name}
+                                </option>
+
+                            </c:forEach>
+                        </c:if>
+                    </select></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>القسم:</td>
+                <td><select name="department_id" id="departments_select"  onchange="refill_sections(this)">
+                    </select></td>
+
+                <td >الدائرة:</td>
+                <td><select id="sections_select" name="section_id"  onChange="refill_devisions(this)"></select></td>
+                <td>الشعبة:</td>
+                <td><select id="devisions_select" name="devision_id" ></select></td>
+            </tr>
+            <tr>
+                <td>الفئة:</td>
+                <td>
+                    <select name="category_id" tabindex="90">
+                                    <c:forEach var="category" items="${categories}" varStatus="iter">
+                                        <option value="${category.id}"  ${employee.categoryId == category ?"selected":""}>
+                                            ${category.name}
+                                        </option>
+                                    </c:forEach>
+                                </select>
+                    </td>
+                <td>الراتب المقطوع:</td>
+                <td><input type="text" name="basesalary" value="${employee.basesalary}"></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>الوضع الوظيفي:</td>
+                <td>
+                    <select name="workstatus_id" tabindex="100">
+                                    <c:forEach var="workstatus" items="${workstatuss}" varStatus="iter">
+                                        <option value="${workstatus.id}" ${employee.workstatusId == workstatus ?"selected":""}>
+                                            ${workstatus.name}
+                                        </option>
+                                    </c:forEach>  
+                                </select>
+</td>
+                <td>الحالة العائلية:</td>
+                <td>
+                    
+                                <select name="familystatus_id" tabindex="105">
+                                    <c:forEach var="familystatus" items="${familystatuss}" varStatus="iter">
+                                        <option value="${familystatus.id}"  ${employee.familystatusId == familystatus ?"selected":""}>
+                                            ${familystatus.name}
+                                        </option>
+                                    </c:forEach>
+                                </select>
+</td>
+                <td>حالة الخدمةالعسكرية:</td>
+                <td>
+                    <select name="martialstatus_id" tabindex="110">
+                                    <c:forEach var="martialstatus" items="${martialstatuss}" varStatus="iter">
+                                        <option value="${martialstatus.id}" ${employee.martialstatusId == martialstatus ?"selected":""}>
+                                            ${martialstatus.name}
+                                        </option>
+                                    </c:forEach>
+                                </select>
+</td>
+            </tr>
+            <tr>
+                <td>آخر مؤهل علمي:</td>
+                <td><select name="certificate_id">
+        
+                            <c:forEach var="certificate" items="${certificates}" varStatus="iter">
+
+                                <option value="${certificate.id}" ${employee.certificateId == certificate ?"selected":""}>
+                                    ${certificate.name}
+                                </option>
+
+                            </c:forEach>
+                                         
+                    </select></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr><td>&nbsp;</td></tr>
+            <tr>
+                <td>تاريخ اول مباشرة::</td>
+                <td><input  type="text" class="datepicker"   name="firstworkdate"  id="firstworkdate"></td>
+                <td></td>
+                <td></td>                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>رقم قرار التعيين:</td>
+                <td><input type="text" name="workdocnumber" value="${employee.workdocnumber}"></td>
+                <td> تاريخ قرار التعيين:</td>
+                <td><input  type="text" class="datepicker"   name="workdocdate" id="workdocdate"></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>تعديل رقم قرار التعيين:</td>
+                <td><input type="text" name="modworkdocnumber" value="${employee.modworkdocnumber}"></td>
+                <td>تعديل تاريخ قرار التعيين:</td>
+                <td><input  type="text" class="datepicker"   name="modworkdocdate" id="modworkdocdate"></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr><td>&nbsp;</td>
+                <td></td>
+                <td></td>                
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>الرقم التأميني:</td>
+                <td><input type="text" name="socialsecuritynumber" value="${employee.socialsecuritynumber}"></td>
+                <td>الرقم الذاتي:</td>
+                <td><input type="text" name="personalnumber" value="${employee.personalnumber}"></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    ملاحظات:<br>
+    <textarea name="notes">${employee.notes}</textarea>
+    <br>
+     <button type="submit" form="personalInfoEditForm" value="Submit" tabindex="160">حفظ</button>
+
+</form>
+

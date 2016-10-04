@@ -1,0 +1,177 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+
+<table id="healthLeave_table"  class="display" cellspacing="0" width="400">
+    <thead>
+        <tr class="tableHeading">
+            <th> </th>
+            <th>نوع الإجازة</th>
+            <th>تاريخ البدء</th>
+            <th>تاريخ النهاية</th>
+            <th>السنة</th>
+            <th>مدة الاجازة</th> 
+            <th> </th>
+            <th> </th>
+        </tr>
+    </thead>
+    <tbody>
+
+    <c:if test="${!empty emp_helthleaves}">
+        <c:forEach var="emp_helthleave" items="${emp_helthleaves}" varStatus="iter">
+            <tr class="${((iter.index % 2) == 1) ? 'lightBlue' : 'white'} tableRow">
+                <td>${emp_helthleave.id}</td>
+            <c:forEach var="healthleave_type" items="${healthleave_types}" varStatus="iter">
+                <c:if test="${emp_helthleave.typehealthleaveId eq healthleave_type}">
+                    <td>${healthleave_type.name}</td>
+                </c:if>
+            </c:forEach>
+            <td><script type="text/javascript">
+                document.write(formatDate('${emp_helthleave.startdate}'));
+                </script></td> 
+            <td><script type="text/javascript">
+                document.write(formatDate('${emp_helthleave.enddate}'));
+                </script></td> 
+            <td>${emp_helthleave.year}</td>
+            <td>${emp_helthleave.dayscount}</td>
+            <td></td> 
+            <td></td> 
+            </tr>
+        </c:forEach>
+    </c:if>
+</tbody>
+</table> 
+
+
+<form id="healthLeavForm" method="post"  accept-charset="UTF-8"  action="<c:url value='addEmpHealthLeave'/>">
+ <div class="error"></div>
+    <table>
+        <tbody>
+            <tr>
+                <td>نوع الإجازة:</td>
+                <td><select name="typehealthleave_id">
+                        <c:if test="${!empty healthleave_types}">
+                            <c:forEach var="healthleave_type" items="${healthleave_types}" varStatus="iter">
+
+                                <option value="${healthleave_type.id}">
+                                    ${healthleave_type.name}
+                                </option>
+
+                            </c:forEach>
+                        </c:if>
+                    </select></td>
+                <td>تاريخ البدء:</td>
+                <td><input  type="text" class="datepicker"   name="startdate"></td>
+                <td>تاريخ النهاية:</td>
+                <td><input  type="text" class="datepicker"   name="enddate"></td>
+            </tr>
+            <tr>
+                <td>السنة:</td>
+                <td><input type="text" name="year"></td>
+                <td>مدة الاجازة :</td>
+                <td><input type="text" name="dayscount"></td>
+            </tr>
+        </tbody>
+    </table>
+    <button type="submit" form="healthLeavForm" value="Submit">إضافة</button>
+</form>
+
+<div id="editHealthleave_dialog" title="تعديل">
+    <form id="editHealthleaveForm" method="post"  accept-charset="UTF-8">
+        <table>
+            <tbody>
+                <tr hidden="hidden">
+                    <td>
+                        <input type="text" name="id" id="e_d_h_id"  />
+                    </td>
+                </tr>
+                <tr>
+                    <td>نوع الإجازة:</td>
+                    <td><select name="typehealthleave_id" id="e_d_h_typehealthleave_id">
+                            <c:if test="${!empty healthleave_types}">
+                                <c:forEach var="healthleave_type" items="${healthleave_types}" varStatus="iter">
+
+                                    <option value="${healthleave_type.id}">
+                                        ${healthleave_type.name}
+                                    </option>
+
+                                </c:forEach>
+                            </c:if>
+                        </select></td>
+                    <td>تاريخ البدء:</td>
+                    <td><input  type="text" class="datepicker"   name="startdate" id="e_d_h_startdate"></td>
+                    <td>تاريخ النهاية:</td>
+                    <td><input  type="text" class="datepicker"   name="enddate" id="e_d_h_enddate"></td>
+                </tr>
+                <tr>
+                    <td>السنة:</td>
+                    <td><input type="text" name="year" id="e_d_h_year"></td>
+                    <td>مدة الاجازة :</td>
+                    <td><input type="text" name="dayscount" id="e_d_h_dayscount"></td>
+                </tr>
+
+
+            </tbody>
+        </table>
+        <input type="submit" value="تعديل"  onclick='$("#editHealthleave_dialog").dialog("close")'>
+    </form>
+
+</div>
+
+<script>
+
+    function show_edit_dialog_healthleave(row_data)
+    {
+        document.getElementById("e_d_h_id").value = row_data['id'];
+        var type = row_data['typehealthleaveId'];
+        var dd = document.getElementById('e_d_h_typehealthleave_id');
+        for (var i = 0; i < dd.options.length; i++) {
+            if (dd.options[i].text === type) {
+                dd.selectedIndex = i;
+                break;
+            }
+        }
+        document.getElementById("e_d_h_startdate").value = formatDate_box(row_data['startdate']);
+        document.getElementById("e_d_h_enddate").value = formatDate_box(row_data['enddate']);
+        document.getElementById("e_d_h_year").value = row_data['year'];
+        document.getElementById("e_d_h_dayscount").value = row_data['dayscount'];
+
+        $("#editHealthleave_dialog").dialog("open");
+    }
+
+    function edit_healthleave_table_row()
+    {
+        var new_data = "{";
+        new_data += "\"" + "id" + "\"" + ":" + "\"" + document.getElementById("e_d_h_id").value + "\"";
+        new_data += ",";
+        new_data += "\"" + "typehealthleaveId" + "\"" + ":" + "\"" + document.getElementById
+                ("e_d_h_typehealthleave_id").options[document.getElementById("e_d_h_typehealthleave_id").selectedIndex].text + "\"";
+        new_data += ",";
+        new_data += "\"" + "startdate" + "\"" + ":" + "\"" + document.getElementById("e_d_h_startdate").value + "\"";
+        new_data += ",";
+        new_data += "\"" + "enddate" + "\"" + ":" + "\"" + document.getElementById("e_d_h_enddate").value + "\"";
+        new_data += ",";
+        new_data += "\"" + "year" + "\"" + ":" + "\"" + document.getElementById("e_d_h_year").value + "\"";
+        new_data += ",";
+        new_data += "\"" + "dayscount" + "\"" + ":" + "\"" + document.getElementById("e_d_h_dayscount").value + "\"";
+        new_data += "}";
+
+        $('#healthLeave_table').DataTable().row('.selected').data($.parseJSON(new_data)).draw(false);
+    }
+</script>                                
+
+<div id="deleteHealthLeave_dialog" title="حذف">
+    <form method="post" id="deleteHealthLeave_form">
+        <p>هل أنت متأكد من القيام بعملية الحذف؟</p>
+        <input type="text" name="id" id="d_d_l_id" hidden="hidden" />
+        <input type="submit" value="حذف" onclick='$("#deleteHealthLeave_dialog").dialog("close")' />
+        <input type="button" value="إلغاء" onclick='$("#deleteHealthLeave_dialog").dialog("close")' />
+    </form>
+</div>
+
+<script>
+    function show_delete_dialog_leave(id)
+    {
+        document.getElementById("d_d_l_id").value = id;
+        $("#deleteHealthLeave_dialog").dialog("open");
+    }
+</script>

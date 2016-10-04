@@ -19,22 +19,22 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author TUHAMA
  */
-@WebServlet(name = "EditIndexServlet", urlPatterns = {"/editMainBranch",
-    "/editBranch",
-    "/editCertificate",
-    "/editPosition",
-    "/editHealthleavetype",
-    "/editPunishmenttype",
-    "/editUnpaidvacationtype",
-    "/editDepartment",
-    "/editSection",
-    "/editDevision",
-    "/editNatianality",
-    "/editForeignlanguage",
-    "/editCategory",
-    "/editFamilystatus",
-    "/editMartialstatus",
-    "/editWorkstatus"})
+@WebServlet(name = "EditIndexServlet", urlPatterns = {"/indexing/editMainBranch",
+    "/indexing/editBranch",
+    "/indexing/editCertificate",
+    "/indexing/editPosition",
+    "/indexing/editHealthleavetype",
+    "/indexing/editPunishmenttype",
+    "/indexing/editUnpaidvacationtype",
+    "/indexing/editDepartment",
+    "/indexing/editSection",
+    "/indexing/editDevision",
+    "/indexing/editNatianality",
+    "/indexing/editForeignlanguage",
+    "/indexing/editCategory",
+    "/indexing/editFamilystatus",
+    "/indexing/editMartialstatus",
+    "/indexing/editWorkstatus"})
 public class EditIndexServlet extends HttpServlet {
 
     @EJB
@@ -86,7 +86,7 @@ public class EditIndexServlet extends HttpServlet {
 
         String url = "";
         switch (userPath) {
-            case "/editMainBranch": {
+            case "/indexing/editMainBranch": {
                 Mainbranch m_branch = mainbranchFacade.find(Short.parseShort(request.getParameter("id")));
                 m_branch.setName(request.getParameter("name"));
                 mainbranchFacade.edit(m_branch);
@@ -94,7 +94,7 @@ public class EditIndexServlet extends HttpServlet {
                 break;
             }
 
-            case "/editBranch": {
+            case "/indexing/editBranch": {
                 Branch branch = branchFacade.find(Short.parseShort(request.getParameter("id")));
                 branch.setName(request.getParameter("name"));
                 Mainbranch m_branch = mainbranchFacade.find(Short.parseShort(request.getParameter("mainbranch")));
@@ -104,44 +104,44 @@ public class EditIndexServlet extends HttpServlet {
                 break;
             }
 
-            case "/editCertificate":
+            case "/indexing/editCertificate":
                 Certificate certificate = certificateFacade.find(Short.parseShort(request.getParameter("id")));
                 certificate.setName(request.getParameter("name"));
                 certificateFacade.edit(certificate);
                 url = "certificate";
                 break;
-            case "/editPosition":
+            case "/indexing/editPosition":
                 Position position = positionFacade.find(Short.parseShort(request.getParameter("id")));
                 position.setName(request.getParameter("name"));
                 positionFacade.edit(position);
                 url = "position";
                 break;
-            case "/editHealthleavetype":
+            case "/indexing/editHealthleavetype":
                 Typehealthleave healthleavetype = healthleavetypeFacade.find(Short.parseShort(request.getParameter("id")));
                 healthleavetype.setName(request.getParameter("name"));
                 healthleavetypeFacade.edit(healthleavetype);
                 url = "healthleavetype";
                 break;
-            case "/editPunishmenttype":
+            case "/indexing/editPunishmenttype":
                 Typepunishment punishmenttype = punishmenttypeFacade.find(Short.parseShort(request.getParameter("id")));
                 punishmenttype.setName(request.getParameter("name"));
                 punishmenttypeFacade.edit(punishmenttype);
                 url = "punishmenttype";
                 break;
-            case "/editUnpaidvacationtype":
+            case "/indexing/editUnpaidvacationtype":
                 Typeunpaidvacation unpaidvtype = unpaidvacationtypeFacade.find(Short.parseShort(request.getParameter("id")));
                 unpaidvtype.setName(request.getParameter("name"));
                 unpaidvacationtypeFacade.edit(unpaidvtype);
                 url = "unpaidvacationtype";
                 break;
-            case "/editDepartment": {
+            case "/indexing/editDepartment": {
                 Department department = departmentFacade.find(Short.parseShort(request.getParameter("id")));
                 department.setName(request.getParameter("name"));
                 departmentFacade.edit(department);
                 url = "department";
                 break;
             }
-            case "/editSection": {
+            case "/indexing/editSection": {
                 Section section = sectionFacade.find(Short.parseShort(request.getParameter("id")));
                 section.setName(request.getParameter("name"));
                 Department department = departmentFacade.find(Short.parseShort(request.getParameter("department")));
@@ -150,7 +150,7 @@ public class EditIndexServlet extends HttpServlet {
                 url = "section";
                 break;
             }
-            case "/editDevision": {
+            case "/indexing/editDevision": {
                 Devision devision = devisionFacade.find(Short.parseShort(request.getParameter("id")));
                 devision.setName(request.getParameter("name"));
                 Section section = sectionFacade.find(Short.parseShort(request.getParameter("section")));
@@ -159,42 +159,42 @@ public class EditIndexServlet extends HttpServlet {
                 url = "devision";
                 break;
             }
-            case "/editNatianality": {
+            case "/indexing/editNatianality": {
                 Natianality natianality = natianalityFacade.find(Short.parseShort(request.getParameter("id")));
                 natianality.setName(request.getParameter("name"));
                 natianalityFacade.edit(natianality);
                 url = "natianality";
                 break;
             }
-            case "/editForeignlanguage": {
+            case "/indexing/editForeignlanguage": {
                 Foreignlanguage foreignlanguage = foreignlanguageFacade.find(Short.parseShort(request.getParameter("id")));
                 foreignlanguage.setName(request.getParameter("name"));
                 foreignlanguageFacade.edit(foreignlanguage);
                 url = "foreignlanguage";
                 break;
             }
-            case "/editCategory": {
+            case "/indexing/editCategory": {
                 Category category = categoryFacade.find(Short.parseShort(request.getParameter("id")));
                 category.setName(request.getParameter("name"));
                 categoryFacade.edit(category);
                 url = "category";
                 break;
             }
-            case "/editFamilystatus": {
+            case "/indexing/editFamilystatus": {
                 Familystatus familystatus = familystatusFacade.find(Short.parseShort(request.getParameter("id")));
                 familystatus.setName(request.getParameter("name"));
                 familystatusFacade.edit(familystatus);
                 url = "familystatus";
                 break;
             }
-            case "/editMartialstatus": {
+            case "/indexing/editMartialstatus": {
                 Martialstatus martialstatus = martialstatusFacade.find(Short.parseShort(request.getParameter("id")));
                 martialstatus.setName(request.getParameter("name"));
                 martialstatusFacade.edit(martialstatus);
                 url = "martialstatus";
                 break;
             }
-            case "/editWorkstatus": {
+            case "/indexing/editWorkstatus": {
                 Workstatus workstatus = workstatusFacade.find(Short.parseShort(request.getParameter("id")));
                 workstatus.setName(request.getParameter("name"));
                 workstatusFacade.edit(workstatus);
