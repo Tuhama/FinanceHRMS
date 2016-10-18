@@ -17,7 +17,9 @@
             <div class="Div_Menu_Right" onmouseover="className = 'Div_Menu_Right_over';" onmouseout="className = 'Div_Menu_Right';">
                 <div align="right" dir="rtl" style="padding-right: 30px"><font class="txt_cat"><a href="<c:url value='/reporting/allEmployeeRep'/>" target="_self" class="txt_cat" dir="rtl">قائمة الموظفين في المديرية</a></font></div>
             </div>
-
+            <div class="Div_Menu_Right" onmouseover="className = 'Div_Menu_Right_over';" onmouseout="className = 'Div_Menu_Right';">
+                <div align="right" dir="rtl" style="padding-right: 30px"><font class="txt_cat"><a href="<c:url value='/reporting/freeRepView'/>" target="_self" class="txt_cat" dir="rtl">تقرير متعدد الخيارات</a></font></div>
+            </div>
         </div></div>
 
 </div>

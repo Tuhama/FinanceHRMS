@@ -4,6 +4,7 @@
     Author     : TUHAMA
 --%>
 
+<%@page import="controller.ControllerServlet"%>
 <%@page import="controller.reporting.SearchServlet"%>
 <%@page import="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"%>
 <%@page import="java.util.Map"%>
@@ -27,7 +28,8 @@
     File reportFile = new File(application.getRealPath("/resources/jReports/emp_rep.jasper"));//your report_name.jasper file
     
     
-    java.sql.Connection conn = SearchServlet.getJDBCConnection();
+    java.sql.Connection conn =//(Connection) getServletContext().getAttribute("DBConnection"); 
+            ControllerServlet.getJDBCConnection();
     
     Map parameters = new HashMap();
     int emp_id =(Integer)getServletContext().getAttribute("emp_id");

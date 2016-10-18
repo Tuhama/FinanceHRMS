@@ -39,8 +39,8 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 @WebServlet(name = "SearchRepServlet",
         urlPatterns = {
             "/reporting/searchRepView",
-            "/reporting/searchRepEmp",
-        "/reporting/empRepView"})
+            "/reporting/searchRepEmp"})
+
 public class SearchServlet extends HttpServlet {
 
     private Employee employee = new Employee();
@@ -83,26 +83,10 @@ public class SearchServlet extends HttpServlet {
                  break;
                  }*/
                 break;
-            case "/reporting/empRepView":
-                int targetEmpId = Integer.parseInt(request.getParameter("id").trim().toLowerCase());
-                getServletContext().setAttribute("emp_id", targetEmpId);
-                getServletContext().getRequestDispatcher("/reporting/reports/employeeReport.jsp").forward(request, response);
-
-                break;
+            
         }
 
     }
-    /*
-    public static Connection getJDBCConnection() {
-    Connection connection = null;
-    try {
-    Class.forName("com.mysql.jdbc.Driver");
-    connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/hrms1", "root", "root");
-    } catch (Exception e) {
-    e.printStackTrace();
-    }
-    return connection;
-    }*/
 
     private void setEmployeeInfo(int targetId) throws NumberFormatException {
         employee = employeeFacade.find(targetId);
@@ -127,7 +111,7 @@ public class SearchServlet extends HttpServlet {
 
     //send the search results to user
     private void sendMatchingEmployees(String emp_name, HttpServletResponse response) throws IOException {
-               // check if user sent empty string
+        // check if user sent empty string
         if (!emp_name.equals("")) {
             CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<Employee> cq = cb.createQuery(Employee.class);

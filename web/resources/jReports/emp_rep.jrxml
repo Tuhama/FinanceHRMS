@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="emp_rep" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true" uuid="b83b4611-ca67-4400-9082-4d615ecd617e">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="emp_id" class="java.lang.Integer">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     employee.`id` AS employee_id,
+     employee.`firstname` AS employee_firstname,
+     employee.`lastname` AS employee_lastname,
+     employee.`fathername` AS employee_fathername,
+     employee.`mothername` AS employee_mothername,
+     employee.`dateOfBirth` AS employee_dateOfBirth,
+     employee.`nationalnumber` AS employee_nationalnumber,
+     employee.`placeOfBirth` AS employee_placeOfBirth,
+     employee.`registeinfo` AS employee_registeinfo,
+     employee.`mobilePhone` AS employee_mobilePhone,
+     employee.`homePhone` AS employee_homePhone,
+     employee.`address` AS employee_address,
+     employee.`passportnumber` AS employee_passportnumber,
+     employee.`basesalary` AS employee_basesalary,
+     employee.`notes` AS employee_notes,
+     employee.`socialsecuritynumber` AS employee_socialsecuritynumber,
+     employee.`personalnumber` AS employee_personalnumber,
+     employee.`firstworkdate` AS employee_firstworkdate,
+     employee.`workdocnumber` AS employee_workdocnumber,
+     employee.`workdocdate` AS employee_workdocdate,
+     employee.`modworkdocnumber` AS employee_modworkdocnumber,
+     employee.`modworkdocdate` AS employee_modworkdocdate,
+     employee.`branch_id` AS employee_branch_id,
+     employee.`devision_id` AS employee_devision_id,
+     natianality.name AS employee_natianality,
+     employee.`foreignlanguage_id` AS employee_foreignlanguage_id,
+     employee.`category_id` AS employee_category_id,
+     employee.`workstatus_id` AS employee_workstatus_id,
+     certificate.name AS employee_certificate,
+     familystatus.name AS employee_familystatus,
+     martialstatus.name AS employee_martialstatus,
+     employee.`gender` AS employee_gender
+from employee
+inner join certificate
+on employee.certificate_id = certificate.id 
+inner join natianality
+on employee.natianality_id = natianality.id 
+inner join familystatus
+on employee.familystatus_id = familystatus.id 
+inner join martialstatus
+on employee.martialstatus_id = martialstatus.id 
+WHERE
+     employee.id = $P{emp_id}]]>
+	</queryString>
+	<field name="employee_id" class="java.lang.Long"/>
+	<field name="employee_firstname" class="java.lang.String"/>
+	<field name="employee_lastname" class="java.lang.String"/>
+	<field name="employee_fathername" class="java.lang.String"/>
+	<field name="employee_mothername" class="java.lang.String"/>
+	<field name="employee_dateOfBirth" class="java.sql.Date"/>
+	<field name="employee_nationalnumber" class="java.lang.String"/>
+	<field name="employee_placeOfBirth" class="java.lang.String"/>
+	<field name="employee_registeinfo" class="java.lang.String"/>
+	<field name="employee_mobilePhone" class="java.lang.String"/>
+	<field name="employee_homePhone" class="java.lang.String"/>
+	<field name="employee_address" class="java.lang.String"/>
+	<field name="employee_passportnumber" class="java.lang.String"/>
+	<field name="employee_basesalary" class="java.lang.Integer"/>
+	<field name="employee_notes" class="java.lang.String"/>
+	<field name="employee_socialsecuritynumber" class="java.lang.String"/>
+	<field name="employee_personalnumber" class="java.lang.String"/>
+	<field name="employee_firstworkdate" class="java.sql.Date"/>
+	<field name="employee_workdocnumber" class="java.lang.String"/>
+	<field name="employee_workdocdate" class="java.sql.Date"/>
+	<field name="employee_modworkdocnumber" class="java.lang.String"/>
+	<field name="employee_modworkdocdate" class="java.sql.Date"/>
+	<field name="employee_branch_id" class="java.lang.Integer"/>
+	<field name="employee_devision_id" class="java.lang.Integer"/>
+	<field name="employee_natianality" class="java.lang.String"/>
+	<field name="employee_foreignlanguage_id" class="java.lang.Integer"/>
+	<field name="employee_category_id" class="java.lang.Integer"/>
+	<field name="employee_workstatus_id" class="java.lang.Integer"/>
+	<field name="employee_certificate" class="java.lang.String"/>
+	<field name="employee_familystatus" class="java.lang.String"/>
+	<field name="employee_martialstatus" class="java.lang.String"/>
+	<field name="employee_gender" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="280" y="30" width="191" height="40" uuid="9caa5dbc-ec47-4c46-8fa1-d3749913a687"/>
+				<textElement>
+					<font fontName="DejaVu Sans" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ذاتية موظف]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="76" splitType="Stretch">
+			<staticText>
+				<reportElement x="380" y="40" width="100" height="30" uuid="f8744a1d-513d-4772-81ee-4c09a6788415"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<text><![CDATA[الاسم]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="280" y="40" width="100" height="30" uuid="ccfcff85-14a8-4adb-a4e3-fd2f35ccac63"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<text><![CDATA[الجنسية]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<textField>
+				<reportElement x="380" y="21" width="100" height="30" uuid="13c870b5-1a46-410b-9796-b33cab55faf7"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{employee_firstname}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="280" y="21" width="100" height="30" uuid="dc6aa740-3729-4c30-945f-3b47d4d447ca"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{employee_natianality}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

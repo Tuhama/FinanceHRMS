@@ -7,13 +7,18 @@ package controller;
 
 import entity.Mainbranch;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import javax.ejb.EJB;
+import javax.naming.InitialContext;
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 import session.CertificateFacade;
 import session.*;
 
@@ -139,5 +144,22 @@ public class ControllerServlet extends HttpServlet {
     public String getServletInfo() {
         return "Main Window Controller";
     }// </editor-fold>
+ public static Connection getJDBCConnection() {
+    Connection connection = null;
 
+    try {
+        /*        InitialContext context = new InitialContext();
+        DataSource dataSource = (DataSource) context.lookup("jdbc/hrms");
+        connection = dataSource.getConnection();*/
+       // getServletContext().
+    
+        //Connection con = (Connection) getServletContext().getAttribute("DBConnection");
+        
+      //  Class.forName("com.mysql.jdbc.Driver");
+    connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/hrms1", "root", "root");
+    } catch (Exception e) {
+    e.printStackTrace();
+    }
+    return connection;
+    }
 }
