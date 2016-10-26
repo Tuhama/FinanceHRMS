@@ -25,7 +25,7 @@ import session.TypehealthleaveFacade;
  *
  * @author TUHAMA
  */
-@WebServlet(name = "HealthLeaveServlet", urlPatterns = {"/addHealthLeave", "/editHealthLeave", "/deleteHealthLeave"})
+@WebServlet(name = "HealthLeaveServlet", urlPatterns = {"/staffing/addHealthLeave", "/staffing/editHealthLeave", "/staffing/deleteHealthLeave"})
 public class HealthLeaveServlet extends HttpServlet {
 
     public static final int INSERT_MODE = 0;
@@ -37,8 +37,8 @@ public class HealthLeaveServlet extends HttpServlet {
 
     private Employee employee = new Employee();
 
-    private final SimpleDateFormat vSDF = new SimpleDateFormat("yyyy-MM-dd");
-    private final SimpleDateFormat vSDF2 = new SimpleDateFormat("dd/MM/yyyy");
+    //private final SimpleDateFormat vSDF = new SimpleDateFormat("yyyy-MM-dd");
+    private final SimpleDateFormat vSDF = new SimpleDateFormat("dd/MM/yyyy");
 
     @EJB
     private EmpHealthleavFacade empHealthleavFacade;
@@ -56,17 +56,17 @@ public class HealthLeaveServlet extends HttpServlet {
         try {
             switch (userPath) {
 
-                case "/addHealthLeave": {
+                case "/staffing/addHealthLeave": {
                     setOp_mode(INSERT_MODE);
                     flushHealthLeave(request, response);
                     break;
                 }
-                case "/editHealthLeave": {
+                case "/staffing/editHealthLeave": {
                     setOp_mode(UPDATE_MODE);
                     flushHealthLeave(request, response);
                     break;
                 }
-                case "/deleteHealthLeave": {
+                case "/staffing/deleteHealthLeave": {
                     deleteHealthLeave(request, response);
                     break;
                 }
@@ -126,9 +126,9 @@ public class HealthLeaveServlet extends HttpServlet {
         s += ",";
         s += "\"" + "typehealthleave_id" + "\"" + ":" + "\"" + leave.getTypehealthleaveId().getName() + "\"";
         s += ",";
-        s += "\"" + "startdate" + "\"" + ":" + "\"" + vSDF2.format(leave.getStartdate()) + "\"";
+        s += "\"" + "startdate" + "\"" + ":" + "\"" + vSDF.format(leave.getStartdate()) + "\"";
         s += ",";
-        s += "\"" + "enddate" + "\"" + ":" + "\"" + vSDF2.format(leave.getEnddate()) + "\"";
+        s += "\"" + "enddate" + "\"" + ":" + "\"" + vSDF.format(leave.getEnddate()) + "\"";
         s += ",";
         s += "\"" + "year" + "\"" + ":" + "\"" + leave.getYear() + "\"";
         s += ",";

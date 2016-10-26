@@ -3,16 +3,21 @@ function validate_forms()
 {
     jQuery.validator.addMethod("arabiclettersonly", function (value, element) {
         return this.optional(element) || /^[\u0600-\u06ff ]+$/i.test(value);
-    }, "الرجاء إدخال أحرف عربية فقط");
+    });
 
     jQuery.validator.addMethod("digitsonly", function (value, element) {
         return this.optional(element) || /^\d+$/i.test(value);
-    }, "الرجاءادخال ارقام فقط");
-    
-    
-    
+    });
+
+
+
     $("#personalInfoForm").validate({
-        //errorLabelContainer: $("#personalInfoForm div.error"),
+        submitHandler: function (form) {
+            EmpInfo("addEmployee", $("form#personalInfoForm").serialize());
+        },
+        errorPlacement: function (error, element) {
+            return false;
+        },
         rules: {
             firstname: {
                 required: true,
@@ -72,12 +77,17 @@ function validate_forms()
                 required: true
             }
         },
-        messages:{
+        messages: {
             required: "*"
         }
     });
     $("#personalInfoEditForm").validate({
-        errorLabelContainer: $("#personalInfoEditForm div.error"),
+        submitHandler: function (form) {
+            EmpInfo("editEmployee", $("form#personalInfoEditForm").serialize());
+        },
+        errorPlacement: function (error, element) {
+            return false;
+        },
         rules: {
             firstname: {
                 required: true,
@@ -139,7 +149,14 @@ function validate_forms()
         }
     });
     $("#empEventForm").validate({
-        errorLabelContainer: $("#empEventForm div.error"),
+        submitHandler: function (form) {
+            createEmpDetail("addEvent", $("form#empEventForm").serialize());
+            // event.preventDefault();
+            currentDataTable = $('#event_table');
+        },
+        errorPlacement: function (error, element) {
+            return false;
+        },
         rules: {
             name: {
                 required: true,
@@ -165,7 +182,13 @@ function validate_forms()
         }
     });
     $("#healthLeavForm").validate({
-        errorLabelContainer: $("#healthLeavForm div.error"),
+        submitHandler: function (form) {
+            createEmpDetail("addHealthLeave", $("form#healthLeavForm").serialize());
+            currentDataTable = $('#healthLeave_table');
+        },
+        errorPlacement: function (error, element) {
+            return false;
+        },
         rules: {
             startdate: {
                 required: true
@@ -185,7 +208,13 @@ function validate_forms()
     });
 }
 $("#punishmentForm").validate({
-    errorLabelContainer: $("#punishmentForm div.error"),
+    submitHandler: function (form) {
+        createEmpDetail("addPunishment", $("form#punishmentForm").serialize());
+        currentDataTable = $('#punishment_table');
+    },
+    errorPlacement: function (error, element) {
+        return false;
+    },
     rules: {
         reason: {
             required: true,
@@ -207,7 +236,13 @@ $("#punishmentForm").validate({
     }
 });
 $("#rewardForm").validate({
-    errorLabelContainer: $("#rewardForm div.error"),
+    submitHandler: function (form) {
+        createEmpDetail("addReward", $("form#rewardForm").serialize());
+        currentDataTable = $('#reward_table');
+    },
+    errorPlacement: function (error, element) {
+        return false;
+    },
     rules: {
         kind: {
             required: true,
@@ -230,7 +265,13 @@ $("#rewardForm").validate({
     }
 });
 $("#serviceJoinForm").validate({
-    errorLabelContainer: $("#serviceJoinForm div.error"),
+    submitHandler: function (form) {
+        createEmpDetail("addServiceJoin", $("form#serviceJoinForm").serialize());
+        currentDataTable = $('#serviceJoin_table');
+    },
+    errorPlacement: function (error, element) {
+        return false;
+    },
     rules: {
         placeofservice: {
             required: true,
@@ -257,7 +298,13 @@ $("#serviceJoinForm").validate({
     }
 });
 $("#trainingForm").validate({
-    errorLabelContainer: $("#trainingForm div.error"),
+    submitHandler: function (form) {
+        createEmpDetail("addTraining", $("form#trainingForm").serialize());
+        currentDataTable = $('#training_table');
+    },
+    errorLabelContainer: $("#trainingForm div.error"), errorPlacement: function (error, element) {
+        return false;
+    },
     rules: {
         kind: {
             required: true,
@@ -282,7 +329,13 @@ $("#trainingForm").validate({
     }
 });
 $("#unpaidVForm").validate({
-    errorLabelContainer: $("#unpaidVForm div.error"),
+    submitHandler: function (form) {
+        deleteEmpDetail("deleteUnpaidV", $("form#deleteUnpaidV_form").serialize());
+        currentDataTable = $('#unpaidV_table');
+    },
+    errorPlacement: function (error, element) {
+        return false;
+    },
     rules: {
         startdate: {
             required: true

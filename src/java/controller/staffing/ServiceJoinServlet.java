@@ -23,7 +23,7 @@ import session.EmployeeFacade;
  *
  * @author TUHAMA
  */
-@WebServlet(name = "ServiceJoinServlet", urlPatterns = {"/addServiceJoin", "/editServiceJoin", "/deleteServiceJoin"})
+@WebServlet(name = "ServiceJoinServlet", urlPatterns = {"/staffing/addServiceJoin", "/staffing/editServiceJoin", "/staffing/deleteServiceJoin"})
 public class ServiceJoinServlet extends HttpServlet {
 
     public static final int INSERT_MODE = 0;
@@ -35,8 +35,8 @@ public class ServiceJoinServlet extends HttpServlet {
 
     private Employee employee = new Employee();
 
-    private final SimpleDateFormat vSDF2 = new SimpleDateFormat("dd/MM/yyyy");
-    private final SimpleDateFormat vSDF = new SimpleDateFormat("yyyy-MM-dd");
+    private final SimpleDateFormat vSDF = new SimpleDateFormat("dd/MM/yyyy");
+    //private final SimpleDateFormat vSDF = new SimpleDateFormat("yyyy-MM-dd");
     @EJB
     private EmployeeFacade employeeFacade;
     @EJB
@@ -52,17 +52,17 @@ public class ServiceJoinServlet extends HttpServlet {
         try {
             switch (userPath) {
 
-                case "/addServiceJoin": {
+                case "/staffing/addServiceJoin": {
                     setOp_mode(INSERT_MODE);
                     flushServiceJoin(request, response);
                     break;
                 }
-                case "/editServiceJoin": {
+                case "/staffing/editServiceJoin": {
                     setOp_mode(UPDATE_MODE);
                     flushServiceJoin(request, response);
                     break;
                 }
-                case "/deleteServiceJoin": {
+                case "/staffing/deleteServiceJoin": {
                     deleteServiceJoin(request, response);
                     break;
                 }
@@ -130,7 +130,7 @@ public class ServiceJoinServlet extends HttpServlet {
         s += ",";
         s += "\"" + "docnumber" + "\"" + ":" + "\"" + empServiceJ.getDocnumber() + "\"";
         s += ",";
-        s += "\"" + "docdate" + "\"" + ":" + "\"" + vSDF2.format(empServiceJ.getDocdate()) + "\"";
+        s += "\"" + "docdate" + "\"" + ":" + "\"" + vSDF.format(empServiceJ.getDocdate()) + "\"";
         s += "}";
 
         return s;

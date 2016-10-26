@@ -23,7 +23,7 @@ import session.EmployeeFacade;
  *
  * @author TUHAMA
  */
-@WebServlet(name = "TrainingCourseServlet", urlPatterns = {"/addTraining", "/editTraining", "/deleteTraining"})
+@WebServlet(name = "TrainingCourseServlet", urlPatterns = {"/staffing/addTraining", "/staffing/editTraining", "/staffing/deleteTraining"})
 public class TrainingCourseServlet extends HttpServlet {
 
     public static final int INSERT_MODE = 0;
@@ -35,8 +35,8 @@ public class TrainingCourseServlet extends HttpServlet {
 
     private Employee employee = new Employee();
 
-    private final SimpleDateFormat vSDF2 = new SimpleDateFormat("dd/MM/yyyy");
-    private final SimpleDateFormat vSDF = new SimpleDateFormat("yyyy-MM-dd");
+    private final SimpleDateFormat vSDF = new SimpleDateFormat("dd/MM/yyyy");
+   // private final SimpleDateFormat vSDF = new SimpleDateFormat("yyyy-MM-dd");
 
     @EJB
     private EmpTrainingcourseFacade empTrainingcourseFacade;
@@ -53,17 +53,17 @@ public class TrainingCourseServlet extends HttpServlet {
         try {
             switch (userPath) {
 
-                case "/addTraining": {
+                case "/staffing/addTraining": {
                     setOp_mode(INSERT_MODE);
                     flushTrainingCourse(request, response);
                     break;
                 }
-                case "/editTraining": {
+                case "/staffing/editTraining": {
                     setOp_mode(UPDATE_MODE);
                     flushTrainingCourse(request, response);
                     break;
                 }
-                case "/deleteTraining": {
+                case "/staffing/deleteTraining": {
                     deleteTrainingCourse(request, response);
                     break;
                 }
@@ -124,9 +124,9 @@ public class TrainingCourseServlet extends HttpServlet {
         s += ",";
         s += "\"" + "place" + "\"" + ":" + "\"" + empTrainingcourse.getPlace() + "\"";
         s += ",";
-        s += "\"" + "startdate" + "\"" + ":" + "\"" + vSDF2.format(empTrainingcourse.getStartdate()) + "\"";
+        s += "\"" + "startdate" + "\"" + ":" + "\"" + vSDF.format(empTrainingcourse.getStartdate()) + "\"";
         s += ",";
-        s += "\"" + "enddate" + "\"" + ":" + "\"" + vSDF2.format(empTrainingcourse.getEnddate()) + "\"";
+        s += "\"" + "enddate" + "\"" + ":" + "\"" + vSDF.format(empTrainingcourse.getEnddate()) + "\"";
         s += ",";
         s += "\"" + "duration" + "\"" + ":" + "\"" + empTrainingcourse.getDuration() + "\"";
         s += "}";

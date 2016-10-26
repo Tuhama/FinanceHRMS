@@ -25,7 +25,7 @@ import session.TypepunishmentFacade;
  *
  * @author TUHAMA
  */
-@WebServlet(name = "PunishmentServlet", urlPatterns = {"/addPunishment", "/editPunishment", "/deletePunishment"})
+@WebServlet(name = "PunishmentServlet", urlPatterns = {"/staffing/addPunishment", "/staffing/editPunishment", "/staffing/deletePunishment"})
 public class PunishmentServlet extends HttpServlet {
 
     public static final int INSERT_MODE = 0;
@@ -37,8 +37,8 @@ public class PunishmentServlet extends HttpServlet {
 
     private Employee employee = new Employee();
 
-    private final SimpleDateFormat vSDF = new SimpleDateFormat("yyyy-MM-dd");
-    private final SimpleDateFormat vSDF2 = new SimpleDateFormat("dd/MM/yyyy");
+   //private final SimpleDateFormat vSDF = new SimpleDateFormat("yyyy-MM-dd");
+    private final SimpleDateFormat vSDF = new SimpleDateFormat("dd/MM/yyyy");
 
     @EJB
     private EmpPunishmentFacade empPunishmentFacade;
@@ -63,17 +63,17 @@ public class PunishmentServlet extends HttpServlet {
         try {
             switch (userPath) {
 
-                case "/addPunishment": {
+                case "/staffing/addPunishment": {
                     setOp_mode(INSERT_MODE);
                     flushPunishment(request, response);
                     break;
                 }
-                case "/editPunishment": {
+                case "/staffing/editPunishment": {
                     setOp_mode(UPDATE_MODE);
                     flushPunishment(request, response);
                     break;
                 }
-                case "/deletePunishment": {
+                case "/staffing/deletePunishment": {
                     deletePunishment(request, response);
                     break;
                 }
@@ -140,13 +140,13 @@ public class PunishmentServlet extends HttpServlet {
         s += ",";
         s += "\"" + "reason" + "\"" + ":" + "\"" + empPunishment.getReason() + "\"";
         s += ",";
-        s += "\"" + "date" + "\"" + ":" + "\"" + vSDF2.format(empPunishment.getDate()) + "\"";
+        s += "\"" + "date" + "\"" + ":" + "\"" + vSDF.format(empPunishment.getDate()) + "\"";
         s += ",";
         s += "\"" + "doctype" + "\"" + ":" + "\"" + empPunishment.getDoctype() + "\"";
         s += ",";
         s += "\"" + "docnumber" + "\"" + ":" + "\"" + empPunishment.getDocnumber() + "\"";
         s += ",";
-        s += "\"" + "docdate" + "\"" + ":" + "\"" + vSDF2.format(empPunishment.getDocdate()) + "\"";
+        s += "\"" + "docdate" + "\"" + ":" + "\"" + vSDF.format(empPunishment.getDocdate()) + "\"";
         s += "}";
 
         return s;

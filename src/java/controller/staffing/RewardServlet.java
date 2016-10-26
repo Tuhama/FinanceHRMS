@@ -23,7 +23,7 @@ import session.EmployeeFacade;
  *
  * @author TUHAMA
  */
-@WebServlet(name = "RewardServlet", urlPatterns = {"/addReward", "/editReward", "/deleteReward"})
+@WebServlet(name = "RewardServlet", urlPatterns = {"/staffing/addReward", "/staffing/editReward", "/staffing/deleteReward"})
 public class RewardServlet extends HttpServlet {
 
     public static final int INSERT_MODE = 0;
@@ -35,8 +35,8 @@ public class RewardServlet extends HttpServlet {
 
     private Employee employee = new Employee();
 
-    private final SimpleDateFormat vSDF = new SimpleDateFormat("yyyy-MM-dd");
-    private final SimpleDateFormat vSDF2 = new SimpleDateFormat("dd/MM/yyyy");
+    //private final SimpleDateFormat vSDF = new SimpleDateFormat("yyyy-MM-dd");
+    private final SimpleDateFormat vSDF = new SimpleDateFormat("dd/MM/yyyy");
 
     @EJB
     private EmpRewardFacade empRewardFacade;
@@ -53,17 +53,17 @@ public class RewardServlet extends HttpServlet {
         try {
             switch (userPath) {
 
-                case "/addReward": {
+                case "/staffing/addReward": {
                     setOp_mode(INSERT_MODE);
                     flushReward(request, response);
                     break;
                 }
-                case "/editReward": {
+                case "/staffing/editReward": {
                     setOp_mode(UPDATE_MODE);
                     flushReward(request, response);
                     break;
                 }
-                case "/deleteReward": {
+                case "/staffing/deleteReward": {
                     deleteReward(request, response);
                     break;
                 }
@@ -131,7 +131,7 @@ public class RewardServlet extends HttpServlet {
         s += ",";
         s += "\"" + "docnumber" + "\"" + ":" + "\"" + empReward.getDocnumber() + "\"";
         s += ",";
-        s += "\"" + "docdate" + "\"" + ":" + "\"" + vSDF2.format(empReward.getDocdate()) + "\"";
+        s += "\"" + "docdate" + "\"" + ":" + "\"" + vSDF.format(empReward.getDocdate()) + "\"";
         s += "}";
 
         return s;

@@ -27,7 +27,7 @@ import session.PositionFacade;
  *
  * @author TUHAMA
  */
-@WebServlet(name = "EventServlet", urlPatterns = {"/addEvent", "/editEvent", "/deleteEvent"})
+@WebServlet(name = "EventServlet", urlPatterns = {"/staffing/addEvent", "/staffing/editEvent", "/staffing/deleteEvent"})
 public class EventServlet extends HttpServlet {
 
     public static final int INSERT_MODE = 0;
@@ -39,8 +39,8 @@ public class EventServlet extends HttpServlet {
 
     private Employee employee = new Employee();
 
-    private final SimpleDateFormat vSDF = new SimpleDateFormat("yyyy-MM-dd");
-    private final SimpleDateFormat vSDF2 = new SimpleDateFormat("dd/MM/yyyy");
+   // private final SimpleDateFormat vSDF2 = new SimpleDateFormat("yyyy-MM-dd");
+    private final SimpleDateFormat vSDF = new SimpleDateFormat("dd/MM/yyyy");
 
     @EJB
     private EmpEventFacade empEventFacade;
@@ -67,19 +67,19 @@ public class EventServlet extends HttpServlet {
         try {
             switch (userPath) {
 
-                case "/addEvent": {
+                case "/staffing/addEvent": {
                     setOp_mode(INSERT_MODE);
                     flushEvent(request, response);
                     // insertEvent(request, response);
                     break;
                 }
-                case "/editEvent": {
+                case "/staffing/editEvent": {
                     setOp_mode(UPDATE_MODE);
                     flushEvent(request, response);
                     //editEvent(request,response);
                     break;
                 }
-                case "/deleteEvent": {
+                case "/staffing/deleteEvent": {
                     deleteEvent(request);
                     break;
                 }
@@ -172,7 +172,7 @@ public class EventServlet extends HttpServlet {
         s += ",";
         s += "\"" + "name" + "\"" + ":" + "\"" + event.getName() + "\"";
         s += ",";
-        s += "\"" + "startdate" + "\"" + ":" + "\"" + vSDF2.format(event.getStartdate()) + "\"";
+        s += "\"" + "startdate" + "\"" + ":" + "\"" + vSDF.format(event.getStartdate()) + "\"";
         s += ",";
         s += "\"" + "salary" + "\"" + ":" + "\"" + event.getSalary() + "\"";
         s += ",";
@@ -182,7 +182,7 @@ public class EventServlet extends HttpServlet {
         s += ",";
         s += "\"" + "docnumber" + "\"" + ":" + "\"" + event.getDocnumber() + "\"";
         s += ",";
-        s += "\"" + "docdate" + "\"" + ":" + "\"" + vSDF2.format(event.getDocdate()) + "\"";
+        s += "\"" + "docdate" + "\"" + ":" + "\"" + vSDF.format(event.getDocdate()) + "\"";
         s += "}";
 
         return s;

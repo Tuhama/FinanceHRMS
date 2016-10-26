@@ -122,79 +122,81 @@ public class EmployeeServlet extends HttpServlet {
     }
 
     private void flushEmployee(HttpServletRequest request, HttpServletResponse response) throws NumberFormatException, ParseException, IOException {
-       try{
-        if (request.getParameter("id") != null) {
-            employee = employeeFacade.find(Integer.parseInt(request.getParameter("id")));
-        }
+        try {
+            if (request.getParameter("id") != null) {
+                employee = employeeFacade.find(Integer.parseInt(request.getParameter("id")));
+            }
 
-        Branch branch = branchFacade.find(Short.parseShort(request.getParameter("branch_id")));
-        employee.setBranchId(branch);
+            Branch branch = branchFacade.find(Short.parseShort(request.getParameter("branch_id")));
+            employee.setBranchId(branch);
 
-        Devision devision = devisionFacade.find(Short.parseShort(request.getParameter("devision_id")));
-        employee.setDevisionId(devision);
+            Devision devision = devisionFacade.find(Short.parseShort(request.getParameter("devision_id")));
+            employee.setDevisionId(devision);
 
-        Certificate cert = certificateFacade.find(Short.parseShort(request.getParameter("certificate_id")));
-        employee.setCertificateId(cert);
+            Certificate cert = certificateFacade.find(Short.parseShort(request.getParameter("certificate_id")));
+            employee.setCertificateId(cert);
 
-        Natianality natianality = natianalityFacade.find(Short.parseShort(request.getParameter("natianality_id")));
-        employee.setNatianalityId(natianality);
-        Category category = categoryFacade.find(Short.parseShort(request.getParameter("category_id")));
-        employee.setCategoryId(category);
-        Workstatus workstatus = workstatusFacade.find(Short.parseShort(request.getParameter("workstatus_id")));
-        employee.setWorkstatusId(workstatus);
-        Familystatus familystatus = familystatusFacade.find(Short.parseShort(request.getParameter("familystatus_id")));
-        employee.setFamilystatusId(familystatus);
-        Martialstatus martialstatus = martialstatusFacade.find(Short.parseShort(request.getParameter("martialstatus_id")));
-        employee.setMartialstatusId(martialstatus);
-        Foreignlanguage foreignlanguage = foreignlanguageFacade.find(Short.parseShort(request.getParameter("foreignlanguage_id")));
-        employee.setForeignlanguageId(foreignlanguage);
+            Natianality natianality = natianalityFacade.find(Short.parseShort(request.getParameter("natianality_id")));
+            employee.setNatianalityId(natianality);
+            Category category = categoryFacade.find(Short.parseShort(request.getParameter("category_id")));
+            employee.setCategoryId(category);
+            Workstatus workstatus = workstatusFacade.find(Short.parseShort(request.getParameter("workstatus_id")));
+            employee.setWorkstatusId(workstatus);
+            Familystatus familystatus = familystatusFacade.find(Short.parseShort(request.getParameter("familystatus_id")));
+            employee.setFamilystatusId(familystatus);
+            Martialstatus martialstatus = martialstatusFacade.find(Short.parseShort(request.getParameter("martialstatus_id")));
+            employee.setMartialstatusId(martialstatus);
+            Foreignlanguage foreignlanguage = foreignlanguageFacade.find(Short.parseShort(request.getParameter("foreignlanguage_id")));
+            employee.setForeignlanguageId(foreignlanguage);
 
-        employee.setGender(request.getParameter("gender"));
-        employee.setFirstname(request.getParameter("firstname"));
-        employee.setFathername(request.getParameter("fathername"));
-        employee.setMothername(request.getParameter("mothername"));
-        employee.setLastname(request.getParameter("lastname"));
-        employee.setNationalnumber(request.getParameter("nationalnumber"));
-        employee.setPlaceOfBirth(request.getParameter("placeOfBirth"));
-        employee.setDateOfBirth(vSDF.parse(request.getParameter("dateOfBirth")));
-        employee.setRegisteinfo(request.getParameter("registeinfo"));
+            employee.setGender(request.getParameter("gender"));
+            employee.setFirstname(request.getParameter("firstname"));
+            employee.setFathername(request.getParameter("fathername"));
+            employee.setMothername(request.getParameter("mothername"));
+            employee.setLastname(request.getParameter("lastname"));
+            employee.setNationalnumber(request.getParameter("nationalnumber"));
+            employee.setPlaceOfBirth(request.getParameter("placeOfBirth"));
+            employee.setDateOfBirth(vSDF.parse(request.getParameter("dateOfBirth")));
+            employee.setRegisteinfo(request.getParameter("registeinfo"));
 
-        employee.setAddress(request.getParameter("address"));
-        employee.setHomePhone(request.getParameter("homePhone"));
-        employee.setMobilePhone(request.getParameter("mobilePhone"));
+            employee.setAddress(request.getParameter("address"));
+            employee.setHomePhone(request.getParameter("homePhone"));
+            employee.setMobilePhone(request.getParameter("mobilePhone"));
 
-        employee.setPersonalnumber(request.getParameter("personalnumber"));
-        employee.setSocialsecuritynumber(request.getParameter("socialsecuritynumber"));
-        employee.setBasesalary(Integer.parseInt(request.getParameter("basesalary")));
+            employee.setPersonalnumber(request.getParameter("personalnumber"));
+            employee.setSocialsecuritynumber(request.getParameter("socialsecuritynumber"));
+            employee.setBasesalary(Integer.parseInt(request.getParameter("basesalary")));
 
-        employee.setFirstworkdate(vSDF.parse(request.getParameter("firstworkdate")));
-        employee.setWorkdocdate(vSDF.parse(request.getParameter("workdocdate")));
-        employee.setWorkdocnumber(request.getParameter("workdocnumber"));
-        if(!"".equals(request.getParameter("modworkdocdate")))
-        employee.setModworkdocdate(vSDF.parse(request.getParameter("modworkdocdate")));
-        employee.setModworkdocnumber(request.getParameter("modworkdocnumber"));
-        employee.setNotes(request.getParameter("notes"));
+            employee.setFirstworkdate(vSDF.parse(request.getParameter("firstworkdate")));
+            employee.setWorkdocdate(vSDF.parse(request.getParameter("workdocdate")));
+            employee.setWorkdocnumber(request.getParameter("workdocnumber"));
+            if (!"".equals(request.getParameter("modworkdocdate"))) {
+                employee.setModworkdocdate(vSDF.parse(request.getParameter("modworkdocdate")));
+            }
+            employee.setModworkdocnumber(request.getParameter("modworkdocnumber"));
+            employee.setNotes(request.getParameter("notes"));
 
-        if (getOp_mode() == INSERT_MODE) {
-            try {
-                employeeFacade.create(employee);
+            if (getOp_mode() == INSERT_MODE) {
+                try {
+                    employeeFacade.create(employee);
                 //this will not work with ajax....send just the employee id
-                // getServletContext().setAttribute("employee", employee);
+                    // getServletContext().setAttribute("employee", employee);
 
-                response.setContentType("text/plain");
-                response.setHeader("Cache-Control", "no-cache");
-                response.getWriter().write(" " + employee.getId().toString() + " ");
-            } catch (Exception e) {
-                response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+                    response.setContentType("text/plain");
+                    response.setHeader("Cache-Control", "no-cache");
+                    response.getWriter().write(" " + employee.getId().toString() + " ");
+                } catch (Exception e) {
+                    //response.setHeader(null, null);
+                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                }
+
+            } else {
+                employeeFacade.edit(employee);
             }
-
-        } else {
-            employeeFacade.edit(employee);
-        }
         } catch (Exception e) {
-e.printStackTrace();
+            e.printStackTrace();
 //response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            }
+        }
     }
 
     /**

@@ -1414,7 +1414,7 @@ legend img.FormHelp {
     margin: 0;
     padding: 0em 0em 0;
     height: 35px;
-    font-size: 15px;
+    font-family: tahoma; font-size: 11px ;
 }
 /*----- Forms -----*/
 fieldset { border:1px solid green }
@@ -1424,6 +1424,7 @@ body {
     background-color:  white;}
 label {
     //margin: 0 0 0 0;
+     font-family: tahoma; font-size: 11px ;
     font-weight: bold;
     margin: 3px 5px 0 0 ;
     width: fit-content;
@@ -1435,7 +1436,7 @@ label {
 }
 
 legend {
-    font-size: 1.1em;
+    font-family: tahoma; font-size: 11px ;
     font-weight:  bold;
     background-color:  #ccccff;
     text-align: right;
@@ -1445,10 +1446,13 @@ textarea {
     border-style: dashed;
     border-color: #009c8f;
     width: 500px;
+    height: 75px;
     float: right;}
 
 input
-{ height:22px;}
+{ height:17px;
+   font-family: tahoma; font-size: 11px ;
+}
 
 .Header_Div_0 { 
     width: 100%; 
@@ -1459,9 +1463,32 @@ div.emp_breif
     background-color:    #9fdecf ;}
 
 button {
-width: 100px;
-height: 30px;
+width: 75px;
+height: 25px;
   color: #009c8f;
   font-weight: bold;
-  font-size: 150%;
+   font-family: tahoma; font-size: 11px ;
+   alignment-adjust: middle;
+}
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
+    font-family: tahoma;
+    font-size: 11px;
+}
+
+.error {
+    border: 1px solid red;
+}
+.error:focus {
+    border: 1px solid red;
+}
+.valid {
+    border: 1px solid green;
+}
+.ui-widget {
+      font-family: tahoma;
+    font-size: 11px;
+}
+table {
+          font-family: tahoma;
+    font-size: 11px;
 }

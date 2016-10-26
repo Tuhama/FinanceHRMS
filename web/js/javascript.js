@@ -14,7 +14,7 @@ jQuery(document).ready(function () {
 
     prepareDataTables();
 
-   // validate_forms();
+    validate_forms();
     
     prepareCalendar();
 });

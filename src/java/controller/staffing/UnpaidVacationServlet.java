@@ -25,7 +25,7 @@ import session.TypeunpaidvacationFacade;
  *
  * @author TUHAMA
  */
-@WebServlet(name = "UnpaidVacationServlet", urlPatterns = {"/addUnpaidV", "/editUnpaidV", "/deleteUnpaidV"})
+@WebServlet(name = "UnpaidVacationServlet", urlPatterns = {"/staffing/addUnpaidV", "/staffing/editUnpaidV", "/staffing/deleteUnpaidV"})
 public class UnpaidVacationServlet extends HttpServlet {
 
     public static final int INSERT_MODE = 0;
@@ -36,8 +36,8 @@ public class UnpaidVacationServlet extends HttpServlet {
 
     private Employee employee = new Employee();
 
-    private final SimpleDateFormat vSDF2 = new SimpleDateFormat("dd/MM/yyyy");
-    private final SimpleDateFormat vSDF = new SimpleDateFormat("yyyy-MM-dd");
+    private final SimpleDateFormat vSDF = new SimpleDateFormat("dd/MM/yyyy");
+   // private final SimpleDateFormat vSDF = new SimpleDateFormat("yyyy-MM-dd");
 
     @EJB
     private EmpUnpaidvacationFacade empUnpaidvacationFacade;
@@ -56,17 +56,17 @@ public class UnpaidVacationServlet extends HttpServlet {
         try {
             switch (userPath) {
 
-                case "/addUnpaidV": {
+                case "/staffing/addUnpaidV": {
                     setOp_mode(INSERT_MODE);
                     flushUnpaidVacation(request, response);
                     break;
                 }
-                case "/editUnpaidV": {
+                case "/staffing/editUnpaidV": {
                     setOp_mode(UPDATE_MODE);
                     flushUnpaidVacation(request, response);
                     break;
                 }
-                case "/deleteUnpaidV": {
+                case "/staffing/deleteUnpaidV": {
                     deleteUnpaidVacation(request, response);
                     break;
                 }
@@ -135,9 +135,9 @@ public class UnpaidVacationServlet extends HttpServlet {
         s += ",";
         s += "\"" + "typeunpaidvacationId" + "\"" + ":" + "\"" + empUnpaidV.getTypeunpaidvacationId().getName() + "\"";
         s += ",";
-        s += "\"" + "startdate" + "\"" + ":" + "\"" + vSDF2.format(empUnpaidV.getStartdate()) + "\"";
+        s += "\"" + "startdate" + "\"" + ":" + "\"" + vSDF.format(empUnpaidV.getStartdate()) + "\"";
         s += ",";
-        s += "\"" + "enddate" + "\"" + ":" + "\"" + vSDF2.format(empUnpaidV.getEnddate()) + "\"";
+        s += "\"" + "enddate" + "\"" + ":" + "\"" + vSDF.format(empUnpaidV.getEnddate()) + "\"";
         s += ",";
         s += "\"" + "reason" + "\"" + ":" + "\"" + empUnpaidV.getReason() + "\"";
         s += ",";
@@ -147,7 +147,7 @@ public class UnpaidVacationServlet extends HttpServlet {
         s += ",";
         s += "\"" + "docnumber" + "\"" + ":" + "\"" + empUnpaidV.getDocnumber() + "\"";
         s += ",";
-        s += "\"" + "docdate" + "\"" + ":" + "\"" + vSDF2.format(empUnpaidV.getDocdate()) + "\"";
+        s += "\"" + "docdate" + "\"" + ":" + "\"" + vSDF.format(empUnpaidV.getDocdate()) + "\"";
         s += "}";
 
         return s;

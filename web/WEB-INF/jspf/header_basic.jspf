@@ -31,10 +31,10 @@
         <div class="Header_Div_1_1"></div>
         <div class="Header_Div_1_2">
             <ul id="navmenu">
-                <li><a title="الرئيسية" href="?&amp;lang=ar" target="_self"><div style="padding-top: 2px">الرئيسية</div></a></li>
-                <li><a title="ذاتيات موظفين" href="" target="_self"><div style="padding-top: 2px">ذاتيات موظفين</div></a></li>
-                <li><a title="تقارير" href="" target="_self"><div style="padding-top: 2px">تقارير</div></a></li>
-                <li><a title="فهارس" href="" target="_self"><div style="padding-top: 2px">فهارس</div></a></li>
+                <li><a title="الرئيسية" href="<c:url value=''/>" target="_self"><div style="padding-top: 2px">الرئيسية</div></a></li>
+                <li><a title="ذاتيات موظفين" href="<c:url value='/staffing'/>" target="_self"><div style="padding-top: 2px">ذاتيات موظفين</div></a></li>
+                <li><a title="تقارير" href="<c:url value='/reporting/'/>" target="_self"><div style="padding-top: 2px">تقارير</div></a></li>
+                <li><a title="فهارس" href="<c:url value='/indexing/'/>" target="_self"><div style="padding-top: 2px">فهارس</div></a></li>
             </ul>
         </div>
         <div class="Header_Div_1_3"><div class="ClearAll"></div>
